@@ -13,7 +13,7 @@
     android:id="@+id/enter_fragment"
     android:name="edu.wpi.cs.myfirstapp.EnterFragment"
     android:layout_width="match_parent"
-    android:layout_height="1dp"
+    android:layout_height="0dp"
     android:layout_weight="1"
     tools:layout="@layout/enter_view" />
 
@@ -21,7 +21,7 @@
     android:id="@+id/log_fragment"
     android:name="edu.wpi.cs.myfirstapp.LogFragment"
     android:layout_width="match_parent"
-    android:layout_height="1dp"
+    android:layout_height="0dp"
     android:layout_weight="3"
     tools:layout="@layout/log_view" />
 
