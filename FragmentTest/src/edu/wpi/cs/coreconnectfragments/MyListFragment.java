@@ -28,7 +28,7 @@ public class MyListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.fragment_rsslist_overview,
+		View view = inflater.inflate(R.layout.fragment_login,
 				container, false);
 
 		Button button = (Button) view.findViewById(R.id.login_button);
