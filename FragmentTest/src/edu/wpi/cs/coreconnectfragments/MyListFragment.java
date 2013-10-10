@@ -1,17 +1,10 @@
 package edu.wpi.cs.coreconnectfragments;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-
 import edu.wpi.cs.fragmenttest.R;
-
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +15,7 @@ import android.widget.Button;
 
 public class MyListFragment extends Fragment {
 
+	@SuppressWarnings("unused")
 	private OnItemSelectedListener listener;
 
 	@Override
@@ -62,12 +56,31 @@ public class MyListFragment extends Fragment {
 	public void updateDetail() {
 		// Create fake data
 		// String newTime = String.valueOf(System.currentTimeMillis());
+		
+		System.out.println("UpdateDetail called!");
+		
+		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://130.215.10.227:8080/WPISuite/API"));
+		
+		System.out.println("Set Default Network Configuration");
+		
+		// Form the basic auth string
+		String basicAuth = "Basic ";
+		//String password = new String("password");
+		//String credentials = "admin" + ":" + password;
+		//basicAuth += Base64.encodeBase64String(credentials.getBytes());
+		basicAuth += "YWRtaW46cGFzc3dvcmQ=";
 
-		// set url http://localhost:8080/WPISuite/API
-		// set http method
-		// add headers
-
-		listener.onRssItemSelected(new LoginTask().execute("aa").toString());
+		System.out.println(basicAuth);
+		// Create and send the login request
+		Request request = Network.getInstance().makeRequest("login", HttpMethod.POST);
+		request.addHeader("Authorization", basicAuth);
+		request.addObserver(new LoginRequestObserver());
+		
+		System.out.println("Sending request");
+		
+		request.send();
+		
+		System.out.println("Request sent");
 
 		// Send data to Activity
 	}

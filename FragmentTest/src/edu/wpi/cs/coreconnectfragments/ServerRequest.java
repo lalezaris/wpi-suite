@@ -10,28 +10,19 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.Response;
 import android.os.AsyncTask;
 
-public class LoginTask extends AsyncTask<String, Void, String> {
+public class ServerRequest extends AsyncTask<Request, Integer, Response> {
 
     private Exception exception;
 
-    protected String doInBackground(String... urls) {
+    protected Response doInBackground(Request... request) {
         try {
-        	/*
-        	URL url = new URL("http://www.android.com/");
-        	System.out.println("opening connection");
-        	HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        	try {
-        		System.out.println("getting Input stream");
-        		InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-        		System.out.println("reading");
-        		listener.onRssItemSelected("this is what i got: " + in.read());
-        	} finally {
-        		urlConnection.disconnect();
-        	}
-        	*/
-        	//listener.onRssItemSelected("oh");
+        	publishProgress(1);
+        	request[0].send();
+        	publishProgress(90);
         	
         	//set url http://localhost:8080/WPISuite/API
             //set http method
@@ -42,7 +33,7 @@ public class LoginTask extends AsyncTask<String, Void, String> {
         	boolean responseBodyReadTimeout = false;
         	Exception exceptionRecv = null;
         	
-        	String response = "No Response!";
+        	Response response = new Response(0, null, null, null);
         	
         	System.out.println("Entering Try");
         	
@@ -110,7 +101,7 @@ public class LoginTask extends AsyncTask<String, Void, String> {
 
         		System.out.println("Closed reader");
         		
-        		response = responseCode + "\n" + responseMessage + "\n" + responseHeaders.toString() + "\n" + responseBody;
+        		//response = responseCode + "\n" + responseMessage + "\n" + responseHeaders.toString() + "\n" + responseBody;
         		// create Response
         		//ResponseModel response = new Response(responseCode, responseMessage, responseHeaders, responseBody);
         		
