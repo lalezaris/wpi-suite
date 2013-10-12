@@ -8,5 +8,6 @@
     <string name="password_hint">password</string>
     <string name="server_hint">server url</string>
     <string name="default_response">Waiting…</string>
+    <string name="default_server">http://130.215.169.129:8080/WPISuite/API</string>
 
 </resources>

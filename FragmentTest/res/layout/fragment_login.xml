@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    >
 
     <EditText
         android:id="@+id/username_text"
@@ -26,13 +27,15 @@
         android:layout_height="wrap_content"
         android:hint="@string/server_hint"
         android:inputType="textUri"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:text="@string/default_server"/>"
     
     
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="login"
         android:text="@string/login_button" />
 
 
