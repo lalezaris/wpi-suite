@@ -11,5 +11,8 @@
     <string name="default_server">http://tiki.cs.wpi.edu:8080/WPISuite</string>
     <string name="title_activity_control_panel">ControlPanelActivity</string>
     <string name="logout">Logout</string>
+    <string name="dialog_bad_network">Network connection is unavailable</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
