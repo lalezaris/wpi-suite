@@ -1,6 +1,6 @@
-package edu.wpi.cs.coreconnectfragments;
+package edu.wpi.cs.loginactivity;
 
-import edu.wpi.cs.fragmenttest.ControlPanelActivity;
+import edu.wpi.cs.controlpanel.ControlPanelActivity;
 import edu.wpi.cs.fragmenttest.R;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 
 
-public class MainActivity extends FragmentActivity implements LoginFragment.OnItemSelectedListener{
+public class LoginControllerActivity extends FragmentActivity {
 	EditText usernameField;
 	EditText passwordField;
 	EditText serverUrlField;
@@ -23,24 +23,12 @@ public class MainActivity extends FragmentActivity implements LoginFragment.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login_controller);
 		
 		usernameField = (EditText) findViewById(R.id.username_text);
 		passwordField = (EditText) findViewById(R.id.password_text);
 		serverUrlField = (EditText) findViewById(R.id.server_text);
     }
-
-    // if the wizard generated an onCreateOptionsMenu you can delete
-    // it, not needed for this tutorial
-
-  @Override
-  public void onRssItemSelected(String link) {
-    DetailFragment fragment = (DetailFragment) getSupportFragmentManager()
-            .findFragmentById(R.id.detailFragment);
-        if (fragment != null && fragment.isInLayout()) {
-          fragment.setText(link);
-        } 
-  }
     
     //May also be triggered from the Activity
 	public void login(View v) {

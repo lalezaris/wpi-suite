@@ -1,4 +1,4 @@
-package edu.wpi.cs.coreconnectfragments;
+package edu.wpi.cs.loginactivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,9 +9,9 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 public class LoginRequestObserver implements RequestObserver {
 
-	MainActivity controller;
+	LoginControllerActivity controller;
 	
-	public LoginRequestObserver(MainActivity controller){
+	public LoginRequestObserver(LoginControllerActivity controller){
 		this.controller = controller;
 	}
 	

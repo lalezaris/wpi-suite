@@ -7,14 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context=".LoginControllerActivity" >
     
     <fragment
         android:id="@+id/listFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        class="edu.wpi.cs.coreconnectfragments.LoginFragment"
+        class="edu.wpi.cs.loginactivity.LoginFragment"
         tools:layout="@layout/fragment_login" />
 
     <fragment
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        class="edu.wpi.cs.coreconnectfragments.DetailFragment"
+        class="edu.wpi.cs.loginactivity.LoginResponseFragment"
         tools:layout="@layout/fragment_response" />
 
 </LinearLayout> 

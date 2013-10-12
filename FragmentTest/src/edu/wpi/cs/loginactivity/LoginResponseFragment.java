@@ -1,4 +1,4 @@
-package edu.wpi.cs.coreconnectfragments;
+package edu.wpi.cs.loginactivity;
 
 import edu.wpi.cs.fragmenttest.R;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class DetailFragment extends Fragment {
+public class LoginResponseFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,

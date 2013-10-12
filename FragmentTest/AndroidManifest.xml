@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="edu.wpi.cs.coreconnectfragments.MainActivity"
+            android:name="edu.wpi.cs.loginactivity.LoginControllerActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +25,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.wpi.cs.fragmenttest.ControlPanelActivity"
+            android:name="edu.wpi.cs.controlpanel.ControlPanelActivity"
             android:label="@string/title_activity_control_panel"
-            android:parentActivityName="edu.wpi.cs.coreconnectfragments.MainActivity" >
+            android:parentActivityName="edu.wpi.cs.loginactivity.LoginControllerActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.cs.coreconnectfragments.MainActivity" />

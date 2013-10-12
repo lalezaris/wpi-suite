@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FragmentTest</string>
+    <string name="app_name">Login Activity</string>
     <string name="action_settings">Settings</string>
     <string name="login_button">LOGIN</string>
     <string name="username_hint">username</string>
