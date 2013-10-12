@@ -13,6 +13,7 @@
     <string name="logout">Logout</string>
     <string name="dialog_bad_network">Network connection is unavailable</string>
     <string name="retry">Retry</string>
+    <string name="okay">OK</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_post_board">Post Board</string>
     <string name="refresh_button">REFRESH</string>
