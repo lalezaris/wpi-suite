@@ -1,21 +1,33 @@
 package edu.wpi.cs.postboard;
 
 import edu.wpi.cs.fragmenttest.R;
+import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage;
+import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.os.Build;
 
 public class PostBoardActivity extends Activity {
+	
+	PostBoardModel model;
+	EditText submitMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_board);
 		// Show the Up button in the action bar.
+		
+		submitMessage = (EditText) findViewById(R.id.submit_message);
 		setupActionBar();
 	}
 
@@ -53,4 +65,36 @@ public class PostBoardActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void refresh(View v) {
+		final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.GET); // GET == read
+		request.addObserver(new GetAndroidMessagesRequestObserver(this)); // add an observer to process the response
+		request.send(); // send the request
+	}
+	
+	public void submit(View v) {
+		String message = submitMessage.getText().toString();
+		
+	}
+	
+	public void refreshFail() {
+		
+	}
+	
+	/**
+	 * Add the given messages to the local model (they were received from the core).
+	 * This method is called by the GetMessagesRequestObserver
+	 * 
+	 * @param messages an array of messages received from the server
+	 */
+	public void receivedMessages(PostBoardMessage[] messages) {
+		// Empty the local model to eliminate duplications
+		model.emptyModel();
+		
+		// Make sure the response was not null
+		if (messages != null) {
+			
+			// add the messages to the local model
+			//model.addMessages(messages);
+		}
+	}
 }
