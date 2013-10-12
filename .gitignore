@@ -1,5 +1,5 @@
 */bin
-MyFirstApp/gen
-FragmentTest/gen
-CoreConnectFragments/gen
-appcompat/gen
+MyFirstApp/gen/*
+FragmentTest/gen/*
+CoreConnectFragments/gen/*
+appcompat/gen/*
