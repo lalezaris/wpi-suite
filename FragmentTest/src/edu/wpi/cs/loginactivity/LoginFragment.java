@@ -1,6 +1,6 @@
 package edu.wpi.cs.loginactivity;
 
-import edu.wpi.cs.fragmenttest.R;
+import edu.wpi.cs.postboard.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

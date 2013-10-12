@@ -1,7 +1,8 @@
 package edu.wpi.cs.loginactivity;
 
 import edu.wpi.cs.controlpanel.ControlPanelActivity;
-import edu.wpi.cs.fragmenttest.R;
+import edu.wpi.cs.postboard.PostBoardActivity;
+import edu.wpi.cs.postboard.R;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
@@ -68,7 +69,7 @@ public class LoginControllerActivity extends FragmentActivity {
 				responseText.setText("Login Successful!");
 			}
 		});
-		Intent intent = new Intent(this, ControlPanelActivity.class);
+		Intent intent = new Intent(this, PostBoardActivity.class);
 		intent.putExtra(USERNAME, username);
 		intent.putExtra(PASSWORD, password);
 		intent.putExtra(SERVERURL, server);

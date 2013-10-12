@@ -33,6 +33,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.cs.coreconnectfragments.MainActivity" />
         </activity>
+        <activity
+            android:name="edu.wpi.cs.postboard.PostBoardActivity"
+            android:label="@string/title_activity_post_board"
+            android:parentActivityName="edu.wpi.cs.loginactivity.LoginControllerActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wpi.cs.loginactivity.LoginControllerActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -14,5 +14,7 @@
     <string name="dialog_bad_network">Network connection is unavailable</string>
     <string name="retry">Retry</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_post_board">PostBoardActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
