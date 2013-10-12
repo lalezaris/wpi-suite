@@ -1,10 +1,13 @@
 package edu.wpi.cs.coreconnectfragments;
 
+import edu.wpi.cs.fragmenttest.ControlPanelActivity;
 import edu.wpi.cs.fragmenttest.R;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
@@ -60,7 +63,7 @@ public class MainActivity extends FragmentActivity implements LoginFragment.OnIt
 		// Create and send the login request
 		Request request = Network.getInstance().makeRequest("login", HttpMethod.POST);
 		request.addHeader("Authorization", basicAuth);
-		request.addObserver(new LoginRequestObserver());
+		request.addObserver(new LoginRequestObserver(this));
 		
 		System.out.println("Sending request");
 		
@@ -69,5 +72,10 @@ public class MainActivity extends FragmentActivity implements LoginFragment.OnIt
 		System.out.println("Request sent");
 
 		// Send data to Activity
+	}
+
+	public void loginSuccess(ResponseModel response) {
+		Intent intent = new Intent(this, ControlPanelActivity.class);
+		startActivity(intent);
 	}
 } 
