@@ -13,12 +13,14 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class LoginControllerActivity extends FragmentActivity {
 	EditText usernameField;
 	EditText passwordField;
 	EditText serverUrlField;
+	TextView responseText;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,42 +30,45 @@ public class LoginControllerActivity extends FragmentActivity {
 		usernameField = (EditText) findViewById(R.id.username_text);
 		passwordField = (EditText) findViewById(R.id.password_text);
 		serverUrlField = (EditText) findViewById(R.id.server_text);
+		responseText = (TextView) findViewById(R.id.responseText);
     }
     
     //May also be triggered from the Activity
 	public void login(View v) {
-		// Create fake data
-		// String newTime = String.valueOf(System.currentTimeMillis());
-		
-		System.out.println("UpdateDetail called!");
 		
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration(serverUrlField.getText().toString()));
-		
-		System.out.println("Set Default Network Configuration");
 		
 		// Form the basic auth string
 		String basicAuth = "Basic ";
 		String password = passwordField.getText().toString();
 		String credentials = usernameField.getText().toString() + ":" + password;
 		basicAuth += Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
-		System.out.println("Encoded BasicAuth: " + basicAuth);
 
 		// Create and send the login request
 		Request request = Network.getInstance().makeRequest("login", HttpMethod.POST);
 		request.addHeader("Authorization", basicAuth);
 		request.addObserver(new LoginRequestObserver(this));
 		
-		System.out.println("Sending request");
+		responseText.setText("Sending Login Request...");
 		
 		request.send();
-		
-		System.out.println("Request sent");
-
-		// Send data to Activity
 	}
 
 	public void loginSuccess(ResponseModel response) {
+		runOnUiThread(new Runnable() {
+			public void run() {
+				responseText.setText("Login Successful!");
+			}
+		});
 		Intent intent = new Intent(this, ControlPanelActivity.class);
 		startActivity(intent);
+	}
+
+	public void loginFail(final String errorMessage) {
+		runOnUiThread(new Runnable() {
+			public void run() {
+				responseText.setText(errorMessage);
+			}
+		});
 	}
 } 

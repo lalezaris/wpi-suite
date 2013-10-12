@@ -1,7 +1,5 @@
 package edu.wpi.cs.loginactivity;
 
-import android.app.Activity;
-import android.content.Intent;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -22,26 +20,23 @@ public class LoginRequestObserver implements RequestObserver {
 		
 		ResponseModel response = req.getResponse();
 		
-		// TODO Auto-generated method stub
-		System.out.println("Success!");
-		System.out.println(iReq.toString());
-		
 		if(response.getStatusCode() == 200){
 			controller.loginSuccess(response);
 		}
-		
+		else {
+			controller.loginFail("Login Failed!\n" + response.getStatusCode() + " " + response.getStatusMessage());
+		}
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
-		System.out.println(iReq.toString());
+		ResponseModel response = (ResponseModel)iReq.getResponse();
+		controller.loginFail("Login Failed!\n" + response.getStatusCode() + " " + response.getStatusMessage());
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
-		System.out.println(exception);
+		controller.loginFail("Login Failed!\n" + exception.toString());
 	}
 
 }
