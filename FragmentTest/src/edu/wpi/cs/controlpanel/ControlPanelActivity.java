@@ -34,7 +34,7 @@ public class ControlPanelActivity extends Activity {
 		username = intent.getStringExtra(LoginControllerActivity.USERNAME);		
 		password = intent.getStringExtra(LoginControllerActivity.PASSWORD);		
 		serverUrl = intent.getStringExtra(LoginControllerActivity.SERVERURL);
-		
+
 		TextView usernameText = new TextView(this);
 		TextView passwordText = new TextView(this);
 		TextView serverUrlText = new TextView(this);

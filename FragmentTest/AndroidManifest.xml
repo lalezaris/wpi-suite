@@ -28,7 +28,7 @@
         <activity
             android:name="edu.wpi.cs.controlpanel.ControlPanelActivity"
             android:label="@string/title_activity_control_panel"
-            android:parentActivityName="edu.wpi.cs.loginactivity.LoginControllerActivity" >
+            android:parentActivityName="edu.wpi.cs.postboard.PostBoardActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.cs.coreconnectfragments.MainActivity" />

@@ -86,10 +86,10 @@ public class PostBoardActivity extends Activity {
 
 	private void openControlPanel() {
 		Intent intent = new Intent(this, ControlPanelActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		intent.putExtra(LoginControllerActivity.USERNAME, username);
 		intent.putExtra(LoginControllerActivity.PASSWORD, password);
 		intent.putExtra(LoginControllerActivity.SERVERURL, serverUrl);
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
 		
 	}
