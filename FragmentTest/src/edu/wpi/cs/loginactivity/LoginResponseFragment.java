@@ -19,7 +19,7 @@ public class LoginResponseFragment extends Fragment {
   }
 
   public void setText(String item) {
-    TextView view = (TextView) getView().findViewById(R.id.detailsText);
+    TextView view = (TextView) getView().findViewById(R.id.responseText);
     view.setText(item);
   }
 } 
