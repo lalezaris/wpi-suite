@@ -59,7 +59,7 @@ public class MyListFragment extends Fragment {
 		
 		System.out.println("UpdateDetail called!");
 		
-		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://130.215.10.227:8080/WPISuite/API"));
+		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://130.215.169.129:8080/WPISuite/API"));
 		
 		System.out.println("Set Default Network Configuration");
 		

@@ -9,6 +9,8 @@ public class LoginRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// TODO Auto-generated method stub
 		System.out.println("Success!");
+		System.out.println(iReq.toString());
+		
 	}
 
 	@Override
