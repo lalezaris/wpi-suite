@@ -1,6 +1,6 @@
 package edu.wpi.cs.loginactivity;
 
-import edu.wpi.cs.postboard.R;
+import edu.wpi.cs.fragmenttest.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;

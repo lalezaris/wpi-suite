@@ -2,7 +2,7 @@ package edu.wpi.cs.loginactivity;
 
 import edu.wpi.cs.controlpanel.ControlPanelActivity;
 import edu.wpi.cs.postboard.PostBoardActivity;
-import edu.wpi.cs.postboard.R;
+import edu.wpi.cs.fragmenttest.R;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;

@@ -1,5 +1,6 @@
 package edu.wpi.cs.postboard;
 
+import edu.wpi.cs.fragmenttest.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
