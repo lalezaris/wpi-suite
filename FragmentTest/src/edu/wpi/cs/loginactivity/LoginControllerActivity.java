@@ -19,6 +19,9 @@ public class LoginControllerActivity extends FragmentActivity {
 	EditText usernameField;
 	EditText passwordField;
 	EditText serverUrlField;
+	public final static String USERNAME = "edu.wpi.cs.loginactivity.USERNAME";
+	public final static String PASSWORD = "edu.wpi.cs.loginactivity.PASSWORD";
+	public final static String SERVERURL = "edu.wpi.cs.loginactivity.SERVERURL";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,14 @@ public class LoginControllerActivity extends FragmentActivity {
 	}
 
 	public void loginSuccess(ResponseModel response) {
+		String username = usernameField.getText().toString();
+		String password = passwordField.getText().toString();
+		String server = serverUrlField.getText().toString();
+		
 		Intent intent = new Intent(this, ControlPanelActivity.class);
+		intent.putExtra(USERNAME, username);
+		intent.putExtra(PASSWORD, password);
+		intent.putExtra(SERVERURL, server);
 		startActivity(intent);
 	}
 } 
