@@ -1,22 +1,35 @@
 package edu.wpi.cs.postboard;
 
+import edu.wpi.cs.controlpanel.ControlPanelActivity;
 import edu.wpi.cs.fragmenttest.R;
+import edu.wpi.cs.loginactivity.LoginControllerActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 
 public class PostBoardActivity extends Activity {
-
+	
+	private String username;
+	private String password;
+	private String serverUrl;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_board);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		Intent intent = getIntent();
+		
+		username = intent.getStringExtra(LoginControllerActivity.USERNAME);		
+		password = intent.getStringExtra(LoginControllerActivity.PASSWORD);		
+		serverUrl = intent.getStringExtra(LoginControllerActivity.SERVERURL);
 	}
 
 	/**
@@ -49,8 +62,24 @@ public class PostBoardActivity extends Activity {
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
+		case R.id.action_settings:
+			openControlPanel();
+			return true;
+		case R.id.logout_item:
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void openControlPanel() {
+		Intent intent = new Intent(this, ControlPanelActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		intent.putExtra(LoginControllerActivity.USERNAME, username);
+		intent.putExtra(LoginControllerActivity.PASSWORD, password);
+		intent.putExtra(LoginControllerActivity.SERVERURL, serverUrl);
+		startActivity(intent);
+		
 	}
 
 }

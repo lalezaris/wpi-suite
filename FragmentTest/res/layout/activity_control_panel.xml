@@ -10,5 +10,4 @@
     android:id="@+id/control_panel_layout"
     android:orientation="vertical" >"
 
-
 </LinearLayout>

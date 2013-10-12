@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
-import android.content.ClipData.Item;
 import android.content.Intent;
 import android.os.Build;
 
@@ -88,9 +86,6 @@ public class ControlPanelActivity extends Activity {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.logout_item: 
-			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
