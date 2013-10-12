@@ -8,8 +8,12 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
 import android.view.View;
@@ -40,6 +44,12 @@ public class LoginControllerActivity extends FragmentActivity {
     //May also be triggered from the Activity
 	public void login(View v) {
 		
+		if(!this.isNetworkAvailable()){
+			DialogFragment bnet = new BadNetworkConnectionFragment();
+			bnet.show(getSupportFragmentManager(), "BadNet");
+		}
+		else{
+		
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration(serverUrlField.getText().toString()));
 		
 		// Form the basic auth string
@@ -56,6 +66,7 @@ public class LoginControllerActivity extends FragmentActivity {
 		responseText.setText("Sending Login Request...");
 		
 		request.send();
+		}
 	}
 
 	public void loginSuccess(ResponseModel response) {
@@ -82,5 +93,11 @@ public class LoginControllerActivity extends FragmentActivity {
 				responseText.setText(errorMessage);
 			}
 		});
+	}
+	
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 } 
