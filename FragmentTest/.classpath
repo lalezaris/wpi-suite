@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="libs/Network.jar"/>
 	<classpathentry kind="lib" path="libs/PostBoard.jar"/>
 	<classpathentry kind="lib" path="libs/WPISuite-Interfaces.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

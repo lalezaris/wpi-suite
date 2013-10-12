@@ -4,7 +4,6 @@ import edu.wpi.cs.controlpanel.ControlPanelActivity;
 import edu.wpi.cs.fragmenttest.R;
 import edu.wpi.cs.loginactivity.LoginControllerActivity;
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage;
-import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -14,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -25,7 +25,7 @@ public class PostBoardActivity extends Activity {
 	private String password;
 	private String serverUrl;
 	
-	PostBoardModel model;
+	TextView model;
 	EditText submitMessage;
 
 	@Override
@@ -35,6 +35,7 @@ public class PostBoardActivity extends Activity {
 		// Show the Up button in the action bar.
 		
 		submitMessage = (EditText) findViewById(R.id.submit_message);
+		model = (TextView) findViewById(R.id.messages_view);
 		setupActionBar();
 		
 		Intent intent = getIntent();
@@ -98,6 +99,8 @@ public class PostBoardActivity extends Activity {
 		final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.GET); // GET == read
 		request.addObserver(new GetAndroidMessagesRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
+		
+		System.out.println("Sent refresh message");
 	}
 	
 	public void submit(View v) {
@@ -117,13 +120,23 @@ public class PostBoardActivity extends Activity {
 	 */
 	public void receivedMessages(PostBoardMessage[] messages) {
 		// Empty the local model to eliminate duplications
-		model.emptyModel();
 		
 		// Make sure the response was not null
 		if (messages != null) {
+			String modelText = "";
 			
+			for(int i = 0; i < messages.length; i++) {
+				modelText += messages[i] + "\n";
+			}
+			
+			final String finalModelText = modelText;
 			// add the messages to the local model
-			//model.addMessages(messages);
+			runOnUiThread(new Runnable() {
+				public void run() {
+					model.setText(finalModelText);
+				}
+			});
 		}
+		System.out.println("Got postboard messages");
 	}
 }
