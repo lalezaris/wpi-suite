@@ -1,3 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
+
 package edu.wpi.cs.controlpanel;
 
 import edu.wpi.cs.loginactivity.LoginControllerActivity;
@@ -14,6 +28,12 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 
+/**
+ * @author Sam Lalezari
+ * @author Nathan Longnecker
+ * @author Mark Fitzgibbon
+ *
+ */
 public class ControlPanelActivity extends Activity {
 	
 	private String username;
