@@ -18,14 +18,21 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-public class AndroidAddMessageRequestObserver implements RequestObserver {
+public class AddAndroidMessageRequestObserver implements RequestObserver {
 	
 	PostBoardActivity controller;
 
-	public AndroidAddMessageRequestObserver(PostBoardActivity postBoardActivity) {
+	/**
+	 * Constructor
+	 * @param postBoardActivity The parent activity that handles the post board
+	 */
+	public AddAndroidMessageRequestObserver(PostBoardActivity postBoardActivity) {
 		controller = postBoardActivity;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		controller.refreshFail("Submit Message Failed!\n" + exception.toString());

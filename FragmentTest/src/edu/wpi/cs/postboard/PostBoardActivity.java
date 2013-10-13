@@ -36,6 +36,12 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 
+/**
+ * Controls the post board activity
+ * 
+ * @author Nathan Longnecker
+ * @version Oct 13, 2013
+ */
 @SuppressLint("ShowToast")
 public class PostBoardActivity extends Activity {
 	
@@ -47,6 +53,9 @@ public class PostBoardActivity extends Activity {
 	EditText submitMessage;
 	Toast toast;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,12 +68,12 @@ public class PostBoardActivity extends Activity {
 		
 		setupActionBar();
 		
-		Intent intent = getIntent();
+		final Intent intent = getIntent();
 
 		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		
-		username = intent.getStringExtra(LoginControllerActivity.USERNAME);		
-		password = intent.getStringExtra(LoginControllerActivity.PASSWORD);		
+		username = intent.getStringExtra(LoginControllerActivity.USERNAME);
+		password = intent.getStringExtra(LoginControllerActivity.PASSWORD);
 		serverUrl = intent.getStringExtra(LoginControllerActivity.SERVERURL);
 	}
 
@@ -78,6 +87,9 @@ public class PostBoardActivity extends Activity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -85,6 +97,9 @@ public class PostBoardActivity extends Activity {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -109,7 +124,7 @@ public class PostBoardActivity extends Activity {
 	}
 
 	private void openControlPanel() {
-		Intent intent = new Intent(this, ControlPanelActivity.class);
+		final Intent intent = new Intent(this, ControlPanelActivity.class);
 		intent.putExtra(LoginControllerActivity.USERNAME, username);
 		intent.putExtra(LoginControllerActivity.PASSWORD, password);
 		intent.putExtra(LoginControllerActivity.SERVERURL, serverUrl);
@@ -118,12 +133,20 @@ public class PostBoardActivity extends Activity {
 		
 	}
 
+	/**
+	 * Refreshes the list of messages
+	 * @param v The parent view (parameter required by Android)
+	 */
 	public void refresh(View v) {
 		final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.GET); // GET == read
 		request.addObserver(new GetAndroidMessagesRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
 	}
 	
+	/**
+	 * Posts a new message to the post board
+	 * @param v The parent view (parameter required by Android)
+	 */
 	public void submit(View v) {
 		String message = submitMessage.getText().toString();
 		
@@ -137,16 +160,24 @@ public class PostBoardActivity extends Activity {
 			// Send a request to the core to save this message
 			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
 			request.setBody(new PostBoardMessage(message).toJSON()); // put the new message in the body of the request
-			request.addObserver(new AndroidAddMessageRequestObserver(this)); // add an observer to process the response
+			request.addObserver(new AddAndroidMessageRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
 		}
 	}
 	
+	/**
+	 * Called by the GetAndroidMessageRequestObserver when refresh messages fails
+	 * @param errorMessage The error message to display
+	 */
 	public void refreshFail(String errorMessage) {
 		toast.setText(errorMessage);
 		toast.show();
 	}
 	
+	/**
+	 * Called by the AddAndroidMessageRequestObserver when add message fails
+	 * @param errorMessage The error message to display
+	 */
 	public void addMessageFail(String errorMessage) {
 		toast.setText(errorMessage);
 		toast.show();
@@ -188,14 +219,19 @@ public class PostBoardActivity extends Activity {
 		//Set scroll to the latest message
 		final Layout layout = model.getLayout();
 		if(layout != null){
-			int scrollChange = layout.getLineBottom(model.getLineCount()-1) 
+			final int scrollChange = layout.getLineBottom(model.getLineCount() - 1) 
 					- model.getScrollY() - model.getHeight();
-			if(scrollChange >0){
+			if(scrollChange > 0){
 				model.scrollBy(0, scrollChange);
 			}
 		}
 	}
 
+	/**
+	 * Called by the AddAndroidMessageRequestObserver when a message is successfully added to the post board
+	 * Updates the messages view, and scrolls to the bottom of the messages
+	 * @param message The message that was added to the post board
+	 */
 	public void addMessageToModel(String message) {
 		String modelText = model.getText().toString();
 		modelText += message + "\n";

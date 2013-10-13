@@ -7,8 +7,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- * 		Sam Lalezari
  * 		Mark Fitzgibbon
+ * 		Sam Lalezari
  * 		Nathan Longnecker
  ******************************************************************************/
 package edu.wpi.cs.loginactivity;
@@ -22,12 +22,8 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
 import android.view.View;
@@ -35,18 +31,29 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The login Activity. Handles logging into the WPI Suite core, then starts the postboard activity
+ * 
+ * @author Mark Fitzgibbon
+ * @author Sam Lalezari
+ * @author Nathan Longnecker
+ * @version Oct 13, 2013
+ */
 @SuppressLint("ShowToast")
 public class LoginControllerActivity extends FragmentActivity {
 	EditText usernameField;
 	EditText passwordField;
 	EditText projectField;
 	EditText serverUrlField;
-	public final static String USERNAME = "edu.wpi.cs.loginactivity.USERNAME";
-	public final static String PASSWORD = "edu.wpi.cs.loginactivity.PASSWORD";
-	public final static String SERVERURL = "edu.wpi.cs.loginactivity.SERVERURL";
+	public static final String USERNAME = "edu.wpi.cs.loginactivity.USERNAME";
+	public static final String PASSWORD = "edu.wpi.cs.loginactivity.PASSWORD";
+	public static final String SERVERURL = "edu.wpi.cs.loginactivity.SERVERURL";
 	TextView responseText;
 	Toast toast;
 	
+    /* (non-Javadoc)
+     * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,30 +75,23 @@ public class LoginControllerActivity extends FragmentActivity {
      * @param v the parent view
      */
     public void login(View v) {
-		
-		if(!this.isNetworkAvailable()){
-			DialogFragment bnet = new BadNetworkConnectionFragment();
-			bnet.show(getSupportFragmentManager(), "BadNet");
-		}
-		else{
-		
+    	
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration(serverUrlField.getText().toString()));
 		
 		// Form the basic auth string
 		String basicAuth = "Basic ";
-		String password = passwordField.getText().toString();
-		String credentials = usernameField.getText().toString() + ":" + password;
+		final String password = passwordField.getText().toString();
+		final String credentials = usernameField.getText().toString() + ":" + password;
 		basicAuth += Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
 
 		// Create and send the login request
-		Request request = Network.getInstance().makeRequest("login", HttpMethod.POST);
+		final Request request = Network.getInstance().makeRequest("login", HttpMethod.POST);
 		request.addHeader("Authorization", basicAuth);
 		request.addObserver(new LoginRequestObserver(this));
 		
 		responseText.setText("Sending Login Request...");
 		
 		request.send();
-		}
 	}
 
 	/**
@@ -101,9 +101,9 @@ public class LoginControllerActivity extends FragmentActivity {
 	 */
 	public void loginSuccess(ResponseModel response) {
 		// Save the cookies
-		List<String> cookieList = response.getHeaders().get("Set-Cookie");
-		String cookieParts[];
-		String cookieNameVal[];
+		final List<String> cookieList = response.getHeaders().get("Set-Cookie");
+		String[] cookieParts;
+		String[] cookieNameVal;
 		if (cookieList != null) { // if the server returned cookies
 			for (String cookie : cookieList) { // for each returned cookie
 				cookieParts = cookie.split(";"); // split the cookie
@@ -126,7 +126,7 @@ public class LoginControllerActivity extends FragmentActivity {
 			System.out.println(Network.getInstance().getDefaultNetworkConfiguration().getRequestHeaders().get("cookie").get(0));
 	
 			// Select the project
-			Request projectSelectRequest = Network.getInstance().makeRequest("login", HttpMethod.PUT);
+			final Request projectSelectRequest = Network.getInstance().makeRequest("login", HttpMethod.PUT);
 			projectSelectRequest.addObserver(new AndroidProjectSelectRequestObserver(this));
 			projectSelectRequest.setBody(projectField.getText().toString());
 			projectSelectRequest.send();
@@ -134,10 +134,12 @@ public class LoginControllerActivity extends FragmentActivity {
 		else {
 			//TODO Could not login No Cookies
 		}
-		
-		
 	}
 
+	/**
+	 * Called by the LoginRequestObserver when the login fails
+	 * @param errorMessage The error message to display
+	 */
 	public void loginFail(final String errorMessage) {
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -146,17 +148,15 @@ public class LoginControllerActivity extends FragmentActivity {
 		});
 	}
 	
-	private boolean isNetworkAvailable() {
-	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-
+	/**
+	 * Called by the AndroidProjectSelectRequestObserver when project selection is successful
+	 * @param response The response from the server
+	 */
 	public void projectSelectSuccessful(ResponseModel response) {
 		// Save the cookies
-		List<String> cookieList = response.getHeaders().get("Set-Cookie");
-		String cookieParts[];
-		String cookieNameVal[];
+		final List<String> cookieList = response.getHeaders().get("Set-Cookie");
+		String[] cookieParts;
+		String[] cookieNameVal;
 		if (cookieList != null) { // if the server returned cookies
 			for (String cookie : cookieList) { // for each returned cookie
 				cookieParts = cookie.split(";");
@@ -183,9 +183,9 @@ public class LoginControllerActivity extends FragmentActivity {
 		}
 		
 		
-		String username = usernameField.getText().toString();
-		String password = passwordField.getText().toString();
-		String server = serverUrlField.getText().toString();
+		final String username = usernameField.getText().toString();
+		final String password = passwordField.getText().toString();
+		final String server = serverUrlField.getText().toString();
 		
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -193,13 +193,17 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 		});
 		
-		Intent intent = new Intent(this, PostBoardActivity.class);
+		final Intent intent = new Intent(this, PostBoardActivity.class);
 		intent.putExtra(USERNAME, username);
 		intent.putExtra(PASSWORD, password);
 		intent.putExtra(SERVERURL, server);
 		startActivity(intent);
 	}
 
+	/**
+	 * Called by the AndroidProjectSelectRequestObserver when the project selection fails
+	 * @param errorMessage The error message to display
+	 */
 	public void projectSelectFailed(final String errorMessage) {
 		runOnUiThread(new Runnable() {
 			public void run() {

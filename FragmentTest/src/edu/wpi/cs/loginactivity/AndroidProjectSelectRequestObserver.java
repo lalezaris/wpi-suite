@@ -18,6 +18,12 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Observes the project select request to the core, and informs the LoginControllerActivity of the request result
+ * 
+ * @author Nathan Longnecker
+ * @version Oct 13, 2013
+ */
 public class AndroidProjectSelectRequestObserver implements RequestObserver {
 
 	LoginControllerActivity controller;
@@ -31,24 +37,33 @@ public class AndroidProjectSelectRequestObserver implements RequestObserver {
 		this.controller = controller;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		controller.projectSelectFailed("Project Select Failed!\n" + exception.toString());
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		controller.projectSelectFailed("Project Select Failed!\n" + iReq.getResponse().getStatusCode() + " " + iReq.getResponse().getStatusMessage());
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		System.out.println("project select Success");
 		// cast observable to a Request
-		Request request = (Request) iReq;
+		final Request request = (Request) iReq;
 
 		// get the response from the request
-		ResponseModel response = request.getResponse();
+		final ResponseModel response = request.getResponse();
 
 		// check the response code
 		if (response.getStatusCode() == 200) {

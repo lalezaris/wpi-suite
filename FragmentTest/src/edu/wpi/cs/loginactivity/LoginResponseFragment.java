@@ -19,20 +19,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+/**
+ * The Code behind for the login fragment_response layout
+ * 
+ * @author Nathan Longnecker
+ * @version Oct 13, 2013
+ */
 public class LoginResponseFragment extends Fragment {
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_response,
-        container, false);
-    return view;
-  }
-
-  public void setText(String item) {
-    TextView view = (TextView) getView().findViewById(R.id.responseText);
-    view.setText(item);
-  }
-} 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		final View view = inflater.inflate(R.layout.fragment_response,
+				container, false);
+		return view;
+	}
+}

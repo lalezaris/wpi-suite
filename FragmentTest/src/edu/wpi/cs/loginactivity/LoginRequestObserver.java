@@ -18,20 +18,33 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Observes the login request to the core, and informs the LoginControllerActivity of the request result
+ * 
+ * @author Nathan Longnecker
+ * @version Oct 13, 2013
+ */
 public class LoginRequestObserver implements RequestObserver {
 
 	LoginControllerActivity controller;
 	
+	/**
+	 * Constructor
+	 * @param controller The parent activity that handles the login
+	 */
 	public LoginRequestObserver(LoginControllerActivity controller){
 		this.controller = controller;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		
-		Request req = (Request) iReq;
+		final Request req = (Request) iReq;
 		
-		ResponseModel response = req.getResponse();
+		final ResponseModel response = req.getResponse();
 		
 		if(response.getStatusCode() == 200){
 			controller.loginSuccess(response);
@@ -41,12 +54,18 @@ public class LoginRequestObserver implements RequestObserver {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		ResponseModel response = iReq.getResponse();
+		final ResponseModel response = iReq.getResponse();
 		controller.loginFail("Login Failed!\n" + response.getStatusCode() + " " + response.getStatusMessage());
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		controller.loginFail("Login Failed!\n" + exception.toString());
