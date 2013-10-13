@@ -169,14 +169,21 @@ public class PostBoardActivity extends Activity {
 				}
 			});
 			
-			//Set scroll to the latest message
-			final Layout layout = model.getLayout();
-			if(layout != null){
-				int scrollChange = layout.getLineBottom(model.getLineCount()-1) 
-						- model.getScrollY() - model.getHeight();
-				if(scrollChange >0){
-					model.scrollBy(0, scrollChange);
-				}
+			scrollToBottom();
+		}
+	}
+
+	/**
+	 * Scrolls the text view to the bottom when a new message is added
+	 */
+	private void scrollToBottom() {
+		//Set scroll to the latest message
+		final Layout layout = model.getLayout();
+		if(layout != null){
+			int scrollChange = layout.getLineBottom(model.getLineCount()-1) 
+					- model.getScrollY() - model.getHeight();
+			if(scrollChange >0){
+				model.scrollBy(0, scrollChange);
 			}
 		}
 	}
@@ -192,5 +199,7 @@ public class PostBoardActivity extends Activity {
 				model.setText(finalModelText);
 			}
 		});
+		
+		scrollToBottom();
 	}
 }
