@@ -142,6 +142,11 @@ public class PostBoardActivity extends Activity {
 		
 	}
 	
+	public void refreshFail() {
+		toast.setText("Refresh Failed!");
+		toast.show();
+	}
+	
 	/**
 	 * Add the given messages to the local model (they were received from the core).
 	 * This method is called by the GetMessagesRequestObserver
