@@ -18,11 +18,13 @@ import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+@SuppressLint("ShowToast")
 public class PostBoardActivity extends Activity {
 	
 	private String username;
@@ -112,8 +114,6 @@ public class PostBoardActivity extends Activity {
 		final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.GET); // GET == read
 		request.addObserver(new GetAndroidMessagesRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
-		
-		System.out.println("Sent refresh message");
 	}
 	
 	public void submit(View v) {
@@ -135,15 +135,12 @@ public class PostBoardActivity extends Activity {
 	}
 	
 	public void refreshFail(String errorMessage) {
-		
+		toast.setText(errorMessage);
+		toast.show();
 	}
 	
 	public void addMessageFail(String errorMessage) {
-		
-	}
-	
-	public void refreshFail() {
-		toast.setText("Refresh Failed!");
+		toast.setText(errorMessage);
 		toast.show();
 	}
 	
@@ -182,9 +179,6 @@ public class PostBoardActivity extends Activity {
 				}
 			}
 		}
-		toast.setText("Refreshed!");
-		toast.show();
-		System.out.println("Got postboard messages");
 	}
 
 	public void addMessageToModel(String message) {

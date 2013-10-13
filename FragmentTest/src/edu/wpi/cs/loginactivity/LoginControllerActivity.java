@@ -1,8 +1,6 @@
 package edu.wpi.cs.loginactivity;
 
 import java.util.List;
-
-import edu.wpi.cs.controlpanel.ControlPanelActivity;
 import edu.wpi.cs.postboard.PostBoardActivity;
 import edu.wpi.cs.fragmenttest.R;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -10,6 +8,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -21,8 +20,9 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-
+@SuppressLint("ShowToast")
 public class LoginControllerActivity extends FragmentActivity {
 	EditText usernameField;
 	EditText passwordField;
@@ -32,6 +32,7 @@ public class LoginControllerActivity extends FragmentActivity {
 	public final static String PASSWORD = "edu.wpi.cs.loginactivity.PASSWORD";
 	public final static String SERVERURL = "edu.wpi.cs.loginactivity.SERVERURL";
 	TextView responseText;
+	Toast toast;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class LoginControllerActivity extends FragmentActivity {
 		projectField = (EditText) findViewById(R.id.project_text);
 		serverUrlField = (EditText) findViewById(R.id.server_text);
 		responseText = (TextView) findViewById(R.id.responseText);
+
+		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
     }
     
     //May also be triggered from the Activity
@@ -74,7 +77,6 @@ public class LoginControllerActivity extends FragmentActivity {
 	}
 
 	public void loginSuccess(ResponseModel response) {
-
 		// Save the cookies
 		List<String> cookieList = response.getHeaders().get("Set-Cookie");
 		String cookieParts[];
@@ -173,12 +175,10 @@ public class LoginControllerActivity extends FragmentActivity {
 		intent.putExtra(PASSWORD, password);
 		intent.putExtra(SERVERURL, server);
 		startActivity(intent);
-		
-		
 	}
 
-	public void projectSelectFailed(String string) {
-		// TODO Auto-generated method stub
-		
+	public void projectSelectFailed(String errorMessage) {
+		toast.setText(errorMessage);
+		toast.show();
 	}
 } 

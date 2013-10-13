@@ -15,16 +15,13 @@ public class AndroidProjectSelectRequestObserver implements RequestObserver {
 	}
 
 	@Override
-	public void fail(IRequest arg0, Exception arg1) {
-		System.out.println("project select Failed");
-
+	public void fail(IRequest iReq, Exception exception) {
+		controller.projectSelectFailed("Project Select Failed!\n" + exception.toString());
 	}
 
 	@Override
-	public void responseError(IRequest arg0) {
-		System.out.println("project select Error");
-		// TODO Auto-generated method stub
-
+	public void responseError(IRequest iReq) {
+		controller.projectSelectFailed("Project Select Failed!\n" + iReq.getResponse().getStatusCode() + " " + iReq.getResponse().getStatusMessage());
 	}
 
 	@Override
