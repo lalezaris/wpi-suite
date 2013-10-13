@@ -10,14 +10,14 @@
     tools:context=".LoginControllerActivity" >
     
     <fragment
-        android:id="@+id/listFragment"
+        android:id="@+id/loginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         class="edu.wpi.cs.loginactivity.LoginFragment"
         tools:layout="@layout/fragment_login" />
 
     <fragment
-        android:id="@+id/detailFragment"
+        android:id="@+id/responseFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

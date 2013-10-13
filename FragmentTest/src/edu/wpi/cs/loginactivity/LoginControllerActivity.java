@@ -110,21 +110,7 @@ public class LoginControllerActivity extends FragmentActivity {
 			//TODO Could not login No Cookies
 		}
 		
-		String username = usernameField.getText().toString();
-		String password = passwordField.getText().toString();
-		String server = serverUrlField.getText().toString();
 		
-		runOnUiThread(new Runnable() {
-			public void run() {
-				responseText.setText("Login Successful!");
-			}
-		});
-		
-		Intent intent = new Intent(this, PostBoardActivity.class);
-		intent.putExtra(USERNAME, username);
-		intent.putExtra(PASSWORD, password);
-		intent.putExtra(SERVERURL, server);
-		startActivity(intent);
 	}
 
 	public void loginFail(final String errorMessage) {
@@ -166,12 +152,29 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 
 			System.out.println(Network.getInstance().getDefaultNetworkConfiguration().getRequestHeaders().get("cookie").get(0));
-			
-			//TODO Do Activity switch now
 		}
 		else {
 			//TODO Project selection failed
 		}
+		
+		
+		String username = usernameField.getText().toString();
+		String password = passwordField.getText().toString();
+		String server = serverUrlField.getText().toString();
+		
+		runOnUiThread(new Runnable() {
+			public void run() {
+				responseText.setText("Login Successful!");
+			}
+		});
+		
+		Intent intent = new Intent(this, PostBoardActivity.class);
+		intent.putExtra(USERNAME, username);
+		intent.putExtra(PASSWORD, password);
+		intent.putExtra(SERVERURL, server);
+		startActivity(intent);
+		
+		
 	}
 
 	public void projectSelectFailed(String string) {

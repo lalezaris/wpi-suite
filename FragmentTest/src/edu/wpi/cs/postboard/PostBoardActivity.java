@@ -14,10 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
@@ -29,7 +31,8 @@ public class PostBoardActivity extends Activity {
 	
 	TextView model;
 	EditText submitMessage;
-
+	Toast toast;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,6 +46,12 @@ public class PostBoardActivity extends Activity {
 		setupActionBar();
 		
 		Intent intent = getIntent();
+		
+		Context context = getApplicationContext();
+		CharSequence text = "Hello toast!";
+		int duration = Toast.LENGTH_SHORT;
+
+		toast = Toast.makeText(context, text, duration);
 		
 		username = intent.getStringExtra(LoginControllerActivity.USERNAME);		
 		password = intent.getStringExtra(LoginControllerActivity.PASSWORD);		
@@ -151,6 +160,8 @@ public class PostBoardActivity extends Activity {
 				}
 			}
 		}
+		toast.setText("Refreshed!");
+		toast.show();
 		System.out.println("Got postboard messages");
 	}
 }
