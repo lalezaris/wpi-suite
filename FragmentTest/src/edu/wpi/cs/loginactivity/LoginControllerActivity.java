@@ -190,8 +190,11 @@ public class LoginControllerActivity extends FragmentActivity {
 		startActivity(intent);
 	}
 
-	public void projectSelectFailed(String errorMessage) {
-		toast.setText(errorMessage);
-		toast.show();
+	public void projectSelectFailed(final String errorMessage) {
+		runOnUiThread(new Runnable() {
+			public void run() {
+				responseText.setText(errorMessage);
+			}
+		});
 	}
 } 

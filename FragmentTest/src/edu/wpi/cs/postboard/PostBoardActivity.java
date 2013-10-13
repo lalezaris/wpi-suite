@@ -33,7 +33,6 @@ import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
@@ -61,12 +60,8 @@ public class PostBoardActivity extends Activity {
 		setupActionBar();
 		
 		Intent intent = getIntent();
-		
-		Context context = getApplicationContext();
-		CharSequence text = "Hello toast!";
-		int duration = Toast.LENGTH_SHORT;
 
-		toast = Toast.makeText(context, text, duration);
+		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		
 		username = intent.getStringExtra(LoginControllerActivity.USERNAME);		
 		password = intent.getStringExtra(LoginControllerActivity.PASSWORD);		
