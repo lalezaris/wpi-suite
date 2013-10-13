@@ -13,23 +13,18 @@ public class GetAndroidMessagesRequestObserver implements RequestObserver {
 	}
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.out.println("Fail");
-		// TODO Auto-generated method stub
+		controller.refreshFail("Refresh Failed!\n" + exception.toString());
 		
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
-		System.out.println("Error");
-		System.out.println(iReq.getResponse().getStatusCode() + " " + iReq.getResponse().getStatusMessage());
-		// TODO Auto-generated method stub
+		controller.refreshFail("Refresh Failed!\n" + iReq.getResponse().getStatusCode() + " " + iReq.getResponse().getStatusMessage());
 		
 	}
 
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		System.out.println("Success");
-		// TODO Auto-generated method stub
 		PostBoardMessage[] messages = PostBoardMessage.fromJsonArray(iReq.getResponse().getBody());
 		controller.receivedMessages(messages);
 	}

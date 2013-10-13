@@ -110,9 +110,26 @@ public class PostBoardActivity extends Activity {
 	public void submit(View v) {
 		String message = submitMessage.getText().toString();
 		
+		// Make sure there is text
+		if (message.length() > 0) {
+			// Clear the text field
+			submitMessage.setText("");
+			
+			message = username + " (from mobile): " + message;
+			
+			// Send a request to the core to save this message
+			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
+			request.setBody(new PostBoardMessage(message).toJSON()); // put the new message in the body of the request
+			request.addObserver(new AndroidAddMessageRequestObserver(this)); // add an observer to process the response
+			request.send(); // send the request
+		}
 	}
 	
-	public void refreshFail() {
+	public void refreshFail(String errorMessage) {
+		
+	}
+	
+	public void addMessageFail(String errorMessage) {
 		
 	}
 	
@@ -152,5 +169,18 @@ public class PostBoardActivity extends Activity {
 			}
 		}
 		System.out.println("Got postboard messages");
+	}
+
+	public void addMessageToModel(String message) {
+		String modelText = model.getText().toString();
+		modelText += message + "\n";
+	
+		final String finalModelText = modelText;
+		// add the messages to the local model
+		runOnUiThread(new Runnable() {
+			public void run() {
+				model.setText(finalModelText);
+			}
+		});
 	}
 }
