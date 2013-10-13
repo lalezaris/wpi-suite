@@ -62,7 +62,12 @@ public class LoginControllerActivity extends FragmentActivity {
     }
     
     //May also be triggered from the Activity
-	public void login(View v) {
+	/**
+     * Logs the user in to the core
+     *
+     * @param v the parent view
+     */
+    public void login(View v) {
 		
 		if(!this.isNetworkAvailable()){
 			DialogFragment bnet = new BadNetworkConnectionFragment();
@@ -89,6 +94,11 @@ public class LoginControllerActivity extends FragmentActivity {
 		}
 	}
 
+	/**
+	 * Called when the login is successful.
+	 *
+	 * @param response the ResponseModel from the request observer
+	 */
 	public void loginSuccess(ResponseModel response) {
 		// Save the cookies
 		List<String> cookieList = response.getHeaders().get("Set-Cookie");

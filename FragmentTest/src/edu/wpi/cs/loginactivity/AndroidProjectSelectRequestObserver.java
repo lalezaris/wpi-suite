@@ -22,6 +22,10 @@ public class AndroidProjectSelectRequestObserver implements RequestObserver {
 
 	LoginControllerActivity controller;
 	
+	/**
+	 * Creates a new AndroidProjectSelectRequestObserver
+	 * @param controller the LoginControllerActivity to use.
+	 */
 	public AndroidProjectSelectRequestObserver(
 			LoginControllerActivity controller) {
 		this.controller = controller;

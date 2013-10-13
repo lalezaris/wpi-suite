@@ -43,7 +43,7 @@ public class LoginRequestObserver implements RequestObserver {
 
 	@Override
 	public void responseError(IRequest iReq) {
-		ResponseModel response = (ResponseModel)iReq.getResponse();
+		ResponseModel response = iReq.getResponse();
 		controller.loginFail("Login Failed!\n" + response.getStatusCode() + " " + response.getStatusMessage());
 	}
 

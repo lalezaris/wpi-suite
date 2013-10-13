@@ -33,6 +33,7 @@ import android.os.Build;
  * @author Nathan Longnecker
  * @author Mark Fitzgibbon
  *
+ * @version Oct. 12, 2013 
  */
 public class ControlPanelActivity extends Activity {
 	
