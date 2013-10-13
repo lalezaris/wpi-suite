@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
+import android.text.Layout;
+import android.text.method.ScrollingMovementMethod;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
@@ -36,6 +38,8 @@ public class PostBoardActivity extends Activity {
 		
 		submitMessage = (EditText) findViewById(R.id.submit_message);
 		model = (TextView) findViewById(R.id.messages_view);
+		model.setMovementMethod(new ScrollingMovementMethod());
+		
 		setupActionBar();
 		
 		Intent intent = getIntent();
@@ -136,6 +140,16 @@ public class PostBoardActivity extends Activity {
 					model.setText(finalModelText);
 				}
 			});
+			
+			//Set scroll to the latest message
+			final Layout layout = model.getLayout();
+			if(layout != null){
+				int scrollChange = layout.getLineBottom(model.getLineCount()-1) 
+						- model.getScrollY() - model.getHeight();
+				if(scrollChange >0){
+					model.scrollBy(0, scrollChange);
+				}
+			}
 		}
 		System.out.println("Got postboard messages");
 	}
