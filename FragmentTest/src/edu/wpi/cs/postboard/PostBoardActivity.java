@@ -117,10 +117,16 @@ public class PostBoardActivity extends Activity {
 			openControlPanel();
 			return true;
 		case R.id.logout_item:
-			finish();
+			logout();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void logout() {
+		final Intent intent = new Intent(this, LoginControllerActivity.class);
+		intent.putExtra(LoginControllerActivity.ISLOGOUT, "true");
+		startActivity(intent);
 	}
 
 	private void openControlPanel() {
@@ -130,7 +136,6 @@ public class PostBoardActivity extends Activity {
 		intent.putExtra(LoginControllerActivity.SERVERURL, serverUrl);
 		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
-		
 	}
 
 	/**
