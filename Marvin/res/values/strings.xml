@@ -21,5 +21,7 @@
     <string name="submit_button">SUBMIT</string>
     <string name="project_hint">project</string>
     <string name="remember_me">Remember Me</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

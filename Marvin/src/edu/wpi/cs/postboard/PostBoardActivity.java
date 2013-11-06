@@ -14,7 +14,7 @@
 package edu.wpi.cs.postboard;
 
 import edu.wpi.cs.controlpanel.ControlPanelActivity;
-import edu.wpi.cs.fragmenttest.R;
+import edu.wpi.cs.marvin.R;
 import edu.wpi.cs.loginactivity.LoginControllerActivity;
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage;
 import edu.wpi.cs.wpisuitetng.network.Network;

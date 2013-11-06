@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.wpi.cs.fragmenttest"
+    package="edu.wpi.cs.marvin"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -31,7 +31,7 @@
             android:parentActivityName="edu.wpi.cs.postboard.PostBoardActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wpi.cs.coreconnectfragments.MainActivity" />
+                android:value="edu.wpi.cs.postboard.PostBoardActivity" />
         </activity>
         <activity
             android:name="edu.wpi.cs.postboard.PostBoardActivity"

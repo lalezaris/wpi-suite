@@ -15,7 +15,7 @@
 package edu.wpi.cs.controlpanel;
 
 import edu.wpi.cs.loginactivity.LoginControllerActivity;
-import edu.wpi.cs.fragmenttest.R;
+import edu.wpi.cs.marvin.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;

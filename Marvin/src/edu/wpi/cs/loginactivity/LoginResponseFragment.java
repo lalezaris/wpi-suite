@@ -13,7 +13,7 @@
  ******************************************************************************/
 package edu.wpi.cs.loginactivity;
 
-import edu.wpi.cs.fragmenttest.R;
+import edu.wpi.cs.marvin.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,12 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * The Code behind for the login fragment_login layout
+ * The Code behind for the login fragment_response layout
  * 
- * @author Sam Lalezari
+ * @author Nathan Longnecker
  * @version Oct 13, 2013
  */
-public class LoginFragment extends Fragment {
+public class LoginResponseFragment extends Fragment {
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -34,10 +34,8 @@ public class LoginFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		final View view = inflater.inflate(R.layout.fragment_login,
+		final View view = inflater.inflate(R.layout.fragment_response,
 				container, false);
-		
 		return view;
 	}
 }
