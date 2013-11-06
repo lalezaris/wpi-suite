@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.wpi.cs.marvin"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="edu.wpi.cs.loginactivity.LoginControllerActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="edu.wpi.cs.controlpanel.ControlPanelActivity"
+            android:label="@string/title_activity_control_panel"
+            android:parentActivityName="edu.wpi.cs.postboard.PostBoardActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wpi.cs.postboard.PostBoardActivity" />
+        </activity>
+        <activity
+            android:name="edu.wpi.cs.postboard.PostBoardActivity"
+            android:label="@string/title_activity_post_board"
+            android:parentActivityName="edu.wpi.cs.loginactivity.LoginControllerActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wpi.cs.loginactivity.LoginControllerActivity" />
+        </activity>
+    </application>
+
+</manifest>
