@@ -24,8 +24,7 @@ import javax.swing.JToolBar.Separator;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
-import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.*;
 
 public class DefaultToolbarViewTest {
 
