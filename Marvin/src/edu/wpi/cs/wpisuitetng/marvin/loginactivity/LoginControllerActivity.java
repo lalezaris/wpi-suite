@@ -11,7 +11,7 @@
  * 		Sam Lalezari
  * 		Nathan Longnecker
  ******************************************************************************/
-package edu.wpi.cs.loginactivity;
+package edu.wpi.cs.wpisuitetng.marvin.loginactivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
@@ -280,12 +281,12 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 		});
 		
-		/*
-		final Intent intent = new Intent(this, PostBoardActivity.class);
-		intent.putExtra(USERNAME, username);
-		intent.putExtra(PASSWORD, password);
-		intent.putExtra(SERVERURL, server);
-		startActivity(intent);*/
+		
+//		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.MainActivity.class);
+//		intent.putExtra(USERNAME, username);
+//		intent.putExtra(PASSWORD, password);
+//		intent.putExtra(SERVERURL, server);
+//		startActivity(intent);
 	}
 
 	/**

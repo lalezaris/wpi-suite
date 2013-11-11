@@ -11,7 +11,7 @@
  * 		Mark Fitzgibbon
  * 		Nathan Longnecker
  ******************************************************************************/
-package edu.wpi.cs.loginactivity;
+package edu.wpi.cs.wpisuitetng.marvin.loginactivity;
 
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

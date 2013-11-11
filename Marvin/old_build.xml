@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Marvin" default="compile">
+	<import file="../build-common.xml" />
+
+	<target name="clean">
+		<delete dir="build" />
+		<delete dir="build-test" /> 
+		<delete dir="gen/android" />
+		<delete dir="gen/edu" />
+	</target>
+
+	<target name="compile" description="Compiles source code">
+		<echo message="${ant.project.name} - build-common.compile - not implemented"/>
+	</target>
+
+	<target name="dist" depends="compile" description="Creates distributable">
+		<echo message="${ant.project.name} - build-common.dist - not implemented"/>
+	</target>
+
+	<target name="test" depends="compile" description="Runs tests">
+		<echo message="${ant.project.name} - build-common.test - no tests"/>
+	</target>
+</project>

@@ -14,7 +14,7 @@
         android:id="@+id/loginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        class="edu.wpi.cs.loginactivity.LoginFragment"
+        class="edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginFragment"
         tools:layout="@layout/fragment_login" />
 
     <fragment
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        class="edu.wpi.cs.loginactivity.LoginResponseFragment"
+        class="edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginResponseFragment"
         tools:layout="@layout/fragment_response" />
 
 </LinearLayout> 
