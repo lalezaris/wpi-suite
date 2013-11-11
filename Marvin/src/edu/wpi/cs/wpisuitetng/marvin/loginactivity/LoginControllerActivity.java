@@ -282,11 +282,11 @@ public class LoginControllerActivity extends FragmentActivity {
 		});
 		
 		
-//		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.MainActivity.class);
-//		intent.putExtra(USERNAME, username);
-//		intent.putExtra(PASSWORD, password);
-//		intent.putExtra(SERVERURL, server);
-//		startActivity(intent);
+		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.calendar.NewEventPage.class);
+		intent.putExtra(USERNAME, username);
+		intent.putExtra(PASSWORD, password);
+		intent.putExtra(SERVERURL, server);
+		startActivity(intent);
 	}
 
 	/**

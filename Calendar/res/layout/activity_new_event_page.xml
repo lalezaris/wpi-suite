@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/event_title_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/event_title_text"
+        android:inputType="none"
+        android:singleLine="true" />
+
+   <!--    For date & time picker: http://developer.android.com/guide/topics/ui/controls/pickers.html 
+    	  Button text will be set to reflect the date and time choosen  -->
+    <Button
+        android:id="@+id/date_picker_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/date_picker_button" 
+        android:onClick="showDatePickerDialog" />
+
+    <Button
+        android:id="@+id/time_picker_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/time_picker_button"
+        android:onClick="showTimePickerDialog" />
+
+    <EditText
+        android:id="@+id/location_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/location_field_text"
+        android:singleLine="true" />
+
+    <!-- Attendees button will bring up picker dialog? -->
+    <Button
+        android:id="@+id/attendees_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/attendees_button" />
+    
+    <!-- Alert button will bring up time picker dialog -->
+    <Button
+        android:id="@+id/alert_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alert_button"
+        android:onClick="showTimePickerDialog" />
+    
+    <!-- Recurrence button should bring up new activity/fragment for selecting recurrence? -->
+    <Button
+        android:id="@+id/recurrence_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recurrence_button" />
+
+    <EditText
+        android:id="@+id/description_field"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:hint="@string/description_header_text" />
+
+</LinearLayout>
