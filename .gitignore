@@ -47,10 +47,13 @@ RequirementManager/build
 RequirementManager/bin
 
 Marvin/bin
+Marvin/gen/android
+Marvin/gen/edu
 
-Marvin/gen/*
+appcompat/gen/android
+appcompat/bin
 
-appcompat/gen/*
-
-appcompat/bin/*
 Calendar/bin
+Calendar/gen/
+
+WPISuite_TNG_local
