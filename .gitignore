@@ -47,5 +47,10 @@ RequirementManager/build
 RequirementManager/bin
 
 Marvin/bin
+
 Marvin/gen/*
+
 appcompat/gen/*
+
+appcompat/bin/*
+Calendar/bin

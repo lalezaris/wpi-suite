@@ -52,11 +52,11 @@ public class LoginControllerActivity extends FragmentActivity {
 	private EditText projectField;
 	private EditText serverUrlField;
 	private CheckBox rememberMe;
+	private Intent recievedIntent;
 	
-	public static final String USERNAME = "edu.wpi.cs.loginactivity.USERNAME";
-	public static final String PASSWORD = "edu.wpi.cs.loginactivity.PASSWORD";
-	public static final String SERVERURL = "edu.wpi.cs.loginactivity.SERVERURL";
-	public static final String ISLOGOUT = "edu.wpi.cs.loginactivity.ISLOGOUT";
+	public static final String USERNAME = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.USERNAME";
+	public static final String ISSTARTUP = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.ISSTARTUP";
+	public static final String DEFAULT_ACTIVITY = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.DEFAULT_ACTIVITY";
 	public static final String PersistentLoginFileName = "LoginData";
 	public static final boolean persistCookies = true;
 	private TextView responseText;
@@ -70,10 +70,10 @@ public class LoginControllerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_controller);
         
-        boolean isLogout = false;
-        String logout = getIntent().getStringExtra(LoginControllerActivity.ISLOGOUT);
-        if(logout != null) {
-        	isLogout = logout.equals("true");
+        boolean isStartup = false;
+        String startup = getIntent().getStringExtra(LoginControllerActivity.ISSTARTUP);
+        if(startup != null) {
+        	isStartup = startup.equals("true");
         }
 		
 		usernameField = (EditText) findViewById(R.id.username_text);
@@ -82,6 +82,7 @@ public class LoginControllerActivity extends FragmentActivity {
 		serverUrlField = (EditText) findViewById(R.id.server_text);
 		responseText = (TextView) findViewById(R.id.responseText);
 		rememberMe = (CheckBox) findViewById(R.id.rememberMe_checkBox);
+		recievedIntent = getIntent();
 
 		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		
@@ -117,7 +118,7 @@ public class LoginControllerActivity extends FragmentActivity {
 			boolean rememberMeIsChecked = ('t' == in.read());
 			rememberMe.setChecked(rememberMeIsChecked);
 			
-			if(rememberMeIsChecked && !isLogout) {
+			if(rememberMeIsChecked && isStartup) {
 				login(null);
 			}
 			
@@ -240,8 +241,9 @@ public class LoginControllerActivity extends FragmentActivity {
 	/**
 	 * Called by the AndroidProjectSelectRequestObserver when project selection is successful
 	 * @param response The response from the server
+	 * @throws Exception 
 	 */
-	public void projectSelectSuccessful(ResponseModel response) {
+	public void projectSelectSuccessful(ResponseModel response) throws Exception {
 		// Save the cookies
 		final List<String> cookieList = response.getHeaders().get("Set-Cookie");
 		String[] cookieParts;
@@ -272,8 +274,6 @@ public class LoginControllerActivity extends FragmentActivity {
 		}
 		
 		final String username = usernameField.getText().toString();
-		final String password = passwordField.getText().toString();
-		final String server = serverUrlField.getText().toString();
 		
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -281,12 +281,21 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 		});
 		
-		
-		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.calendar.NewEventPage.class);
-		intent.putExtra(USERNAME, username);
-		intent.putExtra(PASSWORD, password);
-		intent.putExtra(SERVERURL, server);
-		startActivity(intent);
+		if(recievedIntent.hasExtra(DEFAULT_ACTIVITY)) {
+			Bundle bundledExtras = getIntent().getExtras();
+			if(bundledExtras.isEmpty()) {
+				System.out.println("Bundles was empty!");
+			}
+			else {
+				Class<?> nextActivity = (Class<?>) bundledExtras.get(DEFAULT_ACTIVITY);
+				final Intent intent = new Intent(this, nextActivity);
+				intent.putExtra(USERNAME, username);
+				startActivity(intent);
+			}
+		}
+		else {
+			throw new Exception("Login Controller's Recieved Intent has no Extras!");
+		}
 	}
 
 	/**
