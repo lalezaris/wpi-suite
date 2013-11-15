@@ -243,7 +243,7 @@ public class LoginControllerActivity extends FragmentActivity {
 	 * @param response The response from the server
 	 * @throws Exception 
 	 */
-	public void projectSelectSuccessful(ResponseModel response) throws Exception {
+	public void projectSelectSuccessful(ResponseModel response) {
 		// Save the cookies
 		final List<String> cookieList = response.getHeaders().get("Set-Cookie");
 		String[] cookieParts;
