@@ -1,5 +1,11 @@
-package edu.wpi.cs.wpisuitetng.apps.calendar;
+package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
+import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.R.id;
+import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
+import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DialogFragment;

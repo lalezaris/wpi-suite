@@ -6,16 +6,19 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class CalendarMonthViewActivity extends Activity {
+public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	
 	private ListAdapter adapter;
 
@@ -34,13 +37,6 @@ public class CalendarMonthViewActivity extends Activity {
 		
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strings);
 		list.setAdapter(adapter);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.calendar_month_view, menu);
-		return true;
 	}
 
 }

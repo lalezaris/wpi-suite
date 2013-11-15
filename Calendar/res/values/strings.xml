@@ -4,7 +4,6 @@
     <string name="app_name">Calendar</string>
     <string name="new_event_page_activity">New Event</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="event_title_text">Title</string>
     <string name="date_picker_button">Choose Date</string>
     <string name="time_picker_button">Choose Time</string>
@@ -13,6 +12,6 @@
     <string name="attendees_button">Attendees</string>
     <string name="alert_button">Alert Time</string>
     <string name="recurrence_button">Recurrence</string>
-    <string name="title_activity_calendar_month_view">CalendarMonthViewActivity</string>
+    <string name="title_activity_calendar_month_view">Month View</string>
 
 </resources>

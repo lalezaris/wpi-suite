@@ -10,41 +10,40 @@
  *    Sam Lalezari
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.apps.calendar;
+package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import java.util.Calendar;
 
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog.OnTimeSetListener;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.widget.TimePicker;
+import android.widget.DatePicker;
 
 /**
  * @author Sam Lalezari
  * @version Nov 10, 2013
  */
-public class TimePickerFragment extends DialogFragment implements
-OnTimeSetListener {
+public class DatePickerFragment extends DialogFragment implements
+OnDateSetListener {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		// Use the current time as the default values for the picker
+		// Use the current date as the default date in the picker
 		final Calendar c = Calendar.getInstance();
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int minute = c.get(Calendar.MINUTE);
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);
 
-		// Create a new instance of TimePickerDialog and return it
-		return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+		// Create a new instance of DatePickerDialog and return it
+		return new DatePickerDialog(getActivity(), this, year, month, day);
 	}
-
 	/* (non-Javadoc)
-	 * @see android.app.TimePickerDialog.OnTimeSetListener#onTimeSet(android.widget.TimePicker, int, int)
+	 * @see android.app.DatePickerDialog.OnDateSetListener#onDateSet(android.widget.DatePicker, int, int, int)
 	 */
 	@Override
-	public void onTimeSet(TimePicker arg0, int arg1, int arg2) {
+	public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
 
 	}
