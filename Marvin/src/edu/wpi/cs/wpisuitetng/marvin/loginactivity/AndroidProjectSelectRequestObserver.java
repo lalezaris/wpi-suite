@@ -64,7 +64,7 @@ public class AndroidProjectSelectRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		final ResponseModel response = request.getResponse();
-
+		
 		// check the response code
 		if (response.getStatusCode() == 200) {
 			controller.projectSelectSuccessful(response);
@@ -72,7 +72,6 @@ public class AndroidProjectSelectRequestObserver implements RequestObserver {
 		else { // login failed
 			controller.projectSelectFailed("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 		}
-
 	}
 
 }
