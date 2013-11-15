@@ -5,9 +5,12 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 public class NewEventPage extends Activity {
-
+	
+	private Button datePickerButton;
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -15,6 +18,8 @@ public class NewEventPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event_page);
+	
+		datePickerButton = (Button) findViewById(R.id.date_picker_button);
 	}
 
 	/* (non-Javadoc)
