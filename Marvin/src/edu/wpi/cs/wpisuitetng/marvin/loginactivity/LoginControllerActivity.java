@@ -284,7 +284,7 @@ public class LoginControllerActivity extends FragmentActivity {
 		if(recievedIntent.hasExtra(DEFAULT_ACTIVITY)) {
 			Bundle bundledExtras = getIntent().getExtras();
 			if(bundledExtras.isEmpty()) {
-				System.out.println("Bundles was empty!");
+				System.err.println("Bundle was empty!");
 			}
 			else {
 				Class<?> nextActivity = (Class<?>) bundledExtras.get(DEFAULT_ACTIVITY);
@@ -294,7 +294,7 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 		}
 		else {
-			throw new Exception("Login Controller's Recieved Intent has no Extras!");
+			System.err.println("Login Controller's Recieved Intent has no Extras!");
 		}
 	}
 
