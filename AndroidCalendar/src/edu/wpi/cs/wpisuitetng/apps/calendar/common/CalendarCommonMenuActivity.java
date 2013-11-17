@@ -30,7 +30,16 @@ public class CalendarCommonMenuActivity extends Activity {
 		
 		switch(item.getItemId()) {
 		case R.id.new_event_item:
-			newEventPage();
+			startView(edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.NewEventPage.class);
+			break;
+		case R.id.day_view_item:
+			startView(edu.wpi.cs.wpisuitetng.apps.calendar.dayview.CalendarDayViewActivity.class);
+			break;
+		case R.id.week_view_item:
+			startView(edu.wpi.cs.wpisuitetng.apps.calendar.weekview.CalendarWeekViewActivity.class);
+			break;
+		case R.id.month_view_item:
+			startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
 			break;
 		case R.id.logout_item:
 			logout();
@@ -49,8 +58,8 @@ public class CalendarCommonMenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-	private void newEventPage() {
-		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.NewEventPage.class);
+	private void startView(Class<?> view) {
+		final Intent intent = new Intent(this, view);
 		
 		//TODO Put Extra if there is a date selected
 		
