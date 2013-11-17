@@ -48,6 +48,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity" />
         </activity>
+         <activity
+            android:name="edu.wpi.cs.wpisuitetng.apps.calendar.dayview.CalendarDayViewActivity"
+            android:label="@string/title_activity_calendar_day_view" 
+               <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity" />
+        </activity>
     </application>
 
 </manifest>
