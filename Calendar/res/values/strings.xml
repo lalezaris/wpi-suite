@@ -14,5 +14,6 @@
     <string name="alert_button">Alert Time</string>
     <string name="recurrence_button">Recurrence</string>
     <string name="title_activity_calendar_month_view">CalendarMonthViewActivity</string>
+    <string name="title_activity_calendar_day_view">CalendarDayViewActivity</string>
 
 </resources>
