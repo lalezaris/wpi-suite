@@ -14,5 +14,6 @@
     <string name="recurrence_button">Recurrence</string>
     <string name="title_activity_calendar_month_view">Month View</string>
    	<string name="title_activity_calendar_day_view">CalendarDayViewActivity</string>
+    <string name="title_activity_calendar_week_view">Week View</string>
     
 </resources>
