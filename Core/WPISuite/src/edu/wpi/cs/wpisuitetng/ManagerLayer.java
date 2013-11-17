@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.Cookie;
 
+import edu.wpi.cs.wpisuitetng.apps.calendar.entitymanagers.AndroidCalendarEventEntityManager;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.database.DataStore;
 import edu.wpi.cs.wpisuitetng.exceptions.AuthenticationException;
@@ -75,9 +76,11 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
+		
+		map.put("androidcalendar" + "androidcalendarevent", new AndroidCalendarEventEntityManager(data));
 
 		//add just your module to this list
-		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager"};
+		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager", "androidcalendar"};
 		((ProjectManager)map.get("coreproject")).setAllModules(fullModuleList);
 		String ssid = null;
 		
