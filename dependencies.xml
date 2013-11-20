@@ -10,7 +10,7 @@
 
 	<!-- This target should have dependencies such that all projects are depended upon -->
 	<target name="depend.all"
-		depends="depend.Janeway, depend.WPISuite, depend.DefectTracker, depend.PostBoard, depend.RequirementManager, depend.Marvin, depend.AndroidCalendar">
+		depends="depend.Janeway, depend.WPISuite, depend.DefectTracker, depend.PostBoard, depend.RequirementManager, depend.AndroidCalendar">
 	</target>
 
 	<!--
@@ -33,13 +33,6 @@
 	<target name="depend.Janeway"
 		depends="depend.Network, depend.WPISuite-Interfaces">
 		<ant dir="${dependencies.basedir}/Janeway"
-			target="${dependency.target}"
-			inheritAll="false"/>
-	</target>
-	
-	<target name="depend.Marvin"
-		depends="depend.Network, depend.WPISuite-Interfaces">
-		<ant dir="${dependencies.basedir}/Marvin"
 			target="${dependency.target}"
 			inheritAll="false"/>
 	</target>
@@ -73,8 +66,7 @@
 			inheritAll="false"/>
 	</target>
 	
-	<target name="depend.AndroidCalendar"
-		depends="depend.Marvin">
+	<target name="depend.AndroidCalendar">
 		<ant dir="${dependencies.basedir}/AndroidCalendar"
 			target="${dependency.target}"
 			inheritAll="false"/>

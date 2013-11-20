@@ -27,6 +27,7 @@
 	<target name="dist" description="Creates distributable">
 		<mkdir dir="${dist}"/>
 		<mkdir dir="${dist}/janeway"/>
+		<mkdir dir="${dist}/marvin"/>
 		<mkdir dir="${dist}/janeway/modules"/>
 		<mkdir dir="${dist}/core"/>
 		<antcall target="depend.all">
