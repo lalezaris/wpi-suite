@@ -36,6 +36,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	@Override
 	public String toJSON() {
 		// TODO Auto-generated method stub
+		System.out.println("toJSON in AndroidCalendarEvent called");
 		return null;
 	}
 	

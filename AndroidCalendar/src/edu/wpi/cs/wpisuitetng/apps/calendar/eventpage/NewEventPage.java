@@ -6,6 +6,10 @@ import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
+import edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginRequestObserver;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -26,6 +30,11 @@ public class NewEventPage extends Activity {
 		setContentView(R.layout.activity_new_event_page);
 	
 		datePickerButton = (Button) findViewById(R.id.date_picker_button);
+		
+		System.out.println("Sending Request");
+		// Create and send the login request
+		final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/titleis/not/here", HttpMethod.GET);
+		request.send();
 	}
 
 	/* (non-Javadoc)
