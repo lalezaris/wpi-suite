@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/alert_button"
-        android:onClick="showTimePickerDialog" />
+        android:onClick="showAlertPickerDialog" />
     
     <!-- Recurrence button should bring up new activity/fragment for selecting recurrence? -->
     <Button

@@ -15,7 +15,7 @@ import android.widget.Button;
 
 public class NewEventPage extends Activity {
 	
-	private Button datePickerButton;
+	private Button datePickerButton, timePickerButton, alertPickerButton;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -26,6 +26,8 @@ public class NewEventPage extends Activity {
 		setContentView(R.layout.activity_new_event_page);
 	
 		datePickerButton = (Button) findViewById(R.id.date_picker_button);
+		timePickerButton = (Button) findViewById(R.id.time_picker_button);
+		alertPickerButton = (Button) findViewById(R.id.alert_button);
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +44,7 @@ public class NewEventPage extends Activity {
 	 * @param v the current view
 	 */
 	public void showDatePickerDialog(View v) {
-	    DialogFragment newFragment = new DatePickerFragment();
+	    DialogFragment newFragment = new DatePickerFragment(datePickerButton, "Date");
 	    newFragment.show(getFragmentManager(), "datePicker");
 	}
 	
@@ -50,7 +52,15 @@ public class NewEventPage extends Activity {
 	 * @param v the current view
 	 */
 	public void showTimePickerDialog(View v) {
-	    DialogFragment newFragment = new TimePickerFragment();
+	    DialogFragment newFragment = new TimePickerFragment(timePickerButton, "Start Time");
+	    newFragment.show(getFragmentManager(), "timePicker");
+	}
+	
+	/**Shows the alert time picker dialog
+	 * @param v the current view
+	 */
+	public void showAlertPickerDialog(View v) {
+	    DialogFragment newFragment = new TimePickerFragment(alertPickerButton, "Alert");
 	    newFragment.show(getFragmentManager(), "timePicker");
 	}
 

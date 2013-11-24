@@ -14,11 +14,14 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import java.util.Calendar;
 
+import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.DatePicker;
 
 /**
@@ -27,6 +30,15 @@ import android.widget.DatePicker;
  */
 public class DatePickerFragment extends DialogFragment implements
 OnDateSetListener {
+
+	private Button datePickerButton;
+	private String buttonText;
+
+	public DatePickerFragment(Button button, String text) {
+		datePickerButton = button;
+		buttonText = text;
+	}
+
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -39,12 +51,43 @@ OnDateSetListener {
 		// Create a new instance of DatePickerDialog and return it
 		return new DatePickerDialog(getActivity(), this, year, month, day);
 	}
+
 	/* (non-Javadoc)
 	 * @see android.app.DatePickerDialog.OnDateSetListener#onDateSet(android.widget.DatePicker, int, int, int)
 	 */
 	@Override
-	public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
+	public void onDateSet(DatePicker view, int year, int month, int day) {
+
+		String monthString = "";
+
+		switch(month){
+		case 0: monthString = "January";
+				break;
+		case 1: monthString = "February";
+				break;
+		case 2: monthString = "March";
+				break;
+		case 3: monthString = "April";
+				break;
+		case 4: monthString = "May";
+				break;
+		case 5: monthString = "June";
+				break;
+		case 6: monthString = "July";
+				break;
+		case 7: monthString = "August";
+				break;
+		case 8: monthString = "September";
+				break;
+		case 9: monthString = "October";
+				break;
+		case 10: monthString = "November";
+				break;
+		case 11: monthString = "December";
+				break;
+		}
+
+		datePickerButton.setText(buttonText + ": " + monthString + " " + day + ", " + year);
 
 	}
 
