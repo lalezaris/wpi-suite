@@ -15,19 +15,32 @@
    <!--    For date & time picker: http://developer.android.com/guide/topics/ui/controls/pickers.html 
     	  Button text will be set to reflect the date and time choosen  -->
     <Button
-        android:id="@+id/date_picker_button"
+        android:id="@+id/start_date_picker_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/date_picker_button" 
-        android:onClick="showDatePickerDialog" />
+        android:text="@string/start_date_picker_button" 
+        android:onClick="showStartDatePickerDialog" />
 
     <Button
-        android:id="@+id/time_picker_button"
+        android:id="@+id/start_time_picker_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/time_picker_button"
-        android:onClick="showTimePickerDialog" />
+        android:text="@string/start_time_picker_button"
+        android:onClick="showStartTimePickerDialog" />
 
+    <Button
+        android:id="@+id/end_date_picker_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/end_date_picker_button" 
+        android:onClick="showEndDatePickerDialog" />
+
+    <Button
+        android:id="@+id/end_time_picker_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/end_time_picker_button"
+        android:onClick="showEndTimePickerDialog" />
     <EditText
         android:id="@+id/location_field"
         android:layout_width="match_parent"
@@ -48,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/alert_button"
-        android:onClick="showTimePickerDialog" />
+        android:onClick="showAlertPickerDialog" />
     
     <!-- Recurrence button should bring up new activity/fragment for selecting recurrence? -->
     <Button

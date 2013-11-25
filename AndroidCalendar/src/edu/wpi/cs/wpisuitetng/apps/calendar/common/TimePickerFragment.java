@@ -20,6 +20,7 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.widget.Button;
 import android.widget.TimePicker;
 
 /**
@@ -28,6 +29,14 @@ import android.widget.TimePicker;
  */
 public class TimePickerFragment extends DialogFragment implements
 OnTimeSetListener {
+
+	private Button timePickerButton;
+	private String buttonText;
+
+	public TimePickerFragment(Button button, String text) {
+		timePickerButton = button;
+		buttonText = text;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,9 +53,28 @@ OnTimeSetListener {
 	 * @see android.app.TimePickerDialog.OnTimeSetListener#onTimeSet(android.widget.TimePicker, int, int)
 	 */
 	@Override
-	public void onTimeSet(TimePicker arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
-
+	public void onTimeSet(TimePicker view, int hour, int minute) {
+		
+		String minuteString;
+		if (minute < 10){
+			minuteString = "0" + minute;
+		} else {
+			minuteString = "" + minute;
+		}
+		
+		if(DateFormat.is24HourFormat(getActivity())){
+			timePickerButton.setText(buttonText + ": " + hour + ":" + minuteString);
+		} else {
+			
+			String amOrPm = "AM";
+			
+			if(hour > 12){
+				hour = hour - 12;
+				amOrPm = "PM";
+			}
+			timePickerButton.setText(buttonText + ": " + hour + ":" + minuteString + " " + amOrPm);
+		}
+		
 	}
 
 }

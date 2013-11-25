@@ -19,7 +19,7 @@ import android.widget.Button;
 
 public class NewEventPage extends Activity {
 	
-	private Button datePickerButton;
+	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -28,13 +28,19 @@ public class NewEventPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event_page);
-	
-		datePickerButton = (Button) findViewById(R.id.date_picker_button);
-		
+
+		/*
 		System.out.println("Sending Request");
 		// Create and send the login request
 		final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/titleis/not/here", HttpMethod.GET);
 		request.send();
+		 */
+
+		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
+		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
+		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
+		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
+		alertPickerButton = (Button) findViewById(R.id.alert_button);
 	}
 
 	/* (non-Javadoc)
@@ -50,16 +56,40 @@ public class NewEventPage extends Activity {
 	/**Shows the date picker dialog
 	 * @param v the current view
 	 */
-	public void showDatePickerDialog(View v) {
-	    DialogFragment newFragment = new DatePickerFragment();
+	public void showStartDatePickerDialog(View v) {
+	    DialogFragment newFragment = new DatePickerFragment(startDatePickerButton, "Start Date");
 	    newFragment.show(getFragmentManager(), "datePicker");
 	}
 	
 	/**Shows the time picker dialog
 	 * @param v the current view
 	 */
-	public void showTimePickerDialog(View v) {
-	    DialogFragment newFragment = new TimePickerFragment();
+	public void showEndTimePickerDialog(View v) {
+	    DialogFragment newFragment = new TimePickerFragment(endTimePickerButton, "End Time");
+	    newFragment.show(getFragmentManager(), "timePicker");
+	}
+	
+	/**Shows the date picker dialog
+	 * @param v the current view
+	 */
+	public void showEndDatePickerDialog(View v) {
+	    DialogFragment newFragment = new DatePickerFragment(endDatePickerButton, " End Date");
+	    newFragment.show(getFragmentManager(), "datePicker");
+	}
+	
+	/**Shows the time picker dialog
+	 * @param v the current view
+	 */
+	public void showStartTimePickerDialog(View v) {
+	    DialogFragment newFragment = new TimePickerFragment(startTimePickerButton, "Start Time");
+	    newFragment.show(getFragmentManager(), "timePicker");
+	}
+	
+	/**Shows the alert time picker dialog
+	 * @param v the current view
+	 */
+	public void showAlertPickerDialog(View v) {
+	    DialogFragment newFragment = new TimePickerFragment(alertPickerButton, "Alert");
 	    newFragment.show(getFragmentManager(), "timePicker");
 	}
 
