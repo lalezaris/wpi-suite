@@ -116,7 +116,7 @@ public interface EntityManager<T extends Model>
 	 * A note about advanced post.  the content body should not contain any line breaks.
 	 * only the first line will be passed through to the function.
 	 * **********************
-	 * This method is similar to the Advanced Put method, except that where ADvanced Put recieves the entire path
+	 * This method is similar to the Advanced Put method, except that where Advanced Put receives the entire path
 	 * as a String array, Advanced Post only receives the third path argument, for example API/advanced/module/model/argument
 	 * The reasoning behind this was to allow module developers who required more methods a way to multiplex this 
 	 * one call into multiple different functions.  By using the argument as a key in a switch statement or if else block, 

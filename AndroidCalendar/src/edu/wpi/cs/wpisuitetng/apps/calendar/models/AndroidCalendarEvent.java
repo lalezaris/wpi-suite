@@ -11,7 +11,8 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private long uniqueId;
 	
 	private String eventTitle;
-	private Calendar dateAndTime;
+	private Calendar startDateAndTime;
+	private Calendar endDateAndTime;
 	private String location;
 	private List<User> attendees;
 	private int alertTime;

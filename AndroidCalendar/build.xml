@@ -92,8 +92,10 @@
 	
 	<!-- Import the common build file for WPI Suite -->
 	<import file="../build-common.xml" />
+	<import file="../appcompat/build.xml" as="appcompat" />
+	<import file="../Marvin/build.xml" as="marvin" />
 
-	<target name="compile" depends="debug" description="Compiles source code">
+	<target name="compile" depends="marvin.compile, debug" description="Compiles source code">
 		<echo level="info">Creating library output jar file...</echo>
 		<property name="out.library.jar.file" location="${out.absolute.dir}/classes.jar" />
 		<if>
