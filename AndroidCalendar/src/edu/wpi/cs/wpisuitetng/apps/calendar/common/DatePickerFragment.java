@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 import java.util.Calendar;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.EventDate;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -33,10 +34,20 @@ OnDateSetListener {
 
 	private Button datePickerButton;
 	private String buttonText;
+	private EventDate date;
+
+	/**
+	 * @return the date
+	 */
+	public EventDate getDate() {
+		return date;
+	}
+
 
 	public DatePickerFragment(Button button, String text) {
 		datePickerButton = button;
 		buttonText = text;
+		date = null;
 	}
 
 
@@ -88,6 +99,8 @@ OnDateSetListener {
 		}
 
 		datePickerButton.setText(buttonText + ": " + monthString + " " + day + ", " + year);
+		date = new EventDate(year, month, day);
+		
 
 	}
 

@@ -3,7 +3,10 @@
  */
 package edu.wpi.cs.wpisuitetng.apps.calendar.entitymanagers;
 
+import com.google.gson.Gson;
+
 import edu.wpi.cs.wpisuitetng.Session;
+import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
@@ -18,19 +21,22 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
  */
 public class AndroidCalendarEventEntityManager extends AbstractEntityManager {
 
+	Data db;
+	
 	public AndroidCalendarEventEntityManager(Data data) {
 		super(data);
 		// TODO Auto-generated constructor stub
 		System.out.println("AndroidCalendarEventEntityManager constructor called in AndroidCalendarEventEntityManager");
 	}
-
+	
 	@Override
-	public int Count() throws WPISuiteException {
-		// TODO Auto-generated method stub
-		System.out.println("Count called in AndroidCalendarEventEntityManager");
-		return 0;
+	public int Count() {
+		// TODO: there must be a faster way to do this with db4o
+		// note that this is not project-specific - ids are unique across projects
+		
+		return db.retrieveAll(new AndroidCalendarEvent()).size();
 	}
-
+	
 	@Override
 	public String advancedGet(Session arg0, String[] arg1)
 			throws WPISuiteException {
@@ -90,11 +96,13 @@ public class AndroidCalendarEventEntityManager extends AbstractEntityManager {
 	}
 
 	@Override
-	public Model makeEntity(Session arg0, String arg1)
+	public Model makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 		// TODO Auto-generated method stub
+		final AndroidCalendarEvent newEvent = new Gson().fromJson(content, AndroidCalendarEvent.class);
+		
 		System.out.println("makeEntity called in AndroidCalendarEventEntityManager");
-		return null;
+		return newEvent;
 	}
 
 	@Override

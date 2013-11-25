@@ -14,6 +14,9 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import java.util.Calendar;
 
+import edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.EventDate;
+import edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.EventTime;
+
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -32,10 +35,20 @@ OnTimeSetListener {
 
 	private Button timePickerButton;
 	private String buttonText;
+	private EventTime time;
+
+	/**
+	 * @return the date
+	 */
+	public EventTime getTime() {
+		return time;
+		
+	}
 
 	public TimePickerFragment(Button button, String text) {
 		timePickerButton = button;
 		buttonText = text;
+		time = null;
 	}
 
 	@Override
@@ -74,7 +87,8 @@ OnTimeSetListener {
 			}
 			timePickerButton.setText(buttonText + ": " + hour + ":" + minuteString + " " + amOrPm);
 		}
-		
+		time = new EventTime(hour, minute);
+			
 	}
 
 }

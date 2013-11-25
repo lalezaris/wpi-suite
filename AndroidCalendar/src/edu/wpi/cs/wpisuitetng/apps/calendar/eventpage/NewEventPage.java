@@ -1,11 +1,15 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.id;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
+import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -16,10 +20,16 @@ import android.app.DialogFragment;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class NewEventPage extends Activity {
 	
 	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton;
+	private EventDate startDate, endDate;
+	private EventTime startTime, endTime;
+	private DatePickerFragment startDateFrag, endDateFrag;
+	private TimePickerFragment startTimeFrag, endTimeFrag;
+	private EditText title, location, description;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -30,17 +40,21 @@ public class NewEventPage extends Activity {
 		setContentView(R.layout.activity_new_event_page);
 
 		/*
-		System.out.println("Sending Request");
+		System.out.println("Sending Request for unique id");
 		// Create and send the login request
 		final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/titleis/not/here", HttpMethod.GET);
 		request.send();
 		 */
-
+		
+		
 		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
 		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
 		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
 		alertPickerButton = (Button) findViewById(R.id.alert_button);
+		title = (EditText) findViewById(R.id.event_title_field);
+		location = (EditText) findViewById(R.id.location_field);
+		description = (EditText) findViewById(R.id.description_field);
 	}
 
 	/* (non-Javadoc)
@@ -57,32 +71,32 @@ public class NewEventPage extends Activity {
 	 * @param v the current view
 	 */
 	public void showStartDatePickerDialog(View v) {
-	    DialogFragment newFragment = new DatePickerFragment(startDatePickerButton, "Start Date");
-	    newFragment.show(getFragmentManager(), "datePicker");
+	    startDateFrag = new DatePickerFragment(startDatePickerButton, "Start Date");
+	    startDateFrag.show(getFragmentManager(), "datePicker");
 	}
 	
 	/**Shows the time picker dialog
 	 * @param v the current view
 	 */
 	public void showEndTimePickerDialog(View v) {
-	    DialogFragment newFragment = new TimePickerFragment(endTimePickerButton, "End Time");
-	    newFragment.show(getFragmentManager(), "timePicker");
+	    endTimeFrag = new TimePickerFragment(endTimePickerButton, "End Time");
+	    endTimeFrag.show(getFragmentManager(), "timePicker");
 	}
 	
 	/**Shows the date picker dialog
 	 * @param v the current view
 	 */
 	public void showEndDatePickerDialog(View v) {
-	    DialogFragment newFragment = new DatePickerFragment(endDatePickerButton, " End Date");
-	    newFragment.show(getFragmentManager(), "datePicker");
+	    endDateFrag = new DatePickerFragment(endDatePickerButton, " End Date");
+	    endDateFrag.show(getFragmentManager(), "datePicker");
 	}
 	
 	/**Shows the time picker dialog
 	 * @param v the current view
 	 */
 	public void showStartTimePickerDialog(View v) {
-	    DialogFragment newFragment = new TimePickerFragment(startTimePickerButton, "Start Time");
-	    newFragment.show(getFragmentManager(), "timePicker");
+	    startTimeFrag = new TimePickerFragment(startTimePickerButton, "Start Time");
+	    startTimeFrag.show(getFragmentManager(), "timePicker");
 	}
 	
 	/**Shows the alert time picker dialog
@@ -92,5 +106,21 @@ public class NewEventPage extends Activity {
 	    DialogFragment newFragment = new TimePickerFragment(alertPickerButton, "Alert");
 	    newFragment.show(getFragmentManager(), "timePicker");
 	}
+	
+	public void saveEvent(View v){
+		Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
+		Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
+		
+		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.toString(), start, end, location.toString(), null, null, null, description.toString()); 
+		
+		System.out.println("Sending Request for unique id");
+		// Create and send the login request
+		final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent", HttpMethod.PUT);
+		request.setBody(newEvent.toJSON());
+		request.addObserver(new NewEventPageRequestObserver()); // TODO: will probably want to update event list model or something
+		request.send();
+		 
+	}
+	
 
 }
