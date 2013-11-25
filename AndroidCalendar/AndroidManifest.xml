@@ -48,19 +48,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity" />
         </activity>
-         <activity
+        <activity
             android:name="edu.wpi.cs.wpisuitetng.apps.calendar.dayview.CalendarDayViewActivity"
             android:label="@string/title_activity_calendar_day_view" >
-               <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity" />
-        </activity>    
+        </activity>
         <activity
             android:name="edu.wpi.cs.wpisuitetng.apps.calendar.weekview.CalendarWeekViewActivity"
             android:label="@string/title_activity_calendar_week_view" >
-               <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity" />
+        </activity>
+        <activity
+            android:name="edu.wpi.cs.wpisuitetng.apps.calendar.eventlist.EventListActivity"
+            android:label="@string/title_activity_event_list" >
         </activity>
     </application>
 

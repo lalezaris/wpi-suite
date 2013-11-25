@@ -3,6 +3,8 @@
  */
 package edu.wpi.cs.wpisuitetng.apps.calendar.entitymanagers;
 
+import java.util.List;
+
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -13,18 +15,19 @@ import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.AbstractEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 
 /**
  * @author Nathan Longnecker
  *
  */
-public class AndroidCalendarEventEntityManager extends AbstractEntityManager {
+public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 
 	Data db;
 	
 	public AndroidCalendarEventEntityManager(Data data) {
-		super(data);
+		db = data;
 		// TODO Auto-generated constructor stub
 		System.out.println("AndroidCalendarEventEntityManager constructor called in AndroidCalendarEventEntityManager");
 	}
@@ -84,7 +87,9 @@ public class AndroidCalendarEventEntityManager extends AbstractEntityManager {
 	public Model[] getAll(Session arg0) throws WPISuiteException {
 		// TODO Auto-generated method stub
 		System.out.println("GetAll called in AndroidCalendarEventEntityManager");
-		return null;
+		List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent());//db.retrieveAll(new AndroidCalendarEvent(), arg0.getProject());
+		System.out.println(events.size());
+		return events.toArray(new AndroidCalendarEvent[0]);
 	}
 
 	@Override
@@ -102,6 +107,7 @@ public class AndroidCalendarEventEntityManager extends AbstractEntityManager {
 		final AndroidCalendarEvent newEvent = new Gson().fromJson(content, AndroidCalendarEvent.class);
 		
 		System.out.println("makeEntity called in AndroidCalendarEventEntityManager");
+		db.save(newEvent, s.getProject());
 		return newEvent;
 	}
 

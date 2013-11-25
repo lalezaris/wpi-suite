@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -11,6 +12,7 @@ import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -111,7 +113,7 @@ public class NewEventPage extends Activity {
 		Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
 		Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
 		
-		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.toString(), start, end, location.toString(), null, null, null, description.toString()); 
+		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), new ArrayList<User>(), new GregorianCalendar(), "ice cream", description.getText().toString()); 
 		
 		System.out.println("Sending Request for unique id");
 		// Create and send the login request

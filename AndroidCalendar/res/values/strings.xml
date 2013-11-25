@@ -15,8 +15,10 @@
     <string name="alert_button">Alert Time</string>
     <string name="recurrence_button">Recurrence</string>
     <string name="title_activity_calendar_month_view">Month View</string>
-   	<string name="title_activity_calendar_day_view">Day View</string>
+    <string name="title_activity_calendar_day_view">Day View</string>
     <string name="title_activity_calendar_week_view">Week View</string>
     <string name="save_button">Save</string>
-    
+    <string name="title_activity_event_list">Event List</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

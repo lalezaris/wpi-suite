@@ -21,6 +21,11 @@
         android:showAsAction="ifRoom"
         android:title="@string/title_activity_calendar_month_view"/>
     <item
+        android:id="@+id/list_view_item"
+        android:orderInCategory="13"
+        android:showAsAction="ifRoom"
+        android:title="@string/title_activity_event_list"/>
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"

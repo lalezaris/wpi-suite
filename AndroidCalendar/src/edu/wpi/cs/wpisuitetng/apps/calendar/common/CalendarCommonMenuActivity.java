@@ -41,6 +41,9 @@ public class CalendarCommonMenuActivity extends Activity {
 		case R.id.month_view_item:
 			startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
 			break;
+		case R.id.list_view_item:
+			startView(edu.wpi.cs.wpisuitetng.apps.calendar.eventlist.EventListActivity.class);
+			break;
 		case R.id.logout_item:
 			logout();
 			break;

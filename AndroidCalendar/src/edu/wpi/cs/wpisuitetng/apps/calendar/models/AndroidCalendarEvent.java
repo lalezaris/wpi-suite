@@ -20,8 +20,6 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private Object recurrence;
 	private String description;
 	
-	
-	
 	public AndroidCalendarEvent(String eventTitle, Calendar startDateAndTime,
 			Calendar endDateAndTime, String location, List<User> attendees,
 			Calendar alertTime, Object recurrence, String description) {
@@ -57,7 +55,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	@Override
 	public String toJSON() {
 		// TODO Auto-generated method stub
-		return new Gson().toJson(this, AndroidCalendarEvent.class);
+		return (new Gson()).toJson(this, AndroidCalendarEvent.class);
 	}
 	
 	/**
