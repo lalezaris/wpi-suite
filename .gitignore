@@ -57,3 +57,9 @@ AndroidCalendar/bin
 AndroidCalendar/gen/
 
 WPISuite_TNG_local
+Marvin/local.properties
+AndroidCalendar/libs/android-support-v4.jar
+AndroidCalendar/local.properties
+AndroidCalendar/proguard-project.txt
+appcompat/local.properties
+appcompat/proguard-project.txt
