@@ -33,7 +33,7 @@
 
 	<!-- Build a jar.  Not really used, just as an example. -->
 	<target name="jar" depends="compile">
-		<jar destfile="network.jar">
+		<jar destfile="${ant.project.name}.jar">
 			<fileset dir="build"/>
 		</jar>
 	</target>
@@ -41,7 +41,7 @@
 	<target name="clean">
 		<delete dir="build"/>
 		<delete dir="build-test"/>
-		<delete dir="network.jar"/>
+		<delete file="${ant.project.name}.jar"/>
 	</target>
 
 	<target name="test" depends="compile-test">
@@ -54,6 +54,16 @@
 				</fileset>
 			</batchtest>
 		</junit>
+	</target>
+	
+	<target name="eclipse-jar" depends="" description="Builds a jar using compiled files created by Eclipse.">
+	    <jar destfile="${ant.project.name}.jar">
+			<fileset dir="build"/>
+		</jar>
+	</target>
+	
+	<target name="eclipse-clean" depends="" description="Deletes files created during the build">
+		<delete file="${ant.project.name}.jar"/>
 	</target>
 
 </project>

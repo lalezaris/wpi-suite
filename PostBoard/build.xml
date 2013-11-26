@@ -2,8 +2,8 @@
 <project name="PostBoard" default="compile.deps">
 	<import file="../build-common.xml"/>
 
-	<property name="core-jar-dest" location="${core-lib}/PostBoard.jar"/>
-	<property name="janeway-jar-dest" location="../Janeway/modules/PostBoard.jar"/>
+	<property name="core-jar-dest" location="${core-lib}/${ant.project.name}.jar"/>
+	<property name="janeway-jar-dest" location="../Janeway/modules/${ant.project.name}.jar"/>
 
 	<path id="classpath">
 		<pathelement path="../Janeway/build"/>
@@ -75,5 +75,4 @@
 	<target name="dist" depends="compile">
 		<copy file="${janeway-jar-dest}" todir="${dist}/janeway/modules" overwrite="true"/>
 	</target>
-
 </project>

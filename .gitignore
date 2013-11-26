@@ -63,3 +63,4 @@ AndroidCalendar/local.properties
 AndroidCalendar/proguard-project.txt
 appcompat/local.properties
 appcompat/proguard-project.txt
+Network/Network.jar

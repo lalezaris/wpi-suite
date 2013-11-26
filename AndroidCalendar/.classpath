@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="/Marvin/bin/marvin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Marvin"/>
+	<classpathentry kind="lib" path="/Network/Network.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

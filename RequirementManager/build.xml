@@ -2,8 +2,8 @@
 <project name="RequirementManager" default="compile.deps">
 	<import file="../build-common.xml"/>
 
-	<property name="core-jar-dest" location="${core-lib}/RequirementManager.jar"/>
-	<property name="janeway-jar-dest" location="../Janeway/modules/RequirementManager.jar"/>
+	<property name="core-jar-dest" location="${core-lib}/${ant.project.name}.jar"/>
+	<property name="janeway-jar-dest" location="../Janeway/modules/${ant.project.name}.jar"/>
 
 	<path id="classpath">
 		<pathelement path="../Janeway/build"/>

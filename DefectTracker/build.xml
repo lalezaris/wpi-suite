@@ -2,8 +2,8 @@
 <project name="DefectTracker" default="compile.deps">
 	<import file="../build-common.xml"/>
 
-	<property name="core-jar-dest" location="${core-lib}/DefectTracker.jar"/>
-	<property name="janeway-jar-dest" location="../Janeway/modules/DefectTracker.jar"/>
+	<property name="core-jar-dest" location="${core-lib}/${ant.project.name}.jar"/>
+	<property name="janeway-jar-dest" location="../Janeway/modules/${ant.project.name}.jar"/>
 
 	<path id="classpath">
 		<pathelement path="../Janeway/build"/>
@@ -77,5 +77,4 @@
 	<target name="dist" depends="compile">
 		<copy file="${janeway-jar-dest}" todir="${dist}/janeway/modules" overwrite="true"/>
 	</target>
-
 </project>
