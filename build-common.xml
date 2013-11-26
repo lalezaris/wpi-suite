@@ -70,7 +70,7 @@
 		These targets are not intended to be called from the command line. -->
 	<target name="eclipse-jar" depends="" description="Builds a jar using compiled files created by Eclipse.">
 	    <jar destfile="${core-jar-dest}">
-			<fileset dir="build"/>
+			<fileset dir="bin"/>
 		</jar>
 	</target>
 	
