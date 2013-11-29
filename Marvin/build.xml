@@ -91,8 +91,30 @@
     
     <!-- Import the common build file for WPI Suite -->
 
-	<target name="compile" depends="android.debug" description="Compiles source code">
-		
+	<target name="compile" depends="" description="Compiles source code">
+		<mkdir dir="${basedir}/libs"/>
+		<copy todir="${basedir}/libs">
+			<file name="${basedir}/../Network/Network.jar"/>
+			<file name="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar"/>
+			<file name="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar"/>
+		</copy>
+		<antcall target="android.debug"/>
 	</target>
 
+	<target name="clean" description="Deletes files created during the build">
+		<delete dir="${basedir}/libs"/>
+	</target>
+	
+	<target name="eclipse-jar" depends="" description="Compiles source code">
+		<mkdir dir="${basedir}/libs"/>
+		<copy file="${basedir}/../Network/Network.jar" todir="${basedir}/libs"/>
+		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar" todir="${basedir}/libs"/>
+		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar" todir="${basedir}/libs"/>
+	</target>
+	
+	<target name="eclipse-clean" description="Deletes files created during the build">
+		<delete file="${basedir}/libs/Network.jar"/>
+		<delete file="${basedir}/libs/WPISuite-Interfaces.jar"/>
+		<delete file="${basedir}/libs/gson-2.2.2.jar"/>
+	</target>
 </project>
