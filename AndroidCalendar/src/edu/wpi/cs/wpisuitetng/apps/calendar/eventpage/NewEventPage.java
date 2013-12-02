@@ -113,7 +113,7 @@ public class NewEventPage extends Activity {
 		Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
 		Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
 		
-		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), new ArrayList<User>(), new GregorianCalendar(), "ice cream", description.getText().toString()); 
+		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), new ArrayList<User>(), start, "ice cream", description.getText().toString()); 
 		
 		System.out.println("Sending Request for unique id");
 		// Create and send the login request

@@ -19,6 +19,14 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private Calendar alertTime;
 	private Object recurrence;
 	private String description;
+	private int startMonth;
+	private int startWeekNum;
+	private int startYear;
+	private int startDay;
+	private int endMonth;
+	private int endWeekNum;
+	private int endYear;
+	private int endDay;
 	
 	public AndroidCalendarEvent(String eventTitle, Calendar startDateAndTime,
 			Calendar endDateAndTime, String location, List<User> attendees,
@@ -31,8 +39,24 @@ public class AndroidCalendarEvent extends AbstractModel {
 		this.alertTime = alertTime;
 		this.recurrence = recurrence;
 		this.description = description;
+		
+		updateFields();
 	}
 	
+	private void updateFields() {
+		startMonth = startDateAndTime.get(Calendar.MONTH);
+		endMonth = endDateAndTime.get(Calendar.MONTH);
+		
+		startWeekNum = startDateAndTime.get(Calendar.WEEK_OF_YEAR);
+		endWeekNum = endDateAndTime.get(Calendar.WEEK_OF_YEAR);
+		
+		startYear = startDateAndTime.get(Calendar.YEAR);
+		endYear = endDateAndTime.get(Calendar.YEAR);
+		
+		startDay = startDateAndTime.get(Calendar.DAY_OF_MONTH);
+		endDay = endDateAndTime.get(Calendar.DAY_OF_MONTH);		
+	}
+
 	public AndroidCalendarEvent() {
 		// TODO Auto-generated constructor stub
 	}
@@ -84,6 +108,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setStartDateAndTime(Calendar startDateAndTime) {
 		this.startDateAndTime = startDateAndTime;
+		updateFields();
 	}
 
 	/**
@@ -98,6 +123,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setEndDateAndTime(Calendar endDateAndTime) {
 		this.endDateAndTime = endDateAndTime;
+		updateFields();
 	}
 
 	/**
@@ -183,5 +209,63 @@ public class AndroidCalendarEvent extends AbstractModel {
 	public void setUniqueId(long uniqueId) {
 		this.uniqueId = uniqueId;
 	}
+	
+
+	/**
+	 * @return the startMonth
+	 */
+	public int getStartMonth() {
+		return startMonth;
+	}
+
+	/**
+	 * @return the startWeekNum
+	 */
+	public int getStartWeekNum() {
+		return startWeekNum;
+	}
+
+	/**
+	 * @return the startYear
+	 */
+	public int getStartYear() {
+		return startYear;
+	}
+
+	/**
+	 * @return the startDay
+	 */
+	public int getStartDay() {
+		return startDay;
+	}
+
+	/**
+	 * @return the endMonth
+	 */
+	public int getEndMonth() {
+		return endMonth;
+	}
+
+	/**
+	 * @return the endWeekNum
+	 */
+	public int getEndWeekNum() {
+		return endWeekNum;
+	}
+
+	/**
+	 * @return the endYear
+	 */
+	public int getEndYear() {
+		return endYear;
+	}
+
+	/**
+	 * @return the endDay
+	 */
+	public int getEndDay() {
+		return endDay;
+	}
+
 
 }
