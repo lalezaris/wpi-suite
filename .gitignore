@@ -64,7 +64,6 @@ AndroidCalendar/proguard-project.txt
 appcompat/local.properties
 appcompat/proguard-project.txt
 Network/Network.jar
-Marvin/.externalToolBuilders/Marvin Builder.launch
 Marvin/libs/Network.jar
 Marvin/libs/WPISuite-Interfaces.jar
 Marvin/libs/gson-2.2.2.jar
