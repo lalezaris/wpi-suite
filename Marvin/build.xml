@@ -93,11 +93,10 @@
 
 	<target name="compile" depends="" description="Compiles source code">
 		<mkdir dir="${basedir}/libs"/>
-		<copy todir="${basedir}/libs">
-			<file name="${basedir}/../Network/Network.jar"/>
-			<file name="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar"/>
-			<file name="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar"/>
-		</copy>
+		<copy file="${basedir}/../Network/Network.jar" todir="${basedir}/../Marvin/libs"/>
+		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar" todir="${basedir}/../Marvin/libs"/>
+		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar" todir="${basedir}/../Marvin/libs"/>
+	
 		<antcall target="android.debug"/>
 	</target>
 
