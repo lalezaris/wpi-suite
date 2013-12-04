@@ -20,5 +20,7 @@
     <string name="save_button">Save</string>
     <string name="title_activity_event_list">Event List</string>
     <string name="hello_world">Hello world!</string>
+    <string name="edit_event_item">Edit</string>
+    <string name="title_activity_view_event_page">Event</string>
 
 </resources>
