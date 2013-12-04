@@ -50,7 +50,61 @@ public class ViewEventPage extends NewEventPage {
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
 		
+		switchToViewMode();
 		getEventFromDatabase();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.new_event_page, menu);
+		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch(item.getItemId()) {
+		case R.id.edit_event_item:
+			switchToEditMode();
+			break;
+		default:
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+	
+
+	private void switchToViewMode() {
+		startDatePickerButton.setEnabled(false);
+		startTimePickerButton.setEnabled(false);
+		endDatePickerButton.setEnabled(false);
+		endTimePickerButton.setEnabled(false);
+		alertPickerButton.setEnabled(false);
+		title.setEnabled(false);
+		location.setEnabled(false);
+		description.setEnabled(false);
+		
+	}
+	private void switchToEditMode() {
+		startDatePickerButton.setEnabled(true);
+		startTimePickerButton.setEnabled(true);
+		endDatePickerButton.setEnabled(true);
+		endTimePickerButton.setEnabled(true);
+		alertPickerButton.setEnabled(true);
+		title.setEnabled(true);
+		location.setEnabled(true);
+		description.setEnabled(true);
+		
+		// TODO Change menu to display "Done" button or "Save" button
+		
 	}
 
 	private void getEventFromDatabase() {
