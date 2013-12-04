@@ -10,6 +10,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class AndroidCalendarEvent extends AbstractModel {
 	
+	public static final String ID = "edu.wpi.cs.wpisuitetng.calendar.models.ID";
+	
 	private long uniqueId;
 	private String eventTitle;
 	private Calendar startDateAndTime;
