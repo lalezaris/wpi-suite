@@ -78,8 +78,14 @@ public class AndroidCalendarEvent extends AbstractModel {
 	}
 	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return (new Gson()).toJson(this, AndroidCalendarEvent.class);
+		String jsonString = "";
+		try {
+			jsonString = (new Gson()).toJson(this, AndroidCalendarEvent.class);
+		}
+		catch (NullPointerException e) {
+			jsonString = "Error Jsoning " + eventTitle;
+		}
+		return jsonString;
 	}
 	
 	/**
@@ -267,5 +273,9 @@ public class AndroidCalendarEvent extends AbstractModel {
 		return endDay;
 	}
 
+	
+	public String toString() {
+		return eventTitle;
+	}
 
 }

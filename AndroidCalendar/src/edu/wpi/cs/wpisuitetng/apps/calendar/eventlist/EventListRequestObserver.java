@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventlist;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -32,12 +33,19 @@ public class EventListRequestObserver implements RequestObserver {
 		// TODO Auto-generated method stub
 
 		System.out.println("EventlistRequest Succeeded");
+		AndroidCalendarEvent[] events;
+		try {
+			events = new Gson().fromJson(arg0.getResponse().getBody(), AndroidCalendarEvent[].class);
+		}
+		catch (JsonSyntaxException e) {
+			events = new AndroidCalendarEvent[1];
+			events[0] = new AndroidCalendarEvent("Eventlist Request Failed", null, null, null, null, null, null, null);
+		}
 		
-		final AndroidCalendarEvent[] events = new Gson().fromJson(arg0.getResponse().getBody(), AndroidCalendarEvent[].class);
-
+		final AndroidCalendarEvent[] finalEvents = events;
 		controller.runOnUiThread(new Runnable() {
             public void run() {
-            	controller.updateEventList(events);
+            	controller.updateEventList(finalEvents);
             }
 		});
 		
