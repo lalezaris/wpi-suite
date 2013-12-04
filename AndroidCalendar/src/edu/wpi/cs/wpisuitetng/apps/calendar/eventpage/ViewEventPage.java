@@ -20,7 +20,7 @@ import android.support.v4.app.NavUtils;
 
 public class ViewEventPage extends NewEventPage {
 	
-	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton;
+	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton, saveEventButton;
 	private EventDate startDate, endDate;
 	private EventTime startTime, endTime;
 	private DatePickerFragment startDateFrag, endDateFrag;
@@ -46,6 +46,7 @@ public class ViewEventPage extends NewEventPage {
 		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
 		alertPickerButton = (Button) findViewById(R.id.alert_button);
+		saveEventButton = (Button) findViewById(R.id.save_button);
 		title = (EditText) findViewById(R.id.event_title_field);
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
@@ -91,6 +92,7 @@ public class ViewEventPage extends NewEventPage {
 		title.setEnabled(false);
 		location.setEnabled(false);
 		description.setEnabled(false);
+		saveEventButton.setVisibility(Button.INVISIBLE);
 		
 	}
 	private void switchToEditMode() {
@@ -102,8 +104,8 @@ public class ViewEventPage extends NewEventPage {
 		title.setEnabled(true);
 		location.setEnabled(true);
 		description.setEnabled(true);
-		
-		// TODO Change menu to display "Done" button or "Save" button
+
+		saveEventButton.setVisibility(Button.VISIBLE);
 		
 	}
 
