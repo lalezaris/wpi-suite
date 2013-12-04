@@ -3,9 +3,7 @@
  */
 package edu.wpi.cs.wpisuitetng.apps.calendar.entitymanagers;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -17,10 +15,8 @@ import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-import edu.wpi.cs.wpisuitetng.modules.AbstractEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.network.Network;
 
 /**
  * @author Nathan Longnecker
@@ -48,19 +44,13 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
 
-		System.out.println("AdvancedGet called in AndroidCalendarEventEntityManager");
-		
 		String application = args[0];
-		System.out.println("application = " + application);
 		
 		String model = args[1];
-		System.out.println("model = " + model);
 		
 		String getType = args[2];
-		System.out.println("getType = " + getType);
 		
 		int getTypeFrom = Integer.parseInt(args[3]);
-		System.out.println("getTypeFrom = " + getTypeFrom);
 		
 		String[] fieldNameList = {getType};
 		List<Object> givenValueList = new ArrayList<Object>();
@@ -68,26 +58,11 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		List<Model> modelList = new ArrayList<Model>();
 		
 		try {
-			System.out.println("Trying orRetrieve()");
 			modelList = db.andRetrieve(AndroidCalendarEvent.class, fieldNameList, givenValueList);
-			System.out.println("Finished orRetrieve()");
-		} catch (IllegalArgumentException e) {
-			System.out.println("Caught IllegalArgumentException: " + e.toString());
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			System.out.println("Caught IllegalAccessException: " + e.toString());
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			System.out.println("Caught InvocationTargetException: " + e.toString());
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println("Caught Exception: " + e.toString());
+			e.printStackTrace();
 		}
 		
-		
-		System.out.println("Returning GSON String");
 		return new Gson().toJson(modelList.toArray());
 	}
 
