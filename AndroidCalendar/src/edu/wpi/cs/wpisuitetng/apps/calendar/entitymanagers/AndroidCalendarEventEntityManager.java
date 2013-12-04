@@ -44,13 +44,16 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
 
-		String application = args[0];
+		String getType = args[2].toLowerCase();
 		
-		String model = args[1];
+		Object getTypeFrom;
 		
-		String getType = args[2];
-		
-		int getTypeFrom = Integer.parseInt(args[3]);
+		if(getType.equals("uniqueid")) {
+			getTypeFrom = Long.parseLong(args[3]);
+		}
+		else {
+			getTypeFrom = Integer.parseInt(args[3]);
+		}
 		
 		String[] fieldNameList = {getType};
 		List<Object> givenValueList = new ArrayList<Object>();
@@ -119,8 +122,11 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		// TODO Auto-generated method stub
 		final AndroidCalendarEvent newEvent = new Gson().fromJson(content, AndroidCalendarEvent.class);
 		
-		System.out.println("makeEntity called in AndroidCalendarEventEntityManager");
+		newEvent.setUniqueId(Count());
+		
 		db.save(newEvent, s.getProject());
+		
+		System.out.println("Saving event " + newEvent.getEventTitle() + " with uniqueId " + newEvent.getUniqueId());
 		return newEvent;
 	}
 

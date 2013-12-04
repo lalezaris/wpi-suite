@@ -40,6 +40,8 @@ public class ViewEventPage extends NewEventPage {
 		final Intent intent = getIntent();
 		
 		eventId = intent.getLongExtra(AndroidCalendarEvent.ID, -1);
+
+		System.out.println("eventId: "+ eventId);
 		
 		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
 		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
@@ -112,7 +114,8 @@ public class ViewEventPage extends NewEventPage {
 	private void getEventFromDatabase() {
 		final ViewEventPageRequestObserver requestObserver = new ViewEventPageRequestObserver(this);
 		if(eventId != -1){
-			final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/uniqueId/" + eventId , HttpMethod.GET);
+			System.out.println("uniqueId: "+ eventId);
+			final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/uniqueid/" + eventId , HttpMethod.GET);
 			request.addObserver(requestObserver);
 			request.send();
 			

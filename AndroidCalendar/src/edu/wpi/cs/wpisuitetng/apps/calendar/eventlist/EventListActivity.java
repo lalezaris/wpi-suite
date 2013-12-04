@@ -13,6 +13,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ListFragment;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -28,7 +29,7 @@ public class EventListActivity extends CalendarCommonMenuActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_list);
 		
-		ListView list = (ListView)findViewById(R.id.list_view);
+		ListFragment listFragment = (ListFragment)getFragmentManager().findFragmentById(R.id.list_fragment);
 		
 		events = new ArrayList<String>();
 		
@@ -39,7 +40,7 @@ public class EventListActivity extends CalendarCommonMenuActivity {
 		request.send();
 		
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, events);
-		list.setAdapter(adapter);
+		listFragment.setListAdapter(adapter);
 	}
 
 	public void updateEventList(final AndroidCalendarEvent[] events) {
