@@ -55,7 +55,6 @@ public class LoginControllerActivity extends FragmentActivity {
 	private CheckBox rememberMe;
 	private Intent recievedIntent;
 	
-	public static final String USERNAME = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.USERNAME";
 	public static final String AUTO_LOGIN = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.AUTO_LOGIN";
 	public static final String DEFAULT_ACTIVITY = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.DEFAULT_ACTIVITY";
 	public static final String PersistentLoginFileName = "LoginData";
@@ -285,6 +284,7 @@ public class LoginControllerActivity extends FragmentActivity {
 		}
 		
 		final String username = usernameField.getText().toString();
+		MarvinUserData.setUsername(username);
 		
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -300,7 +300,6 @@ public class LoginControllerActivity extends FragmentActivity {
 			else {
 				Class<?> nextActivity = (Class<?>) bundledExtras.get(DEFAULT_ACTIVITY);
 				final Intent intent = new Intent(this, nextActivity);
-				intent.putExtra(USERNAME, username);
 				startActivity(intent);
 			}
 		}

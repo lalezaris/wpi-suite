@@ -4,6 +4,7 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.entitymanagers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -17,6 +18,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * @author Nathan Longnecker
@@ -44,20 +46,37 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
 
-		String getType = args[2].toLowerCase();
-		
-		Object getTypeFrom;
-		
-		if(getType.equals("uniqueid")) {
-			getTypeFrom = Long.parseLong(args[3]);
-		}
-		else {
-			getTypeFrom = Integer.parseInt(args[3]);
-		}
-		
-		String[] fieldNameList = {getType};
+		ArrayList<String> fieldArrayList = new ArrayList<String>();
 		List<Object> givenValueList = new ArrayList<Object>();
-		givenValueList.add(getTypeFrom);
+		
+		ArrayList<String> extraFields = new ArrayList<String>();
+		List<Object> extraValues = new ArrayList<Object>();
+		
+		for(int i=2; i < args.length; i += 2){
+			Boolean addToRetrieve = true;
+			String field = args[i].toLowerCase();
+			Object value;
+
+			if(field.equals("uniqueid")) {
+				value = Long.parseLong(args[i+1]);
+			} if (field.equals("attendees")){
+				value = args[i+1];
+				addToRetrieve = false;
+			}
+			else {
+				value = Integer.parseInt(args[3]);
+			}
+
+			if(addToRetrieve){
+				fieldArrayList.add(field);
+				givenValueList.add(value);
+			} else {
+				extraFields.add(field);
+				extraValues.add(value);
+			}
+		}
+		String[] fieldNameList = (String[]) fieldArrayList.toArray();
+		
 		List<Model> modelList = new ArrayList<Model>();
 		
 		try {
@@ -66,7 +85,38 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 			e.printStackTrace();
 		}
 		
+		if(extraFields.size() == extraValues.size()){
+			for(int i = 0; i < extraFields.size(); i++){
+				String field = extraFields.get(i);
+				Object value = extraValues.get(i);
+				
+				if(field.equals("attendees")){
+					modelList = checkIfIsAttendee(value, modelList);
+				} else {
+					// Do nothing
+				}
+			}
+		}
+		
 		return new Gson().toJson(modelList.toArray());
+	}
+
+	private List<Model> checkIfIsAttendee(Object value, List<Model> list) {
+		String name = (String) value;
+		List<Model> modelList = list;
+		
+		for(Model m : modelList){
+			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
+			List<User> attendeeList = event.getAttendees();
+			
+			for(User u : attendeeList){
+				if(!name.toLowerCase().equals(u.getName().toLowerCase())){
+					modelList.remove(m);
+				}
+			}
+		}
+		
+		return modelList;
 	}
 
 	@Override
