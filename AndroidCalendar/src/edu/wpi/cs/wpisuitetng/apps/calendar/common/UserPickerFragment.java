@@ -13,8 +13,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 
-public class UserPickerFragment extends DialogFragment {
+public class UserPickerFragment extends DialogFragment implements OnItemSelectedListener {
 	
 	private final List<User> selectedUsers = new ArrayList<User>();
 	
@@ -23,7 +28,7 @@ public class UserPickerFragment extends DialogFragment {
 	public UserPickerFragment() {
 		//final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
 		//request.send();
-		//TODO: Add current user to the list of users
+		//TODO: Get the current user and add it to the list of users
 	}
 
 	@Override
@@ -32,15 +37,40 @@ public class UserPickerFragment extends DialogFragment {
 		getDialog().setTitle("Attendees");
 		
 		final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
+		request.addObserver(new UserPickerFragmentRequestObserver(this));
 		request.send();
-		//TODO: Add listener to this request and store it in all users
+
+		UserArrayAdapter allUsersAdapter = new UserArrayAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line, allUsers);
+		UserAutoCompleteTextView userEntry = (UserAutoCompleteTextView) view.findViewById(R.id.user_entry);
+		userEntry.setOnItemSelectedListener(this);
+		userEntry.setAdapter(allUsersAdapter);
 		
-		//TODO: Add an adapter so the users list is displayed in the attendees selector
+		UserArrayAdapter selectedUsersAdapter = new UserArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, selectedUsers);
+		ListView selectedUserList = (ListView) view.findViewById(R.id.user_list);
+		selectedUserList.setAdapter(selectedUsersAdapter);
+		
 		return view;
 	}
 	
 	public List<User> getSelectedUsers() {
 		return selectedUsers;
+	}
+	
+	public void updateAllUsersList(List<User> users) {
+		allUsers.clear();
+		allUsers.addAll(users);
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		// TODO Auto-generated method stub
+		System.out.println("OnItemSelected");
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		//Do Nothing
+		System.out.println("Item Not Selected");
 	}
 	
 	//TODO: Add the ability to delete a user by clicking on them

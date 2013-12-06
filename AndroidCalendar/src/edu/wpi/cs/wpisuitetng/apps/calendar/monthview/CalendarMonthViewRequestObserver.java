@@ -30,15 +30,7 @@ public class CalendarMonthViewRequestObserver implements RequestObserver {
 
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		AndroidCalendarEvent[] events;
-		try {
-			events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
-		}
-		catch (JsonSyntaxException e) {
-			events = new AndroidCalendarEvent[1];
-			events[0] = new AndroidCalendarEvent("Eventlist Request Failed", null, null, null, null, null, null, null);
-		}
-		
+		AndroidCalendarEvent[] events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
         controller.updateAllEventsList(events);
 	}
 

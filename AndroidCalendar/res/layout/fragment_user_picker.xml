@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <EditText
-        android:id="@+id/event_title_field"
+    <edu.wpi.cs.wpisuitetng.apps.calendar.common.UserAutoCompleteTextView
+        android:id="@+id/user_entry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_username"
