@@ -53,7 +53,8 @@
         android:id="@+id/attendees_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/attendees_button" />
+        android:text="@string/attendees_button"
+        android:onClick="showAttendeesPickerDialog" />
     
     <!-- Alert button will bring up time picker dialog -->
     <Button

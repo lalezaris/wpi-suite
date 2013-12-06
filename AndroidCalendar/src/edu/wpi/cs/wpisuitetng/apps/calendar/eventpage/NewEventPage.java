@@ -1,18 +1,13 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
-import edu.wpi.cs.wpisuitetng.apps.calendar.R.id;
-import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
-import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.UserPickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
-import edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -26,11 +21,12 @@ import android.widget.EditText;
 
 public class NewEventPage extends Activity {
 	
-	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton;
+	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton, attendeesPickerButton;
 	private EventDate startDate, endDate;
 	private EventTime startTime, endTime;
 	private DatePickerFragment startDateFrag, endDateFrag;
 	private TimePickerFragment startTimeFrag, endTimeFrag;
+	private final UserPickerFragment attendees = new UserPickerFragment();
 	private EditText title, location, description;
 	
 	/* (non-Javadoc)
@@ -53,10 +49,12 @@ public class NewEventPage extends Activity {
 		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
 		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
+		attendeesPickerButton = (Button) findViewById(R.id.attendees_button);
 		alertPickerButton = (Button) findViewById(R.id.alert_button);
 		title = (EditText) findViewById(R.id.event_title_field);
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
+		
 	}
 
 	/* (non-Javadoc)
@@ -109,11 +107,18 @@ public class NewEventPage extends Activity {
 	    newFragment.show(getFragmentManager(), "timePicker");
 	}
 	
+	/**Shows the attendees picker dialog
+	 * @param v the current view
+	 */
+	public void showAttendeesPickerDialog(View v) {
+	    attendees.show(getFragmentManager(), "userPicker");
+	}
+	
 	public void saveEvent(View v){
 		Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
 		Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
 		
-		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, start, location.getText().toString(), new ArrayList<User>(), start, "ice cream", description.getText().toString()); 
+		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), attendees.getSelectedUsers(), start, "ice cream", description.getText().toString()); 
 		
 		System.out.println("Sending Request for unique id");
 		// Create and send the login request
