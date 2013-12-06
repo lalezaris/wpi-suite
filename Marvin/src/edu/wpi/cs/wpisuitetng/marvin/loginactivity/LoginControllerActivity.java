@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.marvin.loginactivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -55,7 +56,7 @@ public class LoginControllerActivity extends FragmentActivity {
 	private Intent recievedIntent;
 	
 	public static final String USERNAME = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.USERNAME";
-	public static final String ISSTARTUP = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.ISSTARTUP";
+	public static final String AUTO_LOGIN = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.AUTO_LOGIN";
 	public static final String DEFAULT_ACTIVITY = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.DEFAULT_ACTIVITY";
 	public static final String PersistentLoginFileName = "LoginData";
 	public static final boolean persistCookies = true;
@@ -70,10 +71,10 @@ public class LoginControllerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_controller);
         
-        boolean isStartup = false;
-        String startup = getIntent().getStringExtra(LoginControllerActivity.ISSTARTUP);
-        if(startup != null) {
-        	isStartup = startup.equals("true");
+        boolean automaticallyLogin = false;
+        String doAutoLogin = getIntent().getStringExtra(LoginControllerActivity.AUTO_LOGIN);
+        if(doAutoLogin != null) {
+        	automaticallyLogin = doAutoLogin.equals("true");
         }
 		
 		usernameField = (EditText) findViewById(R.id.username_text);
@@ -86,6 +87,7 @@ public class LoginControllerActivity extends FragmentActivity {
 
 		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		
+		System.out.println("working with a different version of calendar");
 		BufferedInputStream in = null;
 		try {
 			in = new BufferedInputStream(openFileInput(PersistentLoginFileName));
@@ -118,12 +120,12 @@ public class LoginControllerActivity extends FragmentActivity {
 			boolean rememberMeIsChecked = ('t' == in.read());
 			rememberMe.setChecked(rememberMeIsChecked);
 			
-			if(rememberMeIsChecked && isStartup) {
+			if(rememberMeIsChecked && automaticallyLogin) {
 				login(null);
 			}
 			
 		} catch (FileNotFoundException e) {
-			
+			System.out.println("Login Data Doesn't exist!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -135,7 +137,6 @@ public class LoginControllerActivity extends FragmentActivity {
 				}
 			}
 		}
-		
     }
     
     //May also be triggered from the Activity
@@ -148,9 +149,19 @@ public class LoginControllerActivity extends FragmentActivity {
     	
     	BufferedOutputStream out = null;
     	try {
-			out = new BufferedOutputStream(openFileOutput(PersistentLoginFileName, Context.MODE_PRIVATE));
-			String outputString = usernameField.getText().toString() + "\n" + passwordField.getText().toString() + "\n" + projectField.getText().toString() + "\n" + serverUrlField.getText().toString() + "\n" + rememberMe.isChecked() + "\n";
-			out.write(outputString.getBytes());
+    		if(rememberMe.isChecked()) {
+    			out = new BufferedOutputStream(openFileOutput(PersistentLoginFileName, Context.MODE_PRIVATE));
+    			String outputString = usernameField.getText().toString() + "\n" + passwordField.getText().toString() + "\n" + projectField.getText().toString() + "\n" + serverUrlField.getText().toString() + "\n" + rememberMe.isChecked() + "\n";
+    			out.write(outputString.getBytes());
+    			System.out.println("Writing login data!");
+    		}
+    		else {
+    			System.out.println("Deleting login data!");
+    			if(!this.deleteFile(PersistentLoginFileName)) {
+    				//TODO: Notify that the loginData file was not deleted
+    				System.out.println("failed to delete the login file!");
+    			}
+    		}
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

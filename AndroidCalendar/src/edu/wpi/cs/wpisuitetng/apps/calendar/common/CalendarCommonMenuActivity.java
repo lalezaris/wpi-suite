@@ -55,7 +55,11 @@ public class CalendarCommonMenuActivity extends Activity {
 	}
 	
 	private void logout() {
+		//Sets up the intent to start the startup activity
 		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity.class);
+		
+		//Tells the startup activity not to login automatically
+		intent.putExtra(edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity.AUTO_LOGIN, "false");
 		
 		//Starts the next activity
 		startActivity(intent);
