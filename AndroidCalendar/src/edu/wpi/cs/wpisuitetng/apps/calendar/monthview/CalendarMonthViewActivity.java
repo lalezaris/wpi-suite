@@ -10,6 +10,7 @@ import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
+import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -52,9 +53,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	}
 
 	public void sendRequestForAllEventsInMonth(int month) {
-		String user = Network.getInstance().
-		
-		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startmonth/" + month, HttpMethod.GET);
+		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startmonth/" + month + "/attendees/" + MarvinUserData.getUsername(), HttpMethod.GET);
 		request.addObserver(new CalendarMonthViewRequestObserver(this));
 		request.send();
 	}
