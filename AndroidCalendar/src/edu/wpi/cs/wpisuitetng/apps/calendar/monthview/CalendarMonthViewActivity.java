@@ -52,6 +52,8 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	}
 
 	public void sendRequestForAllEventsInMonth(int month) {
+		String user = Network.getInstance().
+		
 		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startmonth/" + month, HttpMethod.GET);
 		request.addObserver(new CalendarMonthViewRequestObserver(this));
 		request.send();
