@@ -4,6 +4,7 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.entitymanagers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -43,8 +44,12 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	}
 	
 	@Override
-	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+	public String advancedGet(Session s, String[] args) throws WPISuiteException {
+
+		//Sometimes advancedGet was passing us a null string as the last argument, so we check for that
+		if(args[args.length-1] == null) {
+			args = Arrays.copyOfRange(args, 0, args.length-1);
+		}
 
 		ArrayList<String> fieldArrayList = new ArrayList<String>();
 		List<Object> givenValueList = new ArrayList<Object>();
@@ -75,7 +80,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 				extraValues.add(value);
 			}
 		}
-		String[] fieldNameList = (String[]) fieldArrayList.toArray();
+		String[] fieldNameList = fieldArrayList.toArray(new String[0]);
 		
 		List<Model> modelList = new ArrayList<Model>();
 		
@@ -98,7 +103,16 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 			}
 		}
 		
-		return new Gson().toJson(modelList.toArray());
+		// If appropriate, sort the array before returning
+		Model[] models = modelList.toArray(new Model[0]);
+		if(models.length > 0) {
+			if(models[0] instanceof AndroidCalendarEvent) {
+				models = modelList.toArray(new AndroidCalendarEvent[0]);
+				androidCalendarEventQuickSort((AndroidCalendarEvent[])models, 0, models.length - 1);
+			}
+		}
+		
+		return new Gson().toJson(models);
 	}
 
 	private List<Model> checkIfIsAttendee(Object value, List<Model> list) {
@@ -118,6 +132,43 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		
 		return modelList;
 	}
+
+    public void androidCalendarEventQuickSort(AndroidCalendarEvent[] array, int pivotIndex, int rangeIndex)
+    {
+        if(pivotIndex<rangeIndex)
+        {
+            int q = partition(array, pivotIndex, rangeIndex);
+            androidCalendarEventQuickSort(array, pivotIndex, q);
+            androidCalendarEventQuickSort(array, q+1, rangeIndex);
+        }
+    }
+
+    private int partition(AndroidCalendarEvent[] array, int pivotIndex, int rangeIndex) {
+
+        AndroidCalendarEvent x = array[pivotIndex];
+        int i = pivotIndex - 1 ;
+        int j = rangeIndex + 1 ;
+
+        while (true) {
+            i++;
+            while ( i < rangeIndex && array[i].getStartDateAndTime().before(x.getStartDateAndTime()))
+                i++;
+            j--;
+            while (j > pivotIndex && x.getStartDateAndTime().before(array[j].getStartDateAndTime()))
+                j--;
+
+            if (i < j)
+                swap(array, i, j);
+            else
+                return j;
+        }
+    }
+
+    private void swap(AndroidCalendarEvent[] array, int i, int j) {
+        AndroidCalendarEvent temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
 
 	@Override
 	public String advancedPost(Session arg0, String arg1, String arg2)
@@ -151,11 +202,13 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 
 	@Override
 	public Model[] getAll(Session arg0) throws WPISuiteException {
-		// TODO Auto-generated method stub
-		System.out.println("GetAll called in AndroidCalendarEventEntityManager");
 		List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent());//db.retrieveAll(new AndroidCalendarEvent(), arg0.getProject());
-		System.out.println(events.size());
-		return events.toArray(new AndroidCalendarEvent[0]);
+		
+		AndroidCalendarEvent[] eventsArray = events.toArray(new AndroidCalendarEvent[0]);
+		
+		androidCalendarEventQuickSort(eventsArray, 0, eventsArray.length - 1);
+		
+		return eventsArray;
 	}
 
 	@Override

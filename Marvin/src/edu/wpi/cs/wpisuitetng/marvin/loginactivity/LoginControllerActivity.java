@@ -86,7 +86,6 @@ public class LoginControllerActivity extends FragmentActivity {
 
 		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		
-		System.out.println("working with a different version of calendar");
 		BufferedInputStream in = null;
 		try {
 			in = new BufferedInputStream(openFileInput(PersistentLoginFileName));
@@ -124,7 +123,7 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("Login Data Doesn't exist!");
+			//This exception is okay it just means that remember me was unchecked on the last login
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -152,13 +151,10 @@ public class LoginControllerActivity extends FragmentActivity {
     			out = new BufferedOutputStream(openFileOutput(PersistentLoginFileName, Context.MODE_PRIVATE));
     			String outputString = usernameField.getText().toString() + "\n" + passwordField.getText().toString() + "\n" + projectField.getText().toString() + "\n" + serverUrlField.getText().toString() + "\n" + rememberMe.isChecked() + "\n";
     			out.write(outputString.getBytes());
-    			System.out.println("Writing login data!");
     		}
     		else {
     			System.out.println("Deleting login data!");
     			if(!this.deleteFile(PersistentLoginFileName)) {
-    				//TODO: Notify that the loginData file was not deleted
-    				System.out.println("failed to delete the login file!");
     			}
     		}
 			

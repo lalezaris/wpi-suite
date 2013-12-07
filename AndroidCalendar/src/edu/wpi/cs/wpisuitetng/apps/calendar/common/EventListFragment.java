@@ -23,7 +23,6 @@ public class EventListFragment extends ListFragment {
 		
 		intent.putExtra(AndroidCalendarEvent.ID, event.getUniqueId());
 
-		System.out.println("getUniqueId: "+ event.getUniqueId());
 		//Starts the next activity
 		startActivity(intent);
 	}
