@@ -23,5 +23,7 @@
     <string name="edit_event_item">Edit</string>
     <string name="title_activity_view_event_page">Event</string>
     <string name="enter_username">Enter a Username</string>
+    <string name="delete_current_event">Delete</string>
+    <string name="cancel_current_event">Cancel</string>
 
 </resources>

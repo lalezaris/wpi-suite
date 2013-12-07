@@ -56,14 +56,15 @@ public class ViewEventPage extends NewEventPage {
 		switchToViewMode();
 		getEventFromDatabase();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_event_page, menu);
+		getMenuInflater().inflate(R.menu.calendar_common_menu, menu);
+		getMenuInflater().inflate(R.menu.view_event_page, menu);
 		return true;
 	}
 	
@@ -72,18 +73,29 @@ public class ViewEventPage extends NewEventPage {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch(item.getItemId()) {
-		case R.id.edit_event_item:
-			switchToEditMode();
-			break;
-		default:
-			break;
+		boolean selectedItem = true;
+		if(!super.onOptionsItemSelected(item)) {
+			switch(item.getItemId()) {
+			case R.id.edit_event_item:
+				switchToEditMode();
+				break;
+			case R.id.delete_current_item:
+				delete();
+				break;
+			default:
+				selectedItem = false;
+				break;
+			}
 		}
 
-		return super.onOptionsItemSelected(item);
+		return selectedItem;
 	}
-	
+
+	private void delete() {
+		// TODO Auto-generated method stub
+		System.out.println("Delete Item now");
+		startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
+	}
 
 	private void switchToViewMode() {
 		startDatePickerButton.setEnabled(false);

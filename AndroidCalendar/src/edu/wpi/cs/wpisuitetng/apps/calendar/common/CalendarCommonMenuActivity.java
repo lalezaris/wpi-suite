@@ -27,31 +27,34 @@ public class CalendarCommonMenuActivity extends Activity {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch(item.getItemId()) {
-		case R.id.new_event_item:
-			startView(edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.NewEventPage.class);
-			break;
-		case R.id.day_view_item:
-			startView(edu.wpi.cs.wpisuitetng.apps.calendar.dayview.CalendarDayViewActivity.class);
-			break;
-		case R.id.week_view_item:
-			startView(edu.wpi.cs.wpisuitetng.apps.calendar.weekview.CalendarWeekViewActivity.class);
-			break;
-		case R.id.month_view_item:
-			startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
-			break;
-		case R.id.list_view_item:
-			startView(edu.wpi.cs.wpisuitetng.apps.calendar.eventlist.EventListActivity.class);
-			break;
-		case R.id.logout_item:
-			logout();
-			break;
-		default:
-			break;
+		boolean selectedItem = true;
+		if(!super.onOptionsItemSelected(item)) {
+			switch(item.getItemId()) {
+			case R.id.new_event_item:
+				startView(edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.NewEventPage.class);
+				break;
+			case R.id.day_view_item:
+				startView(edu.wpi.cs.wpisuitetng.apps.calendar.dayview.CalendarDayViewActivity.class);
+				break;
+			case R.id.week_view_item:
+				startView(edu.wpi.cs.wpisuitetng.apps.calendar.weekview.CalendarWeekViewActivity.class);
+				break;
+			case R.id.month_view_item:
+				startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
+				break;
+			case R.id.list_view_item:
+				startView(edu.wpi.cs.wpisuitetng.apps.calendar.eventlist.EventListActivity.class);
+				break;
+			case R.id.logout_item:
+				logout();
+				break;
+			default:
+				selectedItem = false;
+				break;
+			}
 		}
 
-		return super.onOptionsItemSelected(item);
+		return selectedItem;
 	}
 	
 	private void logout() {
@@ -65,7 +68,7 @@ public class CalendarCommonMenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-	private void startView(Class<?> view) {
+	protected void startView(Class<?> view) {
 		final Intent intent = new Intent(this, view);
 		
 		//TODO Put Extra if there is a date selected

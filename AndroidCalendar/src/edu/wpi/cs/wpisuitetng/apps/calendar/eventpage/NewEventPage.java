@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.UserPickerFragment;
@@ -12,14 +13,14 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class NewEventPage extends Activity {
+public class NewEventPage extends CalendarCommonMenuActivity {
 	
 	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton, attendeesPickerButton;
 	private EventDate startDate, endDate;
@@ -62,9 +63,30 @@ public class NewEventPage extends Activity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.new_event_page, menu);
 		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean selectedItem = true;
+		if(!super.onOptionsItemSelected(item)) {
+			switch(item.getItemId()) {
+			case R.id.cancel_current_item:
+				startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
+				break;
+			default:
+				selectedItem = false;
+				break;
+			}
+		}
+
+		return selectedItem;
 	}
 	
 	/**Shows the date picker dialog
