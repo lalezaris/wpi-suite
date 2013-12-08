@@ -15,7 +15,6 @@ package edu.wpi.cs.wpisuitetng.marvin.loginactivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,7 +44,6 @@ import android.widget.Toast;
  * @author Nathan Longnecker
  * @version Oct 13, 2013
  */
-@SuppressLint("ShowToast")
 public class LoginControllerActivity extends FragmentActivity {
 	private EditText usernameField;
 	private EditText passwordField;
@@ -83,8 +80,6 @@ public class LoginControllerActivity extends FragmentActivity {
 		responseText = (TextView) findViewById(R.id.responseText);
 		rememberMe = (CheckBox) findViewById(R.id.rememberMe_checkBox);
 		recievedIntent = getIntent();
-
-		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		
 		BufferedInputStream in = null;
 		try {

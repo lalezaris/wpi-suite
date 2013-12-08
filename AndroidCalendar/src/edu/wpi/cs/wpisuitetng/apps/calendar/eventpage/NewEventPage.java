@@ -22,7 +22,7 @@ import android.widget.EditText;
 
 public class NewEventPage extends CalendarCommonMenuActivity {
 	
-	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton, attendeesPickerButton;
+	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, attendeesPickerButton; //alertPickerButton, 
 	private EventDate startDate, endDate;
 	private EventTime startTime, endTime;
 	private DatePickerFragment startDateFrag, endDateFrag;
@@ -37,21 +37,13 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event_page);
-
-		/*
-		System.out.println("Sending Request for unique id");
-		// Create and send the login request
-		final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/titleis/not/here", HttpMethod.GET);
-		request.send();
-		 */
-		
 		
 		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
 		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
 		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
 		attendeesPickerButton = (Button) findViewById(R.id.attendees_button);
-		alertPickerButton = (Button) findViewById(R.id.alert_button);
+		//alertPickerButton = (Button) findViewById(R.id.alert_button);
 		title = (EditText) findViewById(R.id.event_title_field);
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
@@ -124,10 +116,11 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 	/**Shows the alert time picker dialog
 	 * @param v the current view
 	 */
+	/*
 	public void showAlertPickerDialog(View v) {
 	    DialogFragment newFragment = new TimePickerFragment(alertPickerButton, "Alert");
 	    newFragment.show(getFragmentManager(), "timePicker");
-	}
+	}*/
 	
 	/**Shows the attendees picker dialog
 	 * @param v the current view
@@ -136,20 +129,30 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 	    attendees.show(getFragmentManager(), "userPicker");
 	}
 	
-	public void saveEvent(View v){
-		Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
-		Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
-		
-		AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), attendees.getSelectedUsers(), start, "ice cream", description.getText().toString()); 
-		
-		System.out.println("Sending Request for unique id");
-		// Create and send the login request
-		final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent", HttpMethod.PUT);
-		request.setBody(newEvent.toJSON());
-		request.addObserver(new NewEventPageRequestObserver()); // TODO: will probably want to update event list model or something
-		request.send();
-		 
+	public void saveEvent(View v) {
+		if(title.getText().toString() == null || title.getText().toString().isEmpty()) {
+			toast.setText("Your event must have a title!");
+			toast.show();
+			return;
+		}
+		try {
+			Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
+			Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
+			
+			AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), attendees.getSelectedUsers(), start, "ice cream", description.getText().toString()); 
+			
+			System.out.println("Sending Request for unique id");
+			// Create and send the login request
+			final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent", HttpMethod.PUT);
+			request.setBody(newEvent.toJSON());
+			request.addObserver(new NewEventPageRequestObserver()); // TODO: will probably want to update event list model or something
+			request.send();
+			
+			startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
+		}
+		catch (NullPointerException e) {
+			toast.setText("Please enter start and end dates and times for this event!");
+			toast.show();
+		}
 	}
-	
-
 }

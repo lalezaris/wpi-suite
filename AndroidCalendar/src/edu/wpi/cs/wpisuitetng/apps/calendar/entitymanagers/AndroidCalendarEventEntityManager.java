@@ -5,7 +5,6 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.entitymanagers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -193,11 +192,19 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	}
 
 	@Override
-	public boolean deleteEntity(Session arg0, String arg1)
-			throws WPISuiteException {
-		// TODO Auto-generated method stub
-		System.out.println("DeleteEntity called in AndroidCalendarEventEntityManager");
-		return false;
+	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+		System.out.println("Deleting item with id: " + id);
+		Model modelToDelete = getEntity(s, id)[0];
+		boolean returnVal;
+		if(modelToDelete == null) {
+			returnVal = false;
+			System.out.println("Could not find item with id: " + id);
+		}
+		else {
+			returnVal = db.delete(modelToDelete) != null;
+			System.out.println("Deleted item with id " + id + ":" + returnVal);
+		}
+		return returnVal;
 	}
 
 	@Override
@@ -212,11 +219,10 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	}
 
 	@Override
-	public Model[] getEntity(Session arg0, String arg1)
-			throws NotFoundException, WPISuiteException {
+	public Model[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
 		// TODO Auto-generated method stub
-		System.out.println("getEntity called in AndroidCalendarEventEntityManager, Session: " + arg0 + " arg1: " + arg1);
-		return null;
+		System.out.println("getEntity called in AndroidCalendarEventEntityManager, Session: " + s + " id: " + id);
+		return new Model[0];
 	}
 
 	@Override

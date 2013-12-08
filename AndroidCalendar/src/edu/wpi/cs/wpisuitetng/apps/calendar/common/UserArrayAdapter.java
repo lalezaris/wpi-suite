@@ -43,7 +43,6 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
                 itemView.setText(String.format("%s", user.getName()));
             }
         }
-        System.out.println("Got a UserArrayView");
 
         return view;
     }

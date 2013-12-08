@@ -5,7 +5,6 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.inputmethod.CompletionInfo;
 import android.widget.AutoCompleteTextView;
 
 /**
@@ -28,10 +27,4 @@ public class UserAutoCompleteTextView extends AutoCompleteTextView {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public void onCommitCompletion(CompletionInfo completion) {
-		System.out.println("CommitCompletion!");
-	}
-
 }

@@ -3,7 +3,6 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.monthview;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;

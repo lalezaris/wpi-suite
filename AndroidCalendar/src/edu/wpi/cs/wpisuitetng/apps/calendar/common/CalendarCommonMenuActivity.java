@@ -4,16 +4,32 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 /**
  * @author Nathan Longnecker
  *
  */
-public class CalendarCommonMenuActivity extends Activity {
+@SuppressLint("ShowToast")
+public abstract class CalendarCommonMenuActivity extends Activity {
+	
+	protected Class<?> previousActivity;
+	protected Toast toast;
+	
+	/* (non-Javadoc)
+     * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,6 +86,15 @@ public class CalendarCommonMenuActivity extends Activity {
 
 	protected void startView(Class<?> view) {
 		final Intent intent = new Intent(this, view);
+		
+		//TODO Put Extra if there is a date selected
+		
+		//Starts the next activity
+		startActivity(intent);
+	}
+	
+	protected void returnToPreviousActivity() {
+		final Intent intent = new Intent(this, previousActivity);
 		
 		//TODO Put Extra if there is a date selected
 		
