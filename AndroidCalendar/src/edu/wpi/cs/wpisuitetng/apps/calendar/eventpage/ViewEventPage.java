@@ -1,5 +1,8 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
@@ -17,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.support.v4.app.NavUtils;
+import android.text.format.DateFormat;
 
 public class ViewEventPage extends NewEventPage {
 	
@@ -152,9 +156,22 @@ public class ViewEventPage extends NewEventPage {
 	private void updateFields() {
 		title.setText(event.getEventTitle());
 		
+		String monthString = new DateFormatSymbols().getMonths()[event.getStartMonth()];
+		startDatePickerButton.setText("Start Date: " + monthString + " " + event.getStartDay() + ", " + event.getStartYear());
 		
-		// TODO Rest of the fields
+		monthString = new DateFormatSymbols().getMonths()[event.getEndMonth()];
+		endDatePickerButton.setText("End Date: " + monthString + " " + event.getEndDay() + ", " + event.getEndYear());
 		
+		if(DateFormat.is24HourFormat(this)){
+			startTimePickerButton.setText("Start Time: " + event.getStartDateAndTime().get(Calendar.HOUR_OF_DAY) + ":" + event.getStartDateAndTime().get(Calendar.MINUTE));
+			endTimePickerButton.setText("End Time: " + event.getEndDateAndTime().get(Calendar.HOUR_OF_DAY) + ":" + event.getEndDateAndTime().get(Calendar.MINUTE));
+		} else {
+			startTimePickerButton.setText("Start Time: " + event.getStartDateAndTime().get(Calendar.HOUR) + ":" + event.getStartDateAndTime().get(Calendar.MINUTE));
+			endTimePickerButton.setText("End Time: " + event.getEndDateAndTime().get(Calendar.HOUR) + ":" + event.getEndDateAndTime().get(Calendar.MINUTE));
+		}
+		
+		location.setText(event.getLocation());
+		description.setText(event.getDescription());
 	}
 
 }
