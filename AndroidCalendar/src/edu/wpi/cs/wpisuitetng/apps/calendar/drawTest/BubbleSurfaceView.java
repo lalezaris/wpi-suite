@@ -21,8 +21,12 @@ implements SurfaceHolder.Callback {
 	}
 	public void surfaceCreated(SurfaceHolder holder) {
 		Canvas canvas = sh.lockCanvas();
-		canvas.drawColor(Color.BLACK);
-		canvas.drawCircle(100, 200, 50, paint);
+		
+		EventSquare sq = new EventSquare();
+		this.setOnTouchListener(sq);
+		canvas.drawColor(Color.WHITE);
+		//canvas.drawCircle(100, 200, 50, paint);
+		sq.getShape().draw(canvas);//draws shape inside EventSquare objects
 		sh.unlockCanvasAndPost(canvas);
 	}
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
