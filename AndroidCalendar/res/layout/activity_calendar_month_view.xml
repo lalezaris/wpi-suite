@@ -16,8 +16,9 @@
         android:layout_weight="3"
         android:showWeekNumber="false" /> 
         
-    <ListView
-        android:id="@+id/list_view"
+    <fragment
+        android:name="edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment"
+        android:id="@+id/list_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

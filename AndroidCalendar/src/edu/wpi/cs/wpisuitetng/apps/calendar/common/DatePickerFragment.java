@@ -29,8 +29,7 @@ import android.widget.DatePicker;
  * @author Sam Lalezari
  * @version Nov 10, 2013
  */
-public class DatePickerFragment extends DialogFragment implements
-OnDateSetListener {
+public class DatePickerFragment extends DialogFragment implements OnDateSetListener {
 
 	private Button datePickerButton;
 	private String buttonText;
@@ -43,13 +42,11 @@ OnDateSetListener {
 		return date;
 	}
 
-
 	public DatePickerFragment(Button button, String text) {
 		datePickerButton = button;
 		buttonText = text;
 		date = null;
 	}
-
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -101,7 +98,6 @@ OnDateSetListener {
 		datePickerButton.setText(buttonText + ": " + monthString + " " + day + ", " + year);
 		date = new EventDate(year, month, day);
 		
-
 	}
 
 }

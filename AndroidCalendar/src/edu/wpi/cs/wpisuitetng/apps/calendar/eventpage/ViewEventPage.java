@@ -1,5 +1,8 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
@@ -17,10 +20,11 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.support.v4.app.NavUtils;
+import android.text.format.DateFormat;
 
 public class ViewEventPage extends NewEventPage {
 	
-	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, alertPickerButton, saveEventButton;
+	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, saveEventButton; //alertPickerButton,
 	private EventDate startDate, endDate;
 	private EventTime startTime, endTime;
 	private DatePickerFragment startDateFrag, endDateFrag;
@@ -40,12 +44,14 @@ public class ViewEventPage extends NewEventPage {
 		final Intent intent = getIntent();
 		
 		eventId = intent.getLongExtra(AndroidCalendarEvent.ID, -1);
+
+		System.out.println("eventId: "+ eventId);
 		
 		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
 		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
 		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
-		alertPickerButton = (Button) findViewById(R.id.alert_button);
+		//alertPickerButton = (Button) findViewById(R.id.alert_button);
 		saveEventButton = (Button) findViewById(R.id.save_button);
 		title = (EditText) findViewById(R.id.event_title_field);
 		location = (EditText) findViewById(R.id.location_field);
@@ -54,14 +60,15 @@ public class ViewEventPage extends NewEventPage {
 		switchToViewMode();
 		getEventFromDatabase();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_event_page, menu);
+		getMenuInflater().inflate(R.menu.calendar_common_menu, menu);
+		getMenuInflater().inflate(R.menu.view_event_page, menu);
 		return true;
 	}
 	
@@ -70,25 +77,38 @@ public class ViewEventPage extends NewEventPage {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch(item.getItemId()) {
-		case R.id.edit_event_item:
-			switchToEditMode();
-			break;
-		default:
-			break;
+		boolean selectedItem = true;
+		if(!super.onOptionsItemSelected(item)) {
+			switch(item.getItemId()) {
+			case R.id.edit_event_item:
+				switchToEditMode();
+				break;
+			case R.id.delete_current_item:
+				delete();
+				break;
+			default:
+				selectedItem = false;
+				break;
+			}
 		}
 
-		return super.onOptionsItemSelected(item);
+		return selectedItem;
 	}
-	
+
+	private void delete() {
+		// TODO Auto-generated method stub
+		System.out.println("Delete Item now");
+		final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent/" + eventId, HttpMethod.DELETE);
+		request.send();
+		startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
+	}
 
 	private void switchToViewMode() {
 		startDatePickerButton.setEnabled(false);
 		startTimePickerButton.setEnabled(false);
 		endDatePickerButton.setEnabled(false);
 		endTimePickerButton.setEnabled(false);
-		alertPickerButton.setEnabled(false);
+		//alertPickerButton.setEnabled(false);
 		title.setEnabled(false);
 		location.setEnabled(false);
 		description.setEnabled(false);
@@ -100,7 +120,7 @@ public class ViewEventPage extends NewEventPage {
 		startTimePickerButton.setEnabled(true);
 		endDatePickerButton.setEnabled(true);
 		endTimePickerButton.setEnabled(true);
-		alertPickerButton.setEnabled(true);
+		//alertPickerButton.setEnabled(true);
 		title.setEnabled(true);
 		location.setEnabled(true);
 		description.setEnabled(true);
@@ -112,7 +132,8 @@ public class ViewEventPage extends NewEventPage {
 	private void getEventFromDatabase() {
 		final ViewEventPageRequestObserver requestObserver = new ViewEventPageRequestObserver(this);
 		if(eventId != -1){
-			final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/uniqueId/" + eventId , HttpMethod.GET);
+			System.out.println("uniqueId: "+ eventId);
+			final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/uniqueid/" + eventId , HttpMethod.GET);
 			request.addObserver(requestObserver);
 			request.send();
 			
@@ -135,9 +156,22 @@ public class ViewEventPage extends NewEventPage {
 	private void updateFields() {
 		title.setText(event.getEventTitle());
 		
+		String monthString = new DateFormatSymbols().getMonths()[event.getStartMonth()];
+		startDatePickerButton.setText("Start Date: " + monthString + " " + event.getStartDay() + ", " + event.getStartYear());
 		
-		// TODO Rest of the fields
+		monthString = new DateFormatSymbols().getMonths()[event.getEndMonth()];
+		endDatePickerButton.setText("End Date: " + monthString + " " + event.getEndDay() + ", " + event.getEndYear());
 		
+		if(DateFormat.is24HourFormat(this)){
+			startTimePickerButton.setText("Start Time: " + event.getStartDateAndTime().get(Calendar.HOUR_OF_DAY) + ":" + event.getStartDateAndTime().get(Calendar.MINUTE));
+			endTimePickerButton.setText("End Time: " + event.getEndDateAndTime().get(Calendar.HOUR_OF_DAY) + ":" + event.getEndDateAndTime().get(Calendar.MINUTE));
+		} else {
+			startTimePickerButton.setText("Start Time: " + event.getStartDateAndTime().get(Calendar.HOUR) + ":" + event.getStartDateAndTime().get(Calendar.MINUTE));
+			endTimePickerButton.setText("End Time: " + event.getEndDateAndTime().get(Calendar.HOUR) + ":" + event.getEndDateAndTime().get(Calendar.MINUTE));
+		}
+		
+		location.setText(event.getLocation());
+		description.setText(event.getDescription());
 	}
 
 }

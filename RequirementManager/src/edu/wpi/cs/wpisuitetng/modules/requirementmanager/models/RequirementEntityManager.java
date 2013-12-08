@@ -129,10 +129,6 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * Deletes a requirement from the database
 	 * @param s the session
 	 * @param id the id of the requirement to delete
-	
-	
-	
-	
 	 * @return true if the deletion was successful * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String) */
 	@Override

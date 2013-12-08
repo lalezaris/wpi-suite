@@ -25,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,7 +44,6 @@ import android.widget.Toast;
  * @author Nathan Longnecker
  * @version Oct 13, 2013
  */
-@SuppressLint("ShowToast")
 public class LoginControllerActivity extends FragmentActivity {
 	private EditText usernameField;
 	private EditText passwordField;
@@ -54,8 +52,7 @@ public class LoginControllerActivity extends FragmentActivity {
 	private CheckBox rememberMe;
 	private Intent recievedIntent;
 	
-	public static final String USERNAME = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.USERNAME";
-	public static final String ISSTARTUP = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.ISSTARTUP";
+	public static final String AUTO_LOGIN = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.AUTO_LOGIN";
 	public static final String DEFAULT_ACTIVITY = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.DEFAULT_ACTIVITY";
 	public static final String PersistentLoginFileName = "LoginData";
 	public static final boolean persistCookies = true;
@@ -70,10 +67,10 @@ public class LoginControllerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_controller);
         
-        boolean isStartup = false;
-        String startup = getIntent().getStringExtra(LoginControllerActivity.ISSTARTUP);
-        if(startup != null) {
-        	isStartup = startup.equals("true");
+        boolean automaticallyLogin = false;
+        String doAutoLogin = getIntent().getStringExtra(LoginControllerActivity.AUTO_LOGIN);
+        if(doAutoLogin != null) {
+        	automaticallyLogin = doAutoLogin.equals("true");
         }
 		
 		usernameField = (EditText) findViewById(R.id.username_text);
@@ -83,8 +80,6 @@ public class LoginControllerActivity extends FragmentActivity {
 		responseText = (TextView) findViewById(R.id.responseText);
 		rememberMe = (CheckBox) findViewById(R.id.rememberMe_checkBox);
 		recievedIntent = getIntent();
-
-		toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
 		
 		BufferedInputStream in = null;
 		try {
@@ -118,12 +113,12 @@ public class LoginControllerActivity extends FragmentActivity {
 			boolean rememberMeIsChecked = ('t' == in.read());
 			rememberMe.setChecked(rememberMeIsChecked);
 			
-			if(rememberMeIsChecked && isStartup) {
+			if(rememberMeIsChecked && automaticallyLogin) {
 				login(null);
 			}
 			
 		} catch (FileNotFoundException e) {
-			
+			//This exception is okay it just means that remember me was unchecked on the last login
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -135,7 +130,6 @@ public class LoginControllerActivity extends FragmentActivity {
 				}
 			}
 		}
-		
     }
     
     //May also be triggered from the Activity
@@ -148,9 +142,16 @@ public class LoginControllerActivity extends FragmentActivity {
     	
     	BufferedOutputStream out = null;
     	try {
-			out = new BufferedOutputStream(openFileOutput(PersistentLoginFileName, Context.MODE_PRIVATE));
-			String outputString = usernameField.getText().toString() + "\n" + passwordField.getText().toString() + "\n" + projectField.getText().toString() + "\n" + serverUrlField.getText().toString() + "\n" + rememberMe.isChecked() + "\n";
-			out.write(outputString.getBytes());
+    		if(rememberMe.isChecked()) {
+    			out = new BufferedOutputStream(openFileOutput(PersistentLoginFileName, Context.MODE_PRIVATE));
+    			String outputString = usernameField.getText().toString() + "\n" + passwordField.getText().toString() + "\n" + projectField.getText().toString() + "\n" + serverUrlField.getText().toString() + "\n" + rememberMe.isChecked() + "\n";
+    			out.write(outputString.getBytes());
+    		}
+    		else {
+    			System.out.println("Deleting login data!");
+    			if(!this.deleteFile(PersistentLoginFileName)) {
+    			}
+    		}
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -274,6 +275,7 @@ public class LoginControllerActivity extends FragmentActivity {
 		}
 		
 		final String username = usernameField.getText().toString();
+		MarvinUserData.setUsername(username);
 		
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -289,7 +291,6 @@ public class LoginControllerActivity extends FragmentActivity {
 			else {
 				Class<?> nextActivity = (Class<?>) bundledExtras.get(DEFAULT_ACTIVITY);
 				final Intent intent = new Intent(this, nextActivity);
-				intent.putExtra(USERNAME, username);
 				startActivity(intent);
 			}
 		}

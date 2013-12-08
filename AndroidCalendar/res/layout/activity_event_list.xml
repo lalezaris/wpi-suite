@@ -8,9 +8,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EventListActivity" >
 
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="wrap_content"
+    <fragment
+        android:name="edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment"
+        android:id="@+id/list_fragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

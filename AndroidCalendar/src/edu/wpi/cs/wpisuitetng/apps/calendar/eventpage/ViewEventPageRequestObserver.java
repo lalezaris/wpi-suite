@@ -53,13 +53,17 @@ public class ViewEventPageRequestObserver implements RequestObserver {
 			controller.errorGettingEvent("Received " + request.getResponse().getStatusCode() + " error from server: " + request.getResponse().getStatusMessage());
 		}
 		
-		final AndroidCalendarEvent[] event = new Gson().fromJson(response.getBody(), AndroidCalendarEvent[].class);
+		final AndroidCalendarEvent[] events = new Gson().fromJson(arg0.getResponse().getBody(), AndroidCalendarEvent[].class);
 		
-		controller.runOnUiThread(new Runnable() {
-            public void run() {
-            	controller.setEvent(event[0]);
-            }
-		});
+		if(events.length != 0) {
+			controller.runOnUiThread(new Runnable() {
+				public void run() {
+					controller.setEvent(events[0]);
+				}
+			});
+		} else {
+			System.out.println("No events returned");
+		}
 	}
 
 }

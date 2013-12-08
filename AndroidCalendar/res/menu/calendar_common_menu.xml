@@ -6,20 +6,20 @@
         android:showAsAction="always"
         android:title="@string/new_event_page_activity"/>
     <item
-        android:id="@+id/day_view_item"
+        android:id="@+id/month_view_item"
         android:orderInCategory="10"
         android:showAsAction="ifRoom"
-        android:title="@string/title_activity_calendar_day_view"/>
+        android:title="@string/title_activity_calendar_month_view"/>
     <item
         android:id="@+id/week_view_item"
         android:orderInCategory="11"
         android:showAsAction="ifRoom"
         android:title="@string/title_activity_calendar_week_view"/>
     <item
-        android:id="@+id/month_view_item"
+        android:id="@+id/day_view_item"
         android:orderInCategory="12"
         android:showAsAction="ifRoom"
-        android:title="@string/title_activity_calendar_month_view"/>
+        android:title="@string/title_activity_calendar_day_view"/>
     <item
         android:id="@+id/list_view_item"
         android:orderInCategory="13"
