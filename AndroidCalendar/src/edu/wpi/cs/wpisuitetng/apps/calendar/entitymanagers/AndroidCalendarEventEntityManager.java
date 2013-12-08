@@ -16,6 +16,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
+import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -45,7 +46,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	@Override
 	public String advancedGet(Session s, String[] args) throws WPISuiteException {
 
-		//Sometimes advancedGet was passing us a null string as the last argument, so we check for that
+		//remove the null last argument
 		if(args[args.length-1] == null) {
 			args = Arrays.copyOfRange(args, 0, args.length-1);
 		}
@@ -102,6 +103,9 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 			}
 		}
 		
+		// Filter out event the current user does not belong to
+		modelList = checkIfIsAttendee(MarvinUserData.getUsername(), modelList);
+		
 		// If appropriate, sort the array before returning
 		Model[] models = modelList.toArray(new Model[0]);
 		if(models.length > 0) {
@@ -114,8 +118,15 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		return new Gson().toJson(models);
 	}
 
-	private List<Model> checkIfIsAttendee(Object value, List<Model> list) {
-		String name = (String) value;
+	
+	/**
+	 * Checks to see if the given username value is in the attendees list
+	 * @param username the username to check for
+	 * @param list the list of events
+	 * @return A new list containing only events that contain "username" in the attendees list
+	 */
+	private List<Model> checkIfIsAttendee(Object username, List<Model> list) {
+		String name = (String) username;
 		List<Model> modelList = list;
 		
 		for(Model m : modelList){
@@ -220,9 +231,13 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 
 	@Override
 	public Model[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
-		// TODO Auto-generated method stub
-		System.out.println("getEntity called in AndroidCalendarEventEntityManager, Session: " + s + " id: " + id);
-		return new Model[0];
+		final long longId = Long.parseLong(id);
+		
+		List<Model> events;
+		
+		events = db.retrieve(AndroidCalendarEvent.class, "uniqueId", longId, s.getProject());
+				
+		return events.toArray(new Model[0]);
 	}
 
 	@Override
@@ -231,12 +246,25 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		// TODO Auto-generated method stub
 		final AndroidCalendarEvent newEvent = new Gson().fromJson(content, AndroidCalendarEvent.class);
 		
-		newEvent.setUniqueId(Count());
+		newEvent.setUniqueId(getUniqueId());
 		
 		db.save(newEvent, s.getProject());
 		
 		System.out.println("Saving event " + newEvent.getEventTitle() + " with uniqueId " + newEvent.getUniqueId());
 		return newEvent;
+	}
+
+	private long getUniqueId() {
+		final List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent());
+		long id = 0;
+		
+		for(AndroidCalendarEvent e: events){
+			if(id == e.getUniqueId()){
+				id++;
+			}
+		}
+		
+		return id;
 	}
 
 	@Override
