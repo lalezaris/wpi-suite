@@ -4,6 +4,10 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.dayview.CalendarDayViewActivity;
+import edu.wpi.cs.wpisuitetng.apps.calendar.eventlist.EventListActivity;
+import edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity;
+import edu.wpi.cs.wpisuitetng.apps.calendar.weekview.CalendarWeekViewActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +23,8 @@ import android.widget.Toast;
 @SuppressLint("ShowToast")
 public abstract class CalendarCommonMenuActivity extends Activity {
 	
-	protected Class<?> previousActivity;
+	public static final String CALLING_ACTIVITY = "edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity.CALLING_ACTIVITY";
+	protected String previousActivity = "";
 	protected Toast toast;
 	
 	/* (non-Javadoc)
@@ -29,6 +34,11 @@ public abstract class CalendarCommonMenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
+        
+        if(this.getIntent().hasExtra(CALLING_ACTIVITY)){
+        	previousActivity = this.getIntent().getStringExtra(CALLING_ACTIVITY);
+        	System.out.println("previous activity: " + previousActivity);
+        } 
     }
 
 	@Override
@@ -46,6 +56,10 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		boolean selectedItem = true;
 		if(!super.onOptionsItemSelected(item)) {
 			switch(item.getItemId()) {
+			case android.R.id.home:
+				System.out.println("Calling return to previous");
+				returnToPreviousActivity();
+				break;
 			case R.id.new_event_item:
 				startView(edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.NewEventPage.class);
 				break;
@@ -94,11 +108,17 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 	}
 	
 	protected void returnToPreviousActivity() {
-		final Intent intent = new Intent(this, previousActivity);
+		Class<?> activity = CalendarMonthViewActivity.class;
 		
-		//TODO Put Extra if there is a date selected
+		if(previousActivity.toLowerCase().equals("list")){
+			activity = EventListActivity.class;
+		} else if(previousActivity.toLowerCase().equals("week")){
+			activity = CalendarWeekViewActivity.class;
+		} else if(previousActivity.toLowerCase().equals("day")){
+			activity = CalendarDayViewActivity.class;
+		}
 		
-		//Starts the next activity
+		final Intent intent = new Intent(this, activity);
 		startActivity(intent);
 	}
 }
