@@ -2,29 +2,25 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
-import edu.wpi.cs.wpisuitetng.apps.calendar.R.layout;
-import edu.wpi.cs.wpisuitetng.apps.calendar.R.menu;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.UserPickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
+import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.support.v4.app.NavUtils;
 import android.text.format.DateFormat;
 
 public class ViewEventPage extends CalendarCommonMenuActivity{
@@ -35,7 +31,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 	private DatePickerFragment startDateFrag, endDateFrag;
 	private TimePickerFragment startTimeFrag, endTimeFrag;
 	private EditText title, location, description;
-	private final UserPickerFragment attendees = new UserPickerFragment();
+	private final UserPickerFragment attendees = new UserPickerFragment(MarvinUserData.getUsername());
 	private long eventId;
 	private AndroidCalendarEvent event;
 	
