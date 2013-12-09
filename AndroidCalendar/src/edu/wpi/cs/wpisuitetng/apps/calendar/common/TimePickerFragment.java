@@ -68,6 +68,8 @@ OnTimeSetListener {
 	@Override
 	public void onTimeSet(TimePicker view, int hour, int minute) {
 		
+		time = new EventTime(hour, minute);
+		
 		String minuteString;
 		if (minute < 10){
 			minuteString = "0" + minute;
@@ -79,6 +81,9 @@ OnTimeSetListener {
 			timePickerButton.setText(buttonText + ": " + hour + ":" + minuteString);
 		} else {
 			
+			if(hour == 0){
+				hour = 12;
+			}
 			String amOrPm = "AM";
 			
 			if(hour > 12){
@@ -87,7 +92,7 @@ OnTimeSetListener {
 			}
 			timePickerButton.setText(buttonText + ": " + hour + ":" + minuteString + " " + amOrPm);
 		}
-		time = new EventTime(hour, minute);
+		
 			
 	}
 
