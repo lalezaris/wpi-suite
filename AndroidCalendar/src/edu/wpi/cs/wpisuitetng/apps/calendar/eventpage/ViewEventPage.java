@@ -168,6 +168,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 
 	private void updateFields() {
 		title.setText(event.getEventTitle());
+		String time;
 		
 		String monthString = new DateFormatSymbols().getMonths()[event.getStartMonth()];
 		startDatePickerButton.setText("Start Date: " + monthString + " " + event.getStartDay() + ", " + event.getStartYear());
@@ -176,11 +177,15 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 		endDatePickerButton.setText("End Date: " + monthString + " " + event.getEndDay() + ", " + event.getEndYear());
 		
 		if(DateFormat.is24HourFormat(this)){
-			startTimePickerButton.setText("Start Time: " + event.getStartDateAndTime().get(Calendar.HOUR_OF_DAY) + ":" + event.getStartDateAndTime().get(Calendar.MINUTE));
-			endTimePickerButton.setText("End Time: " + event.getEndDateAndTime().get(Calendar.HOUR_OF_DAY) + ":" + event.getEndDateAndTime().get(Calendar.MINUTE));
+			time = String.format("%tk:%tM", event.getStartDateAndTime(), event.getStartDateAndTime());
+			startTimePickerButton.setText("Start Time: " +  time );
+			time = String.format("%tk:%tM", event.getEndDateAndTime(), event.getEndDateAndTime());
+			endTimePickerButton.setText("End Time: " + time );
 		} else {
-			startTimePickerButton.setText("Start Time: " + event.getStartDateAndTime().get(Calendar.HOUR) + ":" + event.getStartDateAndTime().get(Calendar.MINUTE) + event.getStartDateAndTime().get(Calendar.AM_PM));
-			endTimePickerButton.setText("End Time: " + event.getEndDateAndTime().get(Calendar.HOUR) + ":" + event.getEndDateAndTime().get(Calendar.MINUTE) + event.getEndDateAndTime().get(Calendar.AM_PM));
+			time = String.format("%tl:%tM %Tp", event.getStartDateAndTime(), event.getStartDateAndTime(), event.getStartDateAndTime());
+			startTimePickerButton.setText("Start Time: " + time);
+			time = String.format("%tl:%tM %Tp", event.getEndDateAndTime(), event.getEndDateAndTime(), event.getStartDateAndTime());
+			endTimePickerButton.setText("End Time: " +  time);
 		}
 		
 		location.setText(event.getLocation());
@@ -241,9 +246,9 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 			}
 			
 			
-			if((attendees.getSelectedUsers() != null) && !attendees.getSelectedUsers().containsAll(event.getAttendees())){
+			if(!event.getAttendees().containsAll(attendees.getSelectedUsers())){
 				 attendeesList = attendees.getSelectedUsers();
-			} 
+			}
 			
 			event.setStartDateAndTime(start);
 			event.setEndDateAndTime(end);
