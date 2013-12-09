@@ -289,8 +289,6 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "endDateAndTime", event.getEndDateAndTime());
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "location", event.getLocation());
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "attendees", event.getAttendees());
-		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "alertTime", event.getAlertTime());
-		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "recurrence", event.getRecurrence());
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "description", event.getDescription());
 		
 		return event;
