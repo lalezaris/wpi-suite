@@ -76,6 +76,7 @@ public class CalendarDayViewActivity extends CalendarCommonMenuActivity {
             public void run() {
             	events.clear();
             	events.addAll(todaysEvents);
+            	//controller.setContentView(new BubbleSurfaceView(controller, ev));
             }
 		});
 	}

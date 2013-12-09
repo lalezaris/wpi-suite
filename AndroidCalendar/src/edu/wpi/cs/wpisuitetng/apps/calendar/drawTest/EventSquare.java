@@ -92,6 +92,8 @@ public class EventSquare {
 			float posY = arg1.getY();
 			if(posX >= this.x1 && posX <= this.x2 && posY >= this.y1 && posY <= this.y2){
 				System.out.println("Ping");
+				
+				
 				return true;
 			}
 			else{

@@ -8,6 +8,7 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -63,6 +64,15 @@ implements SurfaceHolder.Callback, OnTouchListener {
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		for(EventSquare s : squares){
 			if(s.handleTouch(arg0, arg1)){
+				
+				Context c = getContext();
+				Intent i = new Intent(c, edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.ViewEventPage.class);
+				
+				i.putExtra(AndroidCalendarEvent.ID, s.getEvent().getUniqueId());
+
+				//Starts the next activity
+				c.startActivity(i);
+				
 				return true;//end loop on first correct touch
 			}
 		}
