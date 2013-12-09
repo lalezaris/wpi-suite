@@ -10,11 +10,17 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,30 +36,25 @@ public class UserPickerFragment extends DialogFragment {
 	
 	private String currentUser;
 	private ArrayAdapter<String> allUnselectedUsersAdapter;
+	private ListView selectedUserList;
+	private ArrayAdapter<String> selectedUsersAdapter;
 
-	public UserPickerFragment() {
-
-		final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
-		request.addObserver(new UserPickerFragmentRequestObserver(this));
-		request.send();
-	}
-	
 	public UserPickerFragment(String currentUser) {
 		this.currentUser = currentUser;
-		
-		final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
-		request.addObserver(new UserPickerFragmentRequestObserver(this));
-		request.send();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_picker, container);
 		getDialog().setTitle("Attendees");
+		final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
+		request.addObserver(new UserPickerFragmentRequestObserver(this));
+		request.send();
 		
-		final ArrayAdapter<String> selectedUsersAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, selectedUsers);
-		ListView selectedUserList = (ListView) view.findViewById(R.id.user_list);
+		selectedUsersAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, selectedUsers);
+		selectedUserList = (ListView) view.findViewById(R.id.user_list);
 		selectedUserList.setAdapter(selectedUsersAdapter);
+		registerForContextMenu(selectedUserList);
 		
 		allUnselectedUsersAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, allUnselectedUsers);
 		final AutoCompleteTextView userEntry = (AutoCompleteTextView) view.findViewById(R.id.user_entry);
@@ -63,7 +64,6 @@ public class UserPickerFragment extends DialogFragment {
 				String selected = (String)adapterView.getItemAtPosition(position);
                 userEntry.setText("");
                 addSelectedUser(selected);
-                selectedUsersAdapter.notifyDataSetChanged();
 			}
 		});
 		userEntry.setAdapter(allUnselectedUsersAdapter);
@@ -77,6 +77,41 @@ public class UserPickerFragment extends DialogFragment {
 		});
 		
 		return view;
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getActivity().getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
+		OnMenuItemClickListener listener = new OnMenuItemClickListener() {
+	        @Override
+	        public boolean onMenuItemClick(MenuItem item) {
+	            onContextItemSelected(item);
+	            return true;
+	        }
+	    };
+
+	    for (int i = 0, n = menu.size(); i < n; i++)
+	        menu.getItem(i).setOnMenuItemClickListener(listener);
+	}
+	
+	@Override
+    public boolean onContextItemSelected(MenuItem item){
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		switch(item.getItemId()){
+		case R.id.delete_entry:
+			delete_entry(info.position);
+			return true;
+
+		default:
+			return super.onContextItemSelected(item);
+		}
+    }
+	
+	private void delete_entry(int position) {
+		String username = selectedUserList.getItemAtPosition(position).toString();
+		removeSelectedUser(username);
 	}
 	
 	public List<String> getSelectedUsers() {
@@ -116,6 +151,11 @@ public class UserPickerFragment extends DialogFragment {
 					allUnselectedUsersAdapter.remove(s);
 				}
 			}
+			getActivity().runOnUiThread(new Runnable() {
+	            public void run() {
+	    			selectedUsersAdapter.notifyDataSetChanged();
+	            }
+			});
 		}
 	}
 	//TODO: Add the ability to delete a user by clicking on them

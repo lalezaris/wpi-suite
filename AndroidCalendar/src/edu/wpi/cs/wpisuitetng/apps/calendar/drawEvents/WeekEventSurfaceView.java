@@ -20,14 +20,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 
-public class DayEventSurfaceView extends SurfaceView  
+public class WeekEventSurfaceView extends SurfaceView  
 implements SurfaceHolder.Callback, OnTouchListener {
 	private SurfaceHolder sh;
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	List<AndroidCalendarEvent> events;
-	List<DayEventSquare> squares = new ArrayList<DayEventSquare>();
+	List<WeekEventSquare> squares = new ArrayList<WeekEventSquare>();
 	
-	public DayEventSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
+	public WeekEventSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
 		super(context);
 		
 		sh = getHolder();
@@ -53,8 +53,9 @@ implements SurfaceHolder.Callback, OnTouchListener {
 			canvas.drawText(i + ":00", 0, i*pixelsPerHr, paint);
 		}
 		
+		
 		for(AndroidCalendarEvent e : this.events){
-			DayEventSquare sq = new DayEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
+			WeekEventSquare sq = new WeekEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
 			squares.add(sq);
 			paint.setColor(Color.BLUE);
 			paint.setStyle(Style.FILL);
@@ -65,9 +66,6 @@ implements SurfaceHolder.Callback, OnTouchListener {
 			canvas.drawText(sq.getEvent().getEventTitle(), sq.x1, (float) (sq.y2 - Math.abs((sq.y2 - sq.y1))*.1), paint);
 		}
 		
-		
-		//canvas.drawCircle(100, 200, 50, paint);
-		
 		sh.unlockCanvasAndPost(canvas);
 	}
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -77,7 +75,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 	}
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
-		for(DayEventSquare s : squares){
+		for(WeekEventSquare s : squares){
 			if(s.handleTouch(arg0, arg1)){
 				
 				Context c = getContext();

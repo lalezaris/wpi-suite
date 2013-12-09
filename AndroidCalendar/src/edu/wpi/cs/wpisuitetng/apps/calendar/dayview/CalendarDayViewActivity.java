@@ -34,7 +34,6 @@ public class CalendarDayViewActivity extends CalendarCommonMenuActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		FragmentManager fragManager = getFragmentManager();
 
 		currentMonth = Calendar.getInstance().get(Calendar.MONTH);
 		currentDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
