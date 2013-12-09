@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.apps.calendar.drawTest;
+package edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -11,13 +11,13 @@ import android.graphics.drawable.shapes.RectShape;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class EventSquare {
+public class DayEventSquare {
 
 	private ShapeDrawable shape;
 	private AndroidCalendarEvent event;
 	int x1, y1, x2, y2;
 
-	public EventSquare(AndroidCalendarEvent ev, View v, Calendar day){
+	public DayEventSquare(AndroidCalendarEvent ev, View v, Calendar day){
 		this.event = ev;
 		//use time & screen res to set height
 		//width based on screen width

@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.apps.calendar.drawTest;
+package edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,14 +20,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 
-public class BubbleSurfaceView extends SurfaceView  
+public class DayEventSurfaceView extends SurfaceView  
 implements SurfaceHolder.Callback, OnTouchListener {
 	private SurfaceHolder sh;
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	List<AndroidCalendarEvent> events;
-	List<EventSquare> squares = new ArrayList<EventSquare>();
+	List<DayEventSquare> squares = new ArrayList<DayEventSquare>();
 	
-	public BubbleSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
+	public DayEventSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
 		super(context);
 		
 		sh = getHolder();
@@ -44,7 +44,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		canvas.drawColor(Color.WHITE);
 		
 		for(AndroidCalendarEvent e : this.events){
-			EventSquare sq = new EventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
+			DayEventSquare sq = new DayEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
 			squares.add(sq);
 			paint.setColor(Color.BLUE);
 			paint.setStyle(Style.FILL);
@@ -67,7 +67,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 	}
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
-		for(EventSquare s : squares){
+		for(DayEventSquare s : squares){
 			if(s.handleTouch(arg0, arg1)){
 				
 				Context c = getContext();

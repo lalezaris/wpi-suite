@@ -8,7 +8,7 @@ import java.util.List;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment;
-import edu.wpi.cs.wpisuitetng.apps.calendar.drawTest.BubbleSurfaceView;
+import edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents.DayEventSurfaceView;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewRequestObserver;
 import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;

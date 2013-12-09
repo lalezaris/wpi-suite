@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-import edu.wpi.cs.wpisuitetng.apps.calendar.drawTest.BubbleSurfaceView;
+import edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents.DayEventSurfaceView;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -45,7 +45,7 @@ public class CalendarDayViewRequestObserver implements RequestObserver {
 		controller.runOnUiThread(new Runnable() {
             public void run() {
             	
-            	controller.setContentView(new BubbleSurfaceView(controller, ev));
+            	controller.setContentView(new DayEventSurfaceView(controller, ev));
             }
 		});
 		
