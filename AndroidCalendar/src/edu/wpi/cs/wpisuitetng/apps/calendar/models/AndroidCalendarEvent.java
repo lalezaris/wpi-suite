@@ -29,9 +29,8 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private int endYear;
 	private int endDay;
 	
-	public AndroidCalendarEvent(String eventOwner, String eventTitle, Calendar startDateAndTime,
+	public AndroidCalendarEvent(String eventTitle, Calendar startDateAndTime,
 			Calendar endDateAndTime, String location, List<String> attendees, String description) {
-		this.eventOwner = eventOwner;
 		this.eventTitle = eventTitle;
 		this.startDateAndTime = startDateAndTime;
 		this.endDateAndTime = endDateAndTime;

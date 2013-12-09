@@ -81,11 +81,15 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		String[] fieldNameList = fieldArrayList.toArray(new String[0]);
 		
 		List<Model> modelList = new ArrayList<Model>();
-		
-		try {
-			modelList = db.andRetrieve(AndroidCalendarEvent.class, fieldNameList, givenValueList);
-		} catch (Exception e) {
-			e.printStackTrace();
+
+		if(fieldArrayList.size() > 0 && givenValueList.size() > 0){
+			try {
+				modelList = db.andRetrieve(AndroidCalendarEvent.class, fieldNameList, givenValueList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			modelList = db.retrieveAll(new AndroidCalendarEvent(), s.getProject());
 		}
 		
 		if(extraFields.size() == extraValues.size()){
@@ -102,7 +106,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		}
 		
 		// Filter out event the current user does not belong to
-		modelList = checkIfIsAttendee(s.getUsername(), modelList);
+		modelList = checkIfBelongsTo(s.getUsername(), modelList);
 		
 		// If appropriate, sort the array before returning
 		Model[] models = modelList.toArray(new Model[0]);
@@ -117,6 +121,31 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	}
 
 	
+	private List<Model> checkIfBelongsTo(String username, List<Model> list) {
+		String name = username;
+		List<Model> modelList = new ArrayList<Model>();
+		List<Model> models = list;
+		
+		for(Model m : models){
+			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
+			List<String> attendeeList = event.getAttendees();
+			
+			if(name.toLowerCase().equals(event.getEventOwner().toLowerCase())){
+				modelList.add(m);
+				continue;
+			}
+			
+			for(String uname : attendeeList){
+				if(name.toLowerCase().equals(uname.toLowerCase())){
+					modelList.add(m);
+					break;
+				}
+			}
+		}
+		
+		return modelList;
+	}
+
 	/**
 	 * Checks to see if the given username value is in the attendees list
 	 * @param username the username to check for
@@ -130,6 +159,11 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		for(Model m : list){
 			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
 			List<String> attendeeList = event.getAttendees();
+			
+			if(name.toLowerCase().equals(event.getEventOwner().toLowerCase())){
+				modelList.add(m);
+				continue;
+			}
 			
 			for(String uname : attendeeList){
 				if(name.toLowerCase().equals(uname.toLowerCase())){
@@ -246,10 +280,11 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		final AndroidCalendarEvent newEvent = new Gson().fromJson(content, AndroidCalendarEvent.class);
 		
 		newEvent.setUniqueId(getUniqueId());
+		newEvent.setEventOwner(s.getUsername());
 		
 		db.save(newEvent, s.getProject());
 		
-		System.out.println("Saving event " + newEvent.getEventTitle() + " with uniqueId " + newEvent.getUniqueId());
+		System.out.println("Saving event " + newEvent.getEventTitle() + " with uniqueId " + newEvent.getUniqueId() + " and owner: " + newEvent.getEventOwner());
 		return newEvent;
 	}
 

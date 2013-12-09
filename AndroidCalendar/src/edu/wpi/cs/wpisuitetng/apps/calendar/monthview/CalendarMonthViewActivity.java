@@ -52,7 +52,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	}
 
 	public void sendRequestForAllEventsInMonth(int month) {
-		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startmonth/" + month + "/attendees/" + MarvinUserData.getUsername(), HttpMethod.GET);
+		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startmonth/" + month, HttpMethod.GET);
 		request.addObserver(new CalendarMonthViewRequestObserver(this));
 		request.send();
 	}
