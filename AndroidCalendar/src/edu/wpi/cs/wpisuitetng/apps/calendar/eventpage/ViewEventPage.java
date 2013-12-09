@@ -133,7 +133,7 @@ public class ViewEventPage extends NewEventPage {
 		final ViewEventPageRequestObserver requestObserver = new ViewEventPageRequestObserver(this);
 		if(eventId != -1){
 			System.out.println("uniqueId: "+ eventId);
-			final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/uniqueid/" + eventId , HttpMethod.GET);
+			final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent/" + eventId , HttpMethod.GET);
 			request.addObserver(requestObserver);
 			request.send();
 			
