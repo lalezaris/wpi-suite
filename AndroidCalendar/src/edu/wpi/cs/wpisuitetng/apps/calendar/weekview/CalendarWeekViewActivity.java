@@ -9,6 +9,7 @@ import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.dayview.CalendarDayViewRequestObserver;
+import edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents.WeekEventSurfaceView;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -21,11 +22,12 @@ import android.widget.ListAdapter;
 
 public class CalendarWeekViewActivity extends CalendarCommonMenuActivity {
 
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		this.setContentView(new WeekEventSurfaceView(this, new ArrayList<AndroidCalendarEvent>()));
 		
 	}
 	
