@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,9 +22,9 @@ import android.widget.ListView;
 
 public class UserPickerFragment extends DialogFragment {
 	
-	private final List<User> selectedUsers = new ArrayList<User>();
+	private final List<String> selectedUsers = new ArrayList<String>();
 	
-	private final List<User> allUsers = new ArrayList<User>();
+	private final List<String> allUsers = new ArrayList<String>();
 
 	public UserPickerFragment() {
 		//final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
@@ -42,17 +41,17 @@ public class UserPickerFragment extends DialogFragment {
 		request.addObserver(new UserPickerFragmentRequestObserver(this));
 		request.send();
 		
-		final UserArrayAdapter selectedUsersAdapter = new UserArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, selectedUsers);
+		final ArrayAdapter<String> selectedUsersAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, selectedUsers);
 		ListView selectedUserList = (ListView) view.findViewById(R.id.user_list);
 		selectedUserList.setAdapter(selectedUsersAdapter);
 
-		UserArrayAdapter allUsersAdapter = new UserArrayAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line, allUsers);
-		final UserAutoCompleteTextView userEntry = (UserAutoCompleteTextView) view.findViewById(R.id.user_entry);
+		ArrayAdapter<String> allUsersAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, allUsers);
+		final AutoCompleteTextView userEntry = (AutoCompleteTextView) view.findViewById(R.id.user_entry);
 		userEntry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View v, int position, long l) {
-				User selected = (User)adapterView.getItemAtPosition(position);
-                userEntry.setText(selected.getName());
+				String selected = (String)adapterView.getItemAtPosition(position);
+                userEntry.setText(selected);
                 selectedUsers.add(selected);
                 selectedUsersAdapter.notifyDataSetChanged();
 			}
@@ -71,23 +70,14 @@ public class UserPickerFragment extends DialogFragment {
 	}
 	
 	public List<String> getSelectedUsers() {
-		List<String> usernames = new ArrayList<String>();
-		
-		for(User u : selectedUsers){
-			usernames.add(u.getUsername());
-		}
-		
-		return usernames;
+		return selectedUsers;
 	}
 	
 	public void updateAllUsersList(List<User> users) {
 		allUsers.clear();
-		allUsers.addAll(users); 
-	}
-	
-	public void doneEditingAttendees(View view) {
-		System.out.println("DONE EDITING");
-		getDialog().dismiss();
+		for(User u :users) {
+			allUsers.add(u.getUsername()); 
+		}
 	}
 	//TODO: Add the ability to delete a user by clicking on them
 }

@@ -45,7 +45,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 		updateFields();
 	}
 	
-	private void updateFields() {
+	public void updateFields() {
 		startMonth = startDateAndTime.get(Calendar.MONTH);
 		endMonth = endDateAndTime.get(Calendar.MONTH);
 		

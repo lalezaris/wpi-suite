@@ -29,4 +29,12 @@ public class EventTime {
 	public int getMinute() {
 		return minute;
 	}
+	
+	public boolean equals(EventTime event){
+		if(event.getHour() == hour && event.getMinute() == minute){
+			return true;
+		}
+		
+		return false;
+	}
 }

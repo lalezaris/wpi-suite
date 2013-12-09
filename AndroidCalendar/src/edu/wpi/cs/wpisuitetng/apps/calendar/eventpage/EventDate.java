@@ -41,5 +41,14 @@ public class EventDate extends Observable {
 		return day;
 	}
 	
+	public boolean equals(EventDate date){
+		
+		if(date.getDay() == day && date.getMonth() == month && date.getYear() == year){
+			return true;
+		}
+		
+		return false;
+	}
+	
 
 }

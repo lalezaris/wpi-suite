@@ -18,7 +18,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * @author Nathan Longnecker
@@ -126,15 +125,16 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 */
 	private List<Model> checkIfIsAttendee(Object username, List<Model> list) {
 		String name = (String) username;
-		List<Model> modelList = list;
+		List<Model> modelList = new ArrayList<Model>();
 		
-		for(Model m : modelList){
+		for(Model m : list){
 			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
 			List<String> attendeeList = event.getAttendees();
 			
 			for(String uname : attendeeList){
-				if(!name.toLowerCase().equals(uname.toLowerCase())){
-					modelList.remove(m);
+				if(name.toLowerCase().equals(uname.toLowerCase())){
+					modelList.add(m);
+					break;
 				}
 			}
 		}
@@ -274,9 +274,26 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 
 	@Override
 	public Model update(Session arg0, String arg1) throws WPISuiteException {
-		// TODO Auto-generated method stub
-		System.out.println("Update called in AndroidCalendarEventEntityManager");
-		return null;
+		
+		
+		AndroidCalendarEvent event = new Gson().fromJson(arg1, AndroidCalendarEvent.class);
+		
+		System.out.println();
+		System.out.println("event: " + event.toJSON());
+		
+		event.updateFields();
+		System.out.println("Updated fields");
+		
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "eventTitle", event.getEventTitle());
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "startDateAndTime", event.getStartDateAndTime());
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "endDateAndTime", event.getEndDateAndTime());
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "location", event.getLocation());
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "attendees", event.getAttendees());
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "alertTime", event.getAlertTime());
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "recurrence", event.getRecurrence());
+		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "description", event.getDescription());
+		
+		return event;
 	}
 
 
