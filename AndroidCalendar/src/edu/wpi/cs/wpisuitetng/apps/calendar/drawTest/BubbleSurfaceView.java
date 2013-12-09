@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.drawTest;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -42,7 +43,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		canvas.drawColor(Color.WHITE);
 		
 		for(AndroidCalendarEvent e : this.events){
-			EventSquare sq = new EventSquare(e, this);
+			EventSquare sq = new EventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
 			
 			squares.add(sq);
 			sq.getShape().draw(canvas);//draws shape inside EventSquare objects

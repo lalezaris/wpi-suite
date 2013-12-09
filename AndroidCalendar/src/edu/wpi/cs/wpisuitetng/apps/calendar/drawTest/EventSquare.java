@@ -17,7 +17,7 @@ public class EventSquare {
 	private AndroidCalendarEvent event;
 	int x1, y1, x2, y2;
 
-	public EventSquare(AndroidCalendarEvent ev, View v){
+	public EventSquare(AndroidCalendarEvent ev, View v, Calendar day){
 		this.event = ev;
 		//use time & screen res to set height
 		//width based on screen width
@@ -31,14 +31,17 @@ public class EventSquare {
 		//
 
 		//from start time, figure out top of day
-		GregorianCalendar testCompare = new GregorianCalendar(2013, 12, 2, 0, 0);
-		GregorianCalendar testCompareEnd = new GregorianCalendar(2013, 12, 3, 0, 0);
-		long epochOfDay = testCompare.getTimeInMillis();
+		
+		GregorianCalendar testCompareEnd = new GregorianCalendar(day.get(GregorianCalendar.YEAR), day.get(GregorianCalendar.MONTH), day.get(GregorianCalendar.DATE)+1, 0, 0);
+		long epochOfDay = day.getTimeInMillis();
 		long endOfDay = testCompareEnd.getTimeInMillis();
 		long millisPerPixel =  (endOfDay - epochOfDay)/v.getHeight();
-		System.out.println("Milliseconds per pixel: " + millisPerPixel);
+		System.out.println("Epoch of Day: " + day.getTime().toString());
+		System.out.println("End of day: " + testCompareEnd.getTime().toString());
+		System.out.println("Event at: " + event.getStartDateAndTime().getTime().toString());
+		System.out.println("End at: "+ event.getEndDateAndTime().getTime().toString());
 
-		if(event.getStartDateAndTime().before(testCompare)){
+		if(event.getStartDateAndTime().before(day)){
 			this.y1 = 0;
 		}
 		else{
@@ -57,7 +60,8 @@ public class EventSquare {
 		shape = new ShapeDrawable(new RectShape());
 		shape.getPaint().setColor(Color.BLUE);
 		shape.setBounds(x1, y1, x2, y2);
-		System.out.println("Height is " + (this.y2 - this.y1));
+		System.out.println("Y1: " + y1);
+		System.out.println("Y2: " + y2);
 
 	}
 
