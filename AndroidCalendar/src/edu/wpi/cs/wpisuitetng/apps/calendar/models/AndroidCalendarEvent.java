@@ -18,8 +18,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private Calendar endDateAndTime;
 	private String location;
 	private List<String> attendees;
-	private Calendar alertTime;
-	private Object recurrence;
+	private String eventOwner;
 	private String description;
 	private int startMonth;
 	private int startWeekNum;
@@ -30,16 +29,14 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private int endYear;
 	private int endDay;
 	
-	public AndroidCalendarEvent(String eventTitle, Calendar startDateAndTime,
-			Calendar endDateAndTime, String location, List<String> attendees,
-			Calendar alertTime, Object recurrence, String description) {
+	public AndroidCalendarEvent(String eventOwner, String eventTitle, Calendar startDateAndTime,
+			Calendar endDateAndTime, String location, List<String> attendees, String description) {
+		this.eventOwner = eventOwner;
 		this.eventTitle = eventTitle;
 		this.startDateAndTime = startDateAndTime;
 		this.endDateAndTime = endDateAndTime;
 		this.location = location;
 		this.attendees = attendees;
-		this.alertTime = alertTime;
-		this.recurrence = recurrence;
 		this.description = description;
 		
 		updateFields();
@@ -161,35 +158,6 @@ public class AndroidCalendarEvent extends AbstractModel {
 	public void setAttendees(List<String> attendees) {
 		this.attendees = attendees;
 	}
-
-	/**
-	 * @return the alertTime
-	 */
-	public Calendar getAlertTime() {
-		return alertTime;
-	}
-
-	/**
-	 * @param alertTime the alertTime to set
-	 */
-	public void setAlertTime(Calendar alertTime) {
-		this.alertTime = alertTime;
-	}
-
-	/**
-	 * @return the recurrence
-	 */
-	public Object getRecurrence() {
-		return recurrence;
-	}
-
-	/**
-	 * @param recurrence the recurrence to set
-	 */
-	public void setRecurrence(Object recurrence) {
-		this.recurrence = recurrence;
-	}
-
 	/**
 	 * @return the description
 	 */
@@ -218,7 +186,6 @@ public class AndroidCalendarEvent extends AbstractModel {
 		this.uniqueId = uniqueId;
 	}
 	
-
 	/**
 	 * @return the startMonth
 	 */
@@ -278,6 +245,14 @@ public class AndroidCalendarEvent extends AbstractModel {
 	
 	public String toString() {
 		return eventTitle;
+	}
+
+	public String getEventOwner() {
+		return eventOwner;
+	}
+
+	public void setEventOwner(String eventOwner) {
+		this.eventOwner = eventOwner;
 	}
 
 }

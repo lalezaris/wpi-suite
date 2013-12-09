@@ -33,14 +33,7 @@ public class EventListRequestObserver implements RequestObserver {
 		// TODO Auto-generated method stub
 
 		System.out.println("EventlistRequest Succeeded");
-		AndroidCalendarEvent[] events;
-		try {
-			events = new Gson().fromJson(arg0.getResponse().getBody(), AndroidCalendarEvent[].class);
-		}
-		catch (JsonSyntaxException e) {
-			events = new AndroidCalendarEvent[1];
-			events[0] = new AndroidCalendarEvent("Eventlist Request Failed", null, null, null, null, null, null, null);
-		}
+		AndroidCalendarEvent[] events = new Gson().fromJson(arg0.getResponse().getBody(), AndroidCalendarEvent[].class);
 		
 		final AndroidCalendarEvent[] finalEvents = events;
 		controller.runOnUiThread(new Runnable() {
