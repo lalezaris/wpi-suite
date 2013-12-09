@@ -82,6 +82,8 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		
 		//Starts the next activity
 		startActivity(intent);
+		//Ends this activity so it stops using system resources.
+		finish();
 	}
 
 	protected void startView(Class<?> view) {
@@ -91,6 +93,8 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		
 		//Starts the next activity
 		startActivity(intent);
+		//Ends this activity so it stops using system resources.
+		finish();
 	}
 	
 	protected void returnToPreviousActivity() {
@@ -100,5 +104,7 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		
 		//Starts the next activity
 		startActivity(intent);
+		//Ends this activity so it stops using system resources.
+		finish();
 	}
 }

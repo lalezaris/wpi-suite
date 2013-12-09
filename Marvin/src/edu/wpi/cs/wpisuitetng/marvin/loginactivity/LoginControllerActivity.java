@@ -297,6 +297,8 @@ public class LoginControllerActivity extends FragmentActivity {
 		else {
 			System.err.println("Login Controller's Recieved Intent has no Extras!");
 		}
+		//Ends this activity so it stops using system resources.
+		finish();
 	}
 
 	/**

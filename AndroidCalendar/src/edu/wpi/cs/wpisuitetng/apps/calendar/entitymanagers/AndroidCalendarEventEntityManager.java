@@ -18,7 +18,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * @author Nathan Longnecker
@@ -126,15 +125,16 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 */
 	private List<Model> checkIfIsAttendee(Object username, List<Model> list) {
 		String name = (String) username;
-		List<Model> modelList = list;
+		List<Model> modelList = new ArrayList<Model>();
 		
-		for(Model m : modelList){
+		for(Model m : list){
 			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
 			List<String> attendeeList = event.getAttendees();
 			
 			for(String uname : attendeeList){
-				if(!name.toLowerCase().equals(uname.toLowerCase())){
-					modelList.remove(m);
+				if(name.toLowerCase().equals(uname.toLowerCase())){
+					modelList.add(m);
+					break;
 				}
 			}
 		}
