@@ -95,7 +95,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 				Object value = extraValues.get(i);
 				
 				if(field.equals("attendees")){
-					modelList = checkIfIsAttendee(value, modelList);
+					modelList = checkIfIsAttendee(Integer.parseInt((String) value), modelList);
 				} else {
 					// Do nothing
 				}
@@ -103,7 +103,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		}
 		
 		// Filter out event the current user does not belong to
-		modelList = checkIfIsAttendee(s.getUsername(), modelList);
+		modelList = checkIfIsAttendee(s.getUser().getIdNum(), modelList);
 		
 		// If appropriate, sort the array before returning
 		Model[] models = modelList.toArray(new Model[0]);
@@ -124,16 +124,15 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @param list the list of events
 	 * @return A new list containing only events that contain "username" in the attendees list
 	 */
-	private List<Model> checkIfIsAttendee(Object username, List<Model> list) {
-		String name = (String) username;
+	private List<Model> checkIfIsAttendee(Integer userid, List<Model> list) {
 		List<Model> modelList = list;
 		
 		for(Model m : modelList){
 			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
-			List<User> attendeeList = event.getAttendees();
+			List<Integer> attendeeList = event.getAttendees();
 			
-			for(User u : attendeeList){
-				if(!name.toLowerCase().equals(u.getName().toLowerCase())){
+			for(Integer i : attendeeList){
+				if(!userid.equals(i)){
 					modelList.remove(m);
 				}
 			}

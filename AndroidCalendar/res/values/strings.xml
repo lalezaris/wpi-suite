@@ -25,5 +25,7 @@
     <string name="enter_username">Enter a Username</string>
     <string name="delete_current_event">Delete</string>
     <string name="cancel_current_event">Cancel</string>
+    <string name="current_attendees">Current Attendees</string>
+    <string name="done_button">Done</string>
 
 </resources>
