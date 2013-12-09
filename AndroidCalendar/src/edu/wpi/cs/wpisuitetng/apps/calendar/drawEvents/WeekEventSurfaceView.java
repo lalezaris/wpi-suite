@@ -20,14 +20,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 
-public class DayEventSurfaceView extends SurfaceView  
+public class WeekEventSurfaceView extends SurfaceView  
 implements SurfaceHolder.Callback, OnTouchListener {
 	private SurfaceHolder sh;
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	List<AndroidCalendarEvent> events;
 	List<DayEventSquare> squares = new ArrayList<DayEventSquare>();
 	
-	public DayEventSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
+	public WeekEventSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
 		super(context);
 		
 		sh = getHolder();
@@ -35,8 +35,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		paint.setColor(Color.BLUE);
 		paint.setStyle(Style.FILL);
 		
-		events = new ArrayList<AndroidCalendarEvent>();	
-		events.addAll(listOfEvents);
+	
 	}
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.setOnTouchListener(this);//listens to itself
@@ -53,20 +52,6 @@ implements SurfaceHolder.Callback, OnTouchListener {
 			canvas.drawText(i + ":00", 0, i*pixelsPerHr, paint);
 		}
 		
-		for(AndroidCalendarEvent e : this.events){
-			DayEventSquare sq = new DayEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
-			squares.add(sq);
-			paint.setColor(Color.BLUE);
-			paint.setStyle(Style.FILL);
-			sq.getShape().draw(canvas);//draws shape inside EventSquare objects
-			
-			paint.setColor(Color.WHITE); 
-			paint.setTextSize(28); 
-			canvas.drawText(sq.getEvent().getEventTitle(), sq.x1, (float) (sq.y2 - Math.abs((sq.y2 - sq.y1))*.1), paint);
-		}
-		
-		
-		//canvas.drawCircle(100, 200, 50, paint);
 		
 		sh.unlockCanvasAndPost(canvas);
 	}
