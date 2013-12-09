@@ -200,7 +200,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 			toast.show();
 			return;
 		}
-//		try {
+		try {
 			Calendar start = event.getStartDateAndTime();
 			Calendar end = event.getEndDateAndTime();
 			
@@ -260,12 +260,12 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 			request.addObserver(new NewEventPageRequestObserver()); // TODO: will probably want to update event list model or something
 			request.send();
 			
-			startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
-//		}
-//		catch (NullPointerException e) {
-//			toast.setText("Please enter start and end dates and times for this event!");
-//			toast.show();
-//		}
+			switchToViewMode();
+		}
+		catch (NullPointerException e) {
+			toast.setText("Please enter start and end dates and times for this event!");
+			toast.show();
+		}
 	}
 
 	

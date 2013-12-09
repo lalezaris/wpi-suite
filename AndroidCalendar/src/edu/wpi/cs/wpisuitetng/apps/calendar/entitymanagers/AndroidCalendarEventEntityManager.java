@@ -274,8 +274,15 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 
 	@Override
 	public Model update(Session arg0, String arg1) throws WPISuiteException {
+		
+		
 		AndroidCalendarEvent event = new Gson().fromJson(arg1, AndroidCalendarEvent.class);
+		
+		System.out.println();
+		System.out.println("event: " + event.toJSON());
+		
 		event.updateFields();
+		System.out.println("Updated fields");
 		
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "eventTitle", event.getEventTitle());
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "startDateAndTime", event.getStartDateAndTime());
