@@ -12,11 +12,13 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class UserPickerFragment extends DialogFragment {
@@ -57,17 +59,35 @@ public class UserPickerFragment extends DialogFragment {
 		});
 		userEntry.setAdapter(allUsersAdapter);
 		
+		Button doneEditingAttendeesButton = (Button) view.findViewById(R.id.save_attendees_button);
+		doneEditingAttendeesButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getDialog().dismiss();
+			}
+		});
+		
 		return view;
 	}
 	
-	public List<User> getSelectedUsers() {
-		return selectedUsers;
+	public List<String> getSelectedUsers() {
+		List<String> usernames = new ArrayList<String>();
+		
+		for(User u : selectedUsers){
+			usernames.add(u.getUsername());
+		}
+		
+		return usernames;
 	}
 	
 	public void updateAllUsersList(List<User> users) {
 		allUsers.clear();
-		allUsers.addAll(users);
+		allUsers.addAll(users); 
 	}
 	
+	public void doneEditingAttendees(View view) {
+		System.out.println("DONE EDITING");
+		getDialog().dismiss();
+	}
 	//TODO: Add the ability to delete a user by clicking on them
 }

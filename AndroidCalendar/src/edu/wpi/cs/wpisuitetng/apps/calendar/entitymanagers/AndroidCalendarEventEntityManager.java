@@ -130,10 +130,10 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		
 		for(Model m : modelList){
 			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
-			List<User> attendeeList = event.getAttendees();
+			List<String> attendeeList = event.getAttendees();
 			
-			for(User u : attendeeList){
-				if(!name.toLowerCase().equals(u.getName().toLowerCase())){
+			for(String uname : attendeeList){
+				if(!name.toLowerCase().equals(uname.toLowerCase())){
 					modelList.remove(m);
 				}
 			}

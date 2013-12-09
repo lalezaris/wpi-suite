@@ -17,7 +17,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private Calendar startDateAndTime;
 	private Calendar endDateAndTime;
 	private String location;
-	private List<User> attendees;
+	private List<String> attendees;
 	private Calendar alertTime;
 	private Object recurrence;
 	private String description;
@@ -31,7 +31,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private int endDay;
 	
 	public AndroidCalendarEvent(String eventTitle, Calendar startDateAndTime,
-			Calendar endDateAndTime, String location, List<User> attendees,
+			Calendar endDateAndTime, String location, List<String> attendees,
 			Calendar alertTime, Object recurrence, String description) {
 		this.eventTitle = eventTitle;
 		this.startDateAndTime = startDateAndTime;
@@ -151,14 +151,14 @@ public class AndroidCalendarEvent extends AbstractModel {
 	/**
 	 * @return the attendees
 	 */
-	public List<User> getAttendees() {
+	public List<String> getAttendees() {
 		return attendees;
 	}
 
 	/**
 	 * @param attendees the attendees to set
 	 */
-	public void setAttendees(List<User> attendees) {
+	public void setAttendees(List<String> attendees) {
 		this.attendees = attendees;
 	}
 

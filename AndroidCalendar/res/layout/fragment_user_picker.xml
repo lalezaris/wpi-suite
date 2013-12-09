@@ -12,9 +12,22 @@
         android:inputType="none"
         android:singleLine="true" />
     
+    <TextView 
+        android:id="@+id/current_attendees_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/current_attendees"/>
+    
     <ListView
         android:id="@+id/user_list"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
+    
+    <Button
+        android:id="@+id/save_attendees_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/done_button"
+        android:onClick="doneEditingAttendees"/>
 
 </LinearLayout>
