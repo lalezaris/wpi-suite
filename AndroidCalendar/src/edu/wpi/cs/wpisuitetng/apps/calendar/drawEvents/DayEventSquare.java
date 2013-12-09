@@ -21,7 +21,7 @@ public class DayEventSquare {
 		this.event = ev;
 		//use time & screen res to set height
 		//width based on screen width
-		this.x1 = 0;
+		this.x1 = (int) (v.getWidth()*.15);
 		this.x2 = v.getWidth();
 
 		//get start time
@@ -36,10 +36,7 @@ public class DayEventSquare {
 		long epochOfDay = day.getTimeInMillis();
 		long endOfDay = testCompareEnd.getTimeInMillis();
 		long millisPerPixel =  (endOfDay - epochOfDay)/v.getHeight();
-		System.out.println("Epoch of Day: " + day.getTime().toString());
-		System.out.println("End of day: " + testCompareEnd.getTime().toString());
-		System.out.println("Event at: " + event.getStartDateAndTime().getTime().toString());
-		System.out.println("End at: "+ event.getEndDateAndTime().getTime().toString());
+		
 
 		if(event.getStartDateAndTime().before(day)){
 			this.y1 = 0;
@@ -60,8 +57,6 @@ public class DayEventSquare {
 		shape = new ShapeDrawable(new RectShape());
 		shape.getPaint().setColor(Color.BLUE);
 		shape.setBounds(x1, y1, x2, y2);
-		System.out.println("Y1: " + y1);
-		System.out.println("Y2: " + y2);
 
 	}
 

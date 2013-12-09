@@ -43,6 +43,16 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		Canvas canvas = sh.lockCanvas();
 		canvas.drawColor(Color.WHITE);
 		
+		int pixelsPerHr = this.getHeight()/24;
+		
+		//Draw the 24 hours
+		paint.setColor(Color.GRAY);
+		paint.setTextSize(20); 
+		for(int i = 1; i <= 24; i++){
+			canvas.drawRect(0, i*pixelsPerHr, this.getWidth(), (i*pixelsPerHr)+1, paint);
+			canvas.drawText(i + ":00", 0, i*pixelsPerHr, paint);
+		}
+		
 		for(AndroidCalendarEvent e : this.events){
 			DayEventSquare sq = new DayEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
 			squares.add(sq);
@@ -50,9 +60,9 @@ implements SurfaceHolder.Callback, OnTouchListener {
 			paint.setStyle(Style.FILL);
 			sq.getShape().draw(canvas);//draws shape inside EventSquare objects
 			
-			paint.setColor(Color.BLACK); 
-			paint.setTextSize(20); 
-			canvas.drawText(sq.getEvent().getEventTitle(), sq.x1, sq.y2, paint);
+			paint.setColor(Color.WHITE); 
+			paint.setTextSize(28); 
+			canvas.drawText(sq.getEvent().getEventTitle(), sq.x1, (float) (sq.y2 - Math.abs((sq.y2 - sq.y1))*.1), paint);
 		}
 		
 		
