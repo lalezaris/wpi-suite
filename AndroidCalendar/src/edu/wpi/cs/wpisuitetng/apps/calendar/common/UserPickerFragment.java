@@ -151,7 +151,11 @@ public class UserPickerFragment extends DialogFragment {
 					allUnselectedUsersAdapter.remove(s);
 				}
 			}
-			selectedUsersAdapter.notifyDataSetChanged();
+			getActivity().runOnUiThread(new Runnable() {
+	            public void run() {
+	    			selectedUsersAdapter.notifyDataSetChanged();
+	            }
+			});
 		}
 	}
 	//TODO: Add the ability to delete a user by clicking on them
