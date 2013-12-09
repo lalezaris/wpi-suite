@@ -15,11 +15,15 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
 import android.app.DialogFragment;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class NewEventPage extends CalendarCommonMenuActivity {
 	
@@ -28,7 +32,7 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 	private EventTime startTime, endTime;
 	private DatePickerFragment startDateFrag, endDateFrag;
 	private TimePickerFragment startTimeFrag, endTimeFrag;
-	private final UserPickerFragment attendees = new UserPickerFragment();
+	private final UserPickerFragment attendees = new UserPickerFragment(MarvinUserData.getUsername());
 	private EditText title, location, description;
 	
 	/* (non-Javadoc)
