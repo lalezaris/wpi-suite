@@ -185,6 +185,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 		
 		location.setText(event.getLocation());
 		description.setText(event.getDescription());
+		attendees.setSelectedUsers(event.getAttendees());
 	}
 	
 	/**Shows the attendees picker dialog

@@ -73,6 +73,11 @@ public class UserPickerFragment extends DialogFragment {
 		return selectedUsers;
 	}
 	
+	public void setSelectedUsers(List<String> users) {
+		selectedUsers.clear();
+		selectedUsers.addAll(users);
+	}
+	
 	public void updateAllUsersList(List<User> users) {
 		allUsers.clear();
 		for(User u :users) {
