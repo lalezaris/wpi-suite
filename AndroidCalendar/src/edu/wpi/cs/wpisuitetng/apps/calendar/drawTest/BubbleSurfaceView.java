@@ -25,31 +25,16 @@ implements SurfaceHolder.Callback, OnTouchListener {
 	List<AndroidCalendarEvent> events;
 	List<EventSquare> squares = new ArrayList<EventSquare>();
 	
-	public BubbleSurfaceView(Context context) {
+	public BubbleSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
 		super(context);
+		
 		sh = getHolder();
 		sh.addCallback(this);
 		paint.setColor(Color.BLUE);
 		paint.setStyle(Style.FILL);
 		
-		events = new ArrayList<AndroidCalendarEvent>();
-
-		events.add(new AndroidCalendarEvent("Pizza party", new GregorianCalendar(2013, 12, 2, 15, 0),
-				new GregorianCalendar(2013, 12, 2, 15, 30), "HERE", new ArrayList<User>(),
-				new GregorianCalendar(), null, "Things"));
-
-		events.add(new AndroidCalendarEvent("Ice Cream party", new GregorianCalendar(2013, 12, 2, 6, 0),
-				new GregorianCalendar(2013, 12, 2, 9, 0), "HERE", new ArrayList<User>(),
-				new GregorianCalendar(), null, "Things"));
-
-		events.add(new AndroidCalendarEvent("MQP Meeting", new GregorianCalendar(2013, 12, 2, 3, 0),
-				new GregorianCalendar(2013, 12, 2, 4, 0), "HERE", new ArrayList<User>(),
-				new GregorianCalendar(), null, "Things"));
-
-		events.add(new AndroidCalendarEvent("Last Day of Classes", new GregorianCalendar(2013, 12, 2, 11, 0),
-				new GregorianCalendar(2013, 12, 2, 13, 0), "HERE", new ArrayList<User>(),
-				new GregorianCalendar(), null, "Things"));
-		
+		events = new ArrayList<AndroidCalendarEvent>();	
+		events.addAll(listOfEvents);
 	}
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.setOnTouchListener(this);//listens to itself
