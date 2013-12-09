@@ -18,8 +18,71 @@ public class WeekEventSquare {
 	int x1, y1, x2, y2;
 
 	public WeekEventSquare(AndroidCalendarEvent ev, View v, Calendar day){
-		
+		this.event = ev;
 
+		int leftMargin = (int) (v.getWidth()*.15);
+
+		int offset = v.getWidth()/7;
+		
+		switch(this.event.getStartDateAndTime().get(Calendar.DAY_OF_WEEK)){
+		case Calendar.SUNDAY:
+			this.x1 = leftMargin + offset*0;
+			this.x2 = leftMargin + offset*1;
+			break;
+		case Calendar.MONDAY:
+			this.x1 = leftMargin + offset*1;
+			this.x2 = leftMargin + offset*2;
+			break;
+		case Calendar.TUESDAY:
+			this.x1 = leftMargin + offset*2;
+			this.x2 = leftMargin + offset*3;
+			break;
+		case Calendar.WEDNESDAY:
+			this.x1 = leftMargin + offset*3;
+			this.x2 = leftMargin + offset*4;
+			break;
+		case Calendar.THURSDAY:
+			this.x1 = leftMargin + offset*4;
+			this.x2 = leftMargin + offset*5;
+			break;
+		case Calendar.FRIDAY:
+			this.x1 = leftMargin + offset*5;
+			this.x2 = leftMargin + offset*6;
+			break;
+		case Calendar.SATURDAY:
+			this.x1 = leftMargin + offset*6;
+			this.x2 = leftMargin + offset*7;
+			break;
+			
+		}
+
+		//from start time, figure out top of day
+
+		GregorianCalendar testCompareEnd = new GregorianCalendar(day.get(GregorianCalendar.YEAR), day.get(GregorianCalendar.MONTH), day.get(GregorianCalendar.DATE)+1, 0, 0);
+		long epochOfDay = day.getTimeInMillis();
+		long endOfDay = testCompareEnd.getTimeInMillis();
+		long millisPerPixel =  (endOfDay - epochOfDay)/v.getHeight();
+
+
+		if(event.getStartDateAndTime().before(day)){
+			this.y1 = 0;
+		}
+		else{
+			this.y1 = (int) ((event.getStartDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
+
+		}
+		//	y1 = 0;
+
+		if(ev.getEndDateAndTime().after(testCompareEnd)){
+			this.y2 = v.getHeight();
+		}
+		else{
+			this.y2 = (int) ((event.getEndDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
+		}
+
+		shape = new ShapeDrawable(new RectShape());
+		shape.getPaint().setColor(Color.BLUE);
+		shape.setBounds(x1, y1, x2, y2);
 	}
 
 	public ShapeDrawable getShape() {
@@ -39,8 +102,8 @@ public class WeekEventSquare {
 	}
 
 
-	
-	
+
+
 	public boolean handleTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
 		switch(arg1.getAction()){
