@@ -45,9 +45,14 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		
 		for(AndroidCalendarEvent e : this.events){
 			EventSquare sq = new EventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
-			
 			squares.add(sq);
+			paint.setColor(Color.BLUE);
+			paint.setStyle(Style.FILL);
 			sq.getShape().draw(canvas);//draws shape inside EventSquare objects
+			
+			paint.setColor(Color.BLACK); 
+			paint.setTextSize(20); 
+			canvas.drawText(sq.getEvent().getEventTitle(), sq.x1, sq.y2, paint);
 		}
 		
 		
