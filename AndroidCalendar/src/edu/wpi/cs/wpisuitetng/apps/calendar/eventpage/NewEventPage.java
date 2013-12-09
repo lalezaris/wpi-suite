@@ -87,7 +87,6 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 	public void showStartDatePickerDialog(View v) {
 	    startDateFrag = new DatePickerFragment(startDatePickerButton, "Start Date");
 	    startDateFrag.show(getFragmentManager(), "datePicker");
-	    System.out.println("adfsadfas");
 	}
 	
 	/**Shows the time picker dialog
@@ -140,7 +139,7 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 			Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
 			Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
 			
-			AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), attendees.getSelectedUserIds(), start, "ice cream", description.getText().toString()); 
+			AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), attendees.getSelectedUsers(), start, "ice cream", description.getText().toString()); 
 			
 			System.out.println("Sending Request for unique id");
 			// Create and send the login request
@@ -155,10 +154,5 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 			toast.setText("Please enter start and end dates and times for this event!");
 			toast.show();
 		}
-	}
-	
-	public void doneEditingAttendees(View view) {
-		System.out.println("DONE EDITING in the activity");
-		
 	}
 }

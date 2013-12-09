@@ -70,12 +70,14 @@ public class UserPickerFragment extends DialogFragment {
 		return view;
 	}
 	
-	public List<Integer> getSelectedUserIds() {
-		List<Integer> userIds = new ArrayList<Integer>();
-		for(User user : selectedUsers) {
-			userIds.add(user.getIdNum());
+	public List<String> getSelectedUsers() {
+		List<String> usernames = new ArrayList<String>();
+		
+		for(User u : selectedUsers){
+			usernames.add(u.getUsername());
 		}
-		return userIds;
+		
+		return usernames;
 	}
 	
 	public void updateAllUsersList(List<User> users) {
