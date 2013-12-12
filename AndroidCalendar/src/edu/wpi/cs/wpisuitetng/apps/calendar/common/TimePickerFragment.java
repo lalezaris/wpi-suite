@@ -14,7 +14,6 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import java.util.Calendar;
 
-import edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.EventDate;
 import edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.EventTime;
 
 import android.app.Dialog;
@@ -30,8 +29,7 @@ import android.widget.TimePicker;
  * @author Sam Lalezari
  * @version Nov 10, 2013
  */
-public class TimePickerFragment extends DialogFragment implements
-OnTimeSetListener {
+public class TimePickerFragment extends DialogFragment implements OnTimeSetListener {
 
 	private Button timePickerButton;
 	private String buttonText;
@@ -42,24 +40,31 @@ OnTimeSetListener {
 	 */
 	public EventTime getTime() {
 		return time;
-		
+	}
+	
+	public void setTime(EventTime time) {
+		this.time = time;
+		updateButtonText();
 	}
 
 	public TimePickerFragment(Button button, String text) {
 		timePickerButton = button;
 		buttonText = text;
-		time = null;
+		// If no time is provided, default to right now
+		final Calendar c = Calendar.getInstance();
+		time = new EventTime(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
+	}
+	
+	public TimePickerFragment(Button button, String text, EventTime time) {
+		timePickerButton = button;
+		buttonText = text;
+		this.time = time;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		// Use the current time as the default values for the picker
-		final Calendar c = Calendar.getInstance();
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int minute = c.get(Calendar.MINUTE);
-
 		// Create a new instance of TimePickerDialog and return it
-		return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+		return new TimePickerDialog(getActivity(), this, time.getHour(), time.getMinute(), DateFormat.is24HourFormat(getActivity()));
 	}
 
 	/* (non-Javadoc)
@@ -67,33 +72,32 @@ OnTimeSetListener {
 	 */
 	@Override
 	public void onTimeSet(TimePicker view, int hour, int minute) {
-		
 		time = new EventTime(hour, minute);
-		
+		updateButtonText();
+	}
+	
+	private void updateButtonText() {
 		String minuteString;
-		if (minute < 10){
-			minuteString = "0" + minute;
+		if (time.getMinute() < 10){
+			minuteString = "0" + time.getMinute();
 		} else {
-			minuteString = "" + minute;
+			minuteString = "" + time.getMinute();
 		}
 		
 		if(DateFormat.is24HourFormat(getActivity())){
-			timePickerButton.setText(buttonText + ": " + hour + ":" + minuteString);
+			timePickerButton.setText(buttonText + ": " + time.getHour() + ":" + minuteString);
 		} else {
-			
-			if(hour == 0){
-				hour = 12;
+			int displayHour = time.getHour();
+			if(time.getHour() == 0){
+				displayHour = 12;
 			}
 			String amOrPm = "AM";
 			
-			if(hour > 12){
-				hour = hour - 12;
+			if(time.getHour() > 12){
+				displayHour = time.getHour() - 12;
 				amOrPm = "PM";
 			}
-			timePickerButton.setText(buttonText + ": " + hour + ":" + minuteString + " " + amOrPm);
+			timePickerButton.setText(buttonText + ": " + displayHour + ":" + minuteString + " " + amOrPm);
 		}
-		
-			
 	}
-
 }

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class ViewEventPage extends CalendarCommonMenuActivity{
 	
@@ -31,8 +32,9 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 	private DatePickerFragment startDateFrag, endDateFrag;
 	private TimePickerFragment startTimeFrag, endTimeFrag;
 	private EditText title, location, description;
-	private final UserPickerFragment attendees = new UserPickerFragment(MarvinUserData.getUsername());
+	private UserPickerFragment attendees;
 	private AndroidCalendarEvent event;
+	private TextView attendeesList;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -54,11 +56,16 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
 		attendeesButton = (Button) findViewById(R.id.attendees_button);
-		endDateFrag = new DatePickerFragment(endDatePickerButton, " End Date");
-	    startTimeFrag = new TimePickerFragment(startTimePickerButton, "Start Time");
-	    endTimeFrag = new TimePickerFragment(endTimePickerButton, "End Time");
-	    startDateFrag = new DatePickerFragment(startDatePickerButton, "Start Date");
+		Calendar endDateAndTime = event.getEndDateAndTime();
+		Calendar startDateAndTime = event.getStartDateAndTime();
+		endDateFrag = new DatePickerFragment(endDatePickerButton, " End Date", new EventDate(event.getEndYear(), event.getEndMonth(), event.getEndDay()));
+	    startTimeFrag = new TimePickerFragment(startTimePickerButton, "Start Time", new EventTime(startDateAndTime.get(Calendar.HOUR_OF_DAY), startDateAndTime.get(Calendar.MINUTE)));
+	    endTimeFrag = new TimePickerFragment(endTimePickerButton, "End Time", new EventTime(endDateAndTime.get(Calendar.HOUR_OF_DAY), endDateAndTime.get(Calendar.MINUTE)));
+	    startDateFrag = new DatePickerFragment(startDatePickerButton, "Start Date", new EventDate(event.getStartYear(), event.getStartMonth(), event.getStartDay()));
 
+	    attendeesList = (TextView) findViewById(R.id.attendees_text_view);
+		attendees = new UserPickerFragment(attendeesList, MarvinUserData.getUsername(), event.getEventOwner());
+	    
 		switchToViewMode();
 		updateFields();
 	}
@@ -133,31 +140,6 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 		saveEventButton.setVisibility(Button.VISIBLE);
 		
 	}
-
-	/*
-	private void getEventFromDatabase() {
-		final ViewEventPageRequestObserver requestObserver = new ViewEventPageRequestObserver(this);
-		if(eventId != -1){
-			System.out.println("uniqueId: "+ eventId);
-			final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent/" + eventId , HttpMethod.GET);
-			request.addObserver(requestObserver);
-			request.send();
-			
-		} else {
-			//TODO: something to do if it can't get the id form the intent
-		}
-	}
-
-	public void errorGettingEvent(String error) {
-		//TODO: something to do if error getting event from database
-		
-	}
-
-	public void setEvent(AndroidCalendarEvent event) {
-		this.event = event;
-		
-		updateFields();
-	}*/
 
 	private void updateFields() {
 		title.setText(event.getEventTitle());

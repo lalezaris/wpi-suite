@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class UserPickerFragment extends DialogFragment {
 	
@@ -32,19 +33,24 @@ public class UserPickerFragment extends DialogFragment {
 	private final List<String> allUsers = new ArrayList<String>();
 	private final List<String> allUnselectedUsers = new ArrayList<String>();
 	
-	private String currentUser;
+	private String currentUser, eventOwner;
 	private ArrayAdapter<String> allUnselectedUsersAdapter;
 	private ListView selectedUserList;
 	private ArrayAdapter<String> selectedUsersAdapter;
+	private TextView attendeesList;
 
-	public UserPickerFragment(String currentUser) {
+	public UserPickerFragment(TextView attendeesList, String currentUser, String eventOwner) {
 		this.currentUser = currentUser;
+		this.eventOwner = eventOwner;
+		this.attendeesList = attendeesList;
+		updateAttendeesString();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_picker, container);
 		getDialog().setTitle("Attendees");
+		
 		final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
 		request.addObserver(new UserPickerFragmentRequestObserver(this));
 		request.send();
@@ -82,6 +88,7 @@ public class UserPickerFragment extends DialogFragment {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
+		
 		OnMenuItemClickListener listener = new OnMenuItemClickListener() {
 	        @Override
 	        public boolean onMenuItemClick(MenuItem item) {
@@ -90,8 +97,9 @@ public class UserPickerFragment extends DialogFragment {
 	        }
 	    };
 
-	    for (int i = 0, n = menu.size(); i < n; i++)
+	    for (int i = 0, n = menu.size(); i < n; i++) {
 	        menu.getItem(i).setOnMenuItemClickListener(listener);
+	    }
 	}
 	
 	@Override
@@ -101,7 +109,6 @@ public class UserPickerFragment extends DialogFragment {
 		case R.id.delete_entry:
 			delete_entry(info.position);
 			return true;
-
 		default:
 			return super.onContextItemSelected(item);
 		}
@@ -140,6 +147,7 @@ public class UserPickerFragment extends DialogFragment {
 		selectedUsers.remove(user);
 		updateAllUnselectedUsers();
 	}
+	
 	private void updateAllUnselectedUsers() {
 		if(allUnselectedUsersAdapter != null) {
 			allUnselectedUsersAdapter.clear();
@@ -151,9 +159,23 @@ public class UserPickerFragment extends DialogFragment {
 			}
 			getActivity().runOnUiThread(new Runnable() {
 	            public void run() {
-	    			selectedUsersAdapter.notifyDataSetChanged();
+            		selectedUsersAdapter.notifyDataSetChanged();
+            		updateAttendeesString();
 	            }
 			});
 		}
+	}
+	
+	private void updateAttendeesString() {
+		String usersList = "Event Owner: " + eventOwner + "\nOther Attendees: ";
+		for(int i = 0; i < selectedUsers.size(); i++) {
+			if(i == 0) {
+				usersList += selectedUsers.get(i);
+			}
+			else {
+				usersList += ", " + selectedUsers.get(i);
+			}
+		}
+		attendeesList.setText(usersList);
 	}
 }

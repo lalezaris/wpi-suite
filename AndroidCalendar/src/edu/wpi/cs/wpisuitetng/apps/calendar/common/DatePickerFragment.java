@@ -14,7 +14,6 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import java.util.Calendar;
 
-import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.EventDate;
 
 import android.app.DatePickerDialog;
@@ -41,23 +40,30 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 	public EventDate getDate() {
 		return date;
 	}
-
+	
+	public void setDate(EventDate date) {
+		this.date = date;
+		updateButtonText();
+	}
+	
 	public DatePickerFragment(Button button, String text) {
 		datePickerButton = button;
 		buttonText = text;
-		date = null;
+		//If no date is provided, default to the current date
+		final Calendar c = Calendar.getInstance();
+		date = new EventDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+	}
+
+	public DatePickerFragment(Button button, String text, EventDate date) {
+		datePickerButton = button;
+		buttonText = text;
+		this.date = date;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		// Use the current date as the default date in the picker
-		final Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
-		int day = c.get(Calendar.DAY_OF_MONTH);
-
 		// Create a new instance of DatePickerDialog and return it
-		return new DatePickerDialog(getActivity(), this, year, month, day);
+		return new DatePickerDialog(getActivity(), this, date.getYear(), date.getMonth(), date.getDay());
 	}
 
 	/* (non-Javadoc)
@@ -65,10 +71,14 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 	 */
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
+		date = new EventDate(year, month, day);
+		updateButtonText();
+	}
 
+	private void updateButtonText() {
 		String monthString = "";
 
-		switch(month){
+		switch(date.getMonth()){
 		case 0: monthString = "January";
 				break;
 		case 1: monthString = "February";
@@ -95,9 +105,6 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 				break;
 		}
 
-		datePickerButton.setText(buttonText + ": " + monthString + " " + day + ", " + year);
-		date = new EventDate(year, month, day);
-		
+		datePickerButton.setText(buttonText + ": " + monthString + " " + date.getDay() + ", " + date.getYear());
 	}
-
 }

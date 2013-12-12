@@ -20,6 +20,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	private List<String> attendees;
 	private String eventOwner;
 	private String description;
+	
 	private int startMonth;
 	private int startWeekNum;
 	private int startYear;
@@ -216,9 +217,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	/**
 	 * @return the endMonth
 	 */
-	public int getEndMonth() {
-		return endMonth;
-	}
+	
 
 	/**
 	 * @return the endWeekNum
@@ -230,28 +229,43 @@ public class AndroidCalendarEvent extends AbstractModel {
 	/**
 	 * @return the endYear
 	 */
-	public int getEndYear() {
-		return endYear;
-	}
+	
 
 	/**
 	 * @return the endDay
 	 */
-	public int getEndDay() {
-		return endDay;
-	}
+	
 
 	
 	public String toString() {
 		return eventTitle;
 	}
-
 	public String getEventOwner() {
 		return eventOwner;
 	}
-
 	public void setEventOwner(String eventOwner) {
 		this.eventOwner = eventOwner;
 	}
-
+	
+	public int getEndYear() {
+		return endDateAndTime.get(Calendar.YEAR);
+	}
+	public int getEndMonth() {
+		return endDateAndTime.get(Calendar.MONTH);
+	}
+	public int getEndDay() {
+		return endDateAndTime.get(Calendar.DAY_OF_MONTH);
+	}
+	public int getEndHour() {
+		return endDateAndTime.get(Calendar.HOUR_OF_DAY);
+	}
+	public int getEndMinute() {
+		return endDateAndTime.get(Calendar.MINUTE);
+	}
+	public int getStartHour() {
+		return startDateAndTime.get(Calendar.HOUR_OF_DAY);
+	}
+	public int getStartMinute() {
+		return startDateAndTime.get(Calendar.MINUTE);
+	}
 }

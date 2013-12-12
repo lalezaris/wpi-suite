@@ -24,16 +24,18 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.TextView;
 
 public class NewEventPage extends CalendarCommonMenuActivity {
 	
-	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, attendeesPickerButton; //alertPickerButton, 
+	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton; //alertPickerButton, 
 	private EventDate startDate, endDate;
 	private EventTime startTime, endTime;
 	private DatePickerFragment startDateFrag, endDateFrag;
 	private TimePickerFragment startTimeFrag, endTimeFrag;
-	private final UserPickerFragment attendees = new UserPickerFragment(MarvinUserData.getUsername());
+	private UserPickerFragment attendees;
 	private EditText title, location, description;
+	private TextView attendeesList;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -47,12 +49,13 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
 		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
-		attendeesPickerButton = (Button) findViewById(R.id.attendees_button);
 		//alertPickerButton = (Button) findViewById(R.id.alert_button);
 		title = (EditText) findViewById(R.id.event_title_field);
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
 		
+		attendeesList = (TextView) findViewById(R.id.attendees_text_view);
+		attendees = new UserPickerFragment(attendeesList, MarvinUserData.getUsername(), MarvinUserData.getUsername());
 	}
 
 	/* (non-Javadoc)
