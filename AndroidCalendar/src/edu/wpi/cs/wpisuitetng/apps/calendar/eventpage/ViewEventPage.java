@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.CommonCalendarData;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.UserPickerFragment;
@@ -15,13 +16,12 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
-import android.content.Intent;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.text.format.DateFormat;
 
 public class ViewEventPage extends CalendarCommonMenuActivity{
 	
@@ -32,7 +32,6 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 	private TimePickerFragment startTimeFrag, endTimeFrag;
 	private EditText title, location, description;
 	private final UserPickerFragment attendees = new UserPickerFragment(MarvinUserData.getUsername());
-	private long eventId;
 	private AndroidCalendarEvent event;
 	
 	/* (non-Javadoc)
@@ -43,11 +42,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event_page);
 		
-		final Intent intent = getIntent();
-		
-		eventId = intent.getLongExtra(AndroidCalendarEvent.ID, -1);
-
-		System.out.println("eventId: "+ eventId);
+		this.event = CommonCalendarData.getInstance().getCurrentEvent();
 		
 		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
 		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
@@ -65,7 +60,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 	    startDateFrag = new DatePickerFragment(startDatePickerButton, "Start Date");
 
 		switchToViewMode();
-		getEventFromDatabase();
+		updateFields();
 	}
 	
 	/* (non-Javadoc)
@@ -75,7 +70,10 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.calendar_common_menu, menu);
-		getMenuInflater().inflate(R.menu.view_event_page, menu);
+		
+		if(this.event.getEventOwner().equals(MarvinUserData.getUsername())) {
+			getMenuInflater().inflate(R.menu.view_event_page, menu);
+		}
 		return true;
 	}
 	
@@ -103,9 +101,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 	}
 
 	private void delete() {
-		// TODO Auto-generated method stub
-		System.out.println("Delete Item now");
-		final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent/" + eventId, HttpMethod.DELETE);
+		final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent/" + event.getUniqueId(), HttpMethod.DELETE);
 		request.send();
 		startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
 	}
@@ -138,6 +134,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 		
 	}
 
+	/*
 	private void getEventFromDatabase() {
 		final ViewEventPageRequestObserver requestObserver = new ViewEventPageRequestObserver(this);
 		if(eventId != -1){
@@ -160,7 +157,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 		this.event = event;
 		
 		updateFields();
-	}
+	}*/
 
 	private void updateFields() {
 		title.setText(event.getEventTitle());
@@ -198,8 +195,7 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 	
 	public void saveEvent(View v) {
 		if(title.getText().toString() == null || title.getText().toString().isEmpty()) {
-			toast.setText("Your event must have a title!");
-			toast.show();
+			sendToastMessage("Your event must have a title!");
 			return;
 		}
 		try {
@@ -259,14 +255,13 @@ public class ViewEventPage extends CalendarCommonMenuActivity{
 			// Create and send the login request
 			final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent", HttpMethod.POST);
 			request.setBody(event.toJSON());
-			request.addObserver(new NewEventPageRequestObserver()); // TODO: will probably want to update event list model or something
+			request.addObserver(new NewEventPageRequestObserver(this)); // TODO: will probably want to update event list model or something
 			request.send();
 			
 			switchToViewMode();
 		}
 		catch (NullPointerException e) {
-			toast.setText("Please enter start and end dates and times for this event!");
-			toast.show();
+			sendToastMessage("Please enter start and end dates and times for this event!");
 		}
 	}
 

@@ -25,7 +25,7 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 	
 	public static final String CALLING_ACTIVITY = "edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity.CALLING_ACTIVITY";
 	protected String previousActivity = "";
-	protected Toast toast;
+	private Toast toast;
 	
 	/* (non-Javadoc)
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -126,5 +126,10 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		startActivity(intent);
 		//Ends this activity so it stops using system resources.
 		finish();
+	}
+	
+	public void sendToastMessage(String message) {
+		toast.setText(message);
+		toast.show();
 	}
 }

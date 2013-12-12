@@ -29,9 +29,7 @@ import android.widget.ListView;
 public class UserPickerFragment extends DialogFragment {
 	
 	private final List<String> selectedUsers = new ArrayList<String>();
-	
 	private final List<String> allUsers = new ArrayList<String>();
-	
 	private final List<String> allUnselectedUsers = new ArrayList<String>();
 	
 	private String currentUser;
@@ -158,5 +156,4 @@ public class UserPickerFragment extends DialogFragment {
 			});
 		}
 	}
-	//TODO: Add the ability to delete a user by clicking on them
 }

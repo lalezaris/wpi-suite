@@ -24,8 +24,8 @@ public class EventListFragment extends ListFragment {
 		if(this.getActivity().getLocalClassName().toLowerCase().equals("eventlist.eventlistactivity".toLowerCase())){
 			intent.putExtra(CalendarCommonMenuActivity.CALLING_ACTIVITY, "list");
 		}
-			intent.putExtra(AndroidCalendarEvent.ID, event.getUniqueId());
-		
+		//intent.putExtra(AndroidCalendarEvent.ID, event.getUniqueId());
+		CommonCalendarData.getInstance().setCurrentEvent(event);
 
 		//Starts the next activity
 		startActivity(intent);

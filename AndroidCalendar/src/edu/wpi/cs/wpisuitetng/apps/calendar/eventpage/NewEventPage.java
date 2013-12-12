@@ -136,8 +136,7 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 	
 	public void saveEvent(View v) {
 		if(title.getText().toString() == null || title.getText().toString().isEmpty()) {
-			toast.setText("Your event must have a title!");
-			toast.show();
+			sendToastMessage("Your event must have a title!");
 			return;
 		}
 		try {
@@ -150,14 +149,13 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 			// Create and send the login request
 			final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent", HttpMethod.PUT);
 			request.setBody(newEvent.toJSON());
-			request.addObserver(new NewEventPageRequestObserver()); // TODO: will probably want to update event list model or something
+			request.addObserver(new NewEventPageRequestObserver(this)); // TODO: will probably want to update event list model or something
 			request.send();
 			
 			startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
 		}
 		catch (NullPointerException e) {
-			toast.setText("Please enter start and end dates and times for this event!");
-			toast.show();
+			sendToastMessage("Please enter start and end dates and times for this event!");
 		}
 	}
 }
