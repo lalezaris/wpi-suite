@@ -8,6 +8,7 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -25,25 +26,26 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
+/**
+ * @author Nathan Longnecker
+ *
+ */
 public class UserPickerFragment extends DialogFragment {
 	
 	private final List<String> selectedUsers = new ArrayList<String>();
 	private final List<String> allUsers = new ArrayList<String>();
 	private final List<String> allUnselectedUsers = new ArrayList<String>();
 	
-	private String currentUser, eventOwner;
+	private String currentUser;
 	private ArrayAdapter<String> allUnselectedUsersAdapter;
 	private ListView selectedUserList;
 	private ArrayAdapter<String> selectedUsersAdapter;
-	private TextView attendeesList;
+	private AndroidCalendarEvent currentEvent;
 
-	public UserPickerFragment(TextView attendeesList, String currentUser, String eventOwner) {
+	public UserPickerFragment(AndroidCalendarEvent currentEvent, String currentUser) {
 		this.currentUser = currentUser;
-		this.eventOwner = eventOwner;
-		this.attendeesList = attendeesList;
-		updateAttendeesString();
+		this.currentEvent = currentEvent;
 	}
 
 	@Override
@@ -52,7 +54,7 @@ public class UserPickerFragment extends DialogFragment {
 		getDialog().setTitle("Attendees");
 		
 		final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
-		request.addObserver(new UserPickerFragmentRequestObserver(this));
+		request.addObserver(new UserPickerFragmentRequestObserver(this, (CalendarCommonMenuActivity) getActivity()));
 		request.send();
 		
 		selectedUsersAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, selectedUsers);
@@ -119,16 +121,6 @@ public class UserPickerFragment extends DialogFragment {
 		removeSelectedUser(username);
 	}
 	
-	public List<String> getSelectedUsers() {
-		return selectedUsers;
-	}
-	
-	public void setSelectedUsers(List<String> users) {
-		selectedUsers.clear();
-		selectedUsers.addAll(users);
-		updateAllUnselectedUsers();
-	}
-	
 	public void updateAllUsersList(List<User> users) {
 		allUsers.clear();
 		for(User u :users) {
@@ -141,10 +133,15 @@ public class UserPickerFragment extends DialogFragment {
 	
 	private void addSelectedUser(String user) {
 		selectedUsers.add(user);
+		currentEvent.setAttendees(selectedUsers);
+		currentEvent.notifyObservers(EventAttributes.Attendees);
 		updateAllUnselectedUsers();
 	}
+	
 	private void removeSelectedUser(String user) {
 		selectedUsers.remove(user);
+		currentEvent.setAttendees(selectedUsers);
+		currentEvent.notifyObservers(EventAttributes.Attendees);
 		updateAllUnselectedUsers();
 	}
 	
@@ -160,22 +157,8 @@ public class UserPickerFragment extends DialogFragment {
 			getActivity().runOnUiThread(new Runnable() {
 	            public void run() {
             		selectedUsersAdapter.notifyDataSetChanged();
-            		updateAttendeesString();
 	            }
 			});
 		}
-	}
-	
-	private void updateAttendeesString() {
-		String usersList = "Event Owner: " + eventOwner + "\nOther Attendees: ";
-		for(int i = 0; i < selectedUsers.size(); i++) {
-			if(i == 0) {
-				usersList += selectedUsers.get(i);
-			}
-			else {
-				usersList += ", " + selectedUsers.get(i);
-			}
-		}
-		attendeesList.setText(usersList);
 	}
 }

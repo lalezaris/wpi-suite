@@ -7,22 +7,20 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Sam Lalezari
+ *    Sam Lalezari, Nathan Longnecker
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import java.util.Calendar;
 
-import edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.EventTime;
-
+import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.widget.Button;
 import android.widget.TimePicker;
 
 /**
@@ -30,41 +28,31 @@ import android.widget.TimePicker;
  * @version Nov 10, 2013
  */
 public class TimePickerFragment extends DialogFragment implements OnTimeSetListener {
-
-	private Button timePickerButton;
-	private String buttonText;
-	private EventTime time;
-
-	/**
-	 * @return the date
-	 */
-	public EventTime getTime() {
-		return time;
-	}
 	
-	public void setTime(EventTime time) {
-		this.time = time;
-		updateButtonText();
-	}
+	private AndroidCalendarEvent currentEvent;
+	private EventAttributes startOrEnd;
 
-	public TimePickerFragment(Button button, String text) {
-		timePickerButton = button;
-		buttonText = text;
-		// If no time is provided, default to right now
-		final Calendar c = Calendar.getInstance();
-		time = new EventTime(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
-	}
-	
-	public TimePickerFragment(Button button, String text, EventTime time) {
-		timePickerButton = button;
-		buttonText = text;
-		this.time = time;
+	public TimePickerFragment(AndroidCalendarEvent currentEvent, EventAttributes startOrEnd) {
+		this.currentEvent = currentEvent;
+		this.startOrEnd = startOrEnd;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		int hour;
+		int minute;
+		boolean is24HourFormat = DateFormat.is24HourFormat(getActivity());
+		if(startOrEnd == EventAttributes.Start) {
+			hour = currentEvent.getStartDateAndTime().get(Calendar.HOUR_OF_DAY);
+			minute = currentEvent.getStartDateAndTime().get(Calendar.MINUTE);
+		}
+		else {
+			hour = currentEvent.getEndDateAndTime().get(Calendar.HOUR_OF_DAY);
+			minute = currentEvent.getEndDateAndTime().get(Calendar.MINUTE);
+		}
+		
 		// Create a new instance of TimePickerDialog and return it
-		return new TimePickerDialog(getActivity(), this, time.getHour(), time.getMinute(), DateFormat.is24HourFormat(getActivity()));
+		return new TimePickerDialog(getActivity(), this, hour, minute, is24HourFormat);
 	}
 
 	/* (non-Javadoc)
@@ -72,32 +60,12 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 	 */
 	@Override
 	public void onTimeSet(TimePicker view, int hour, int minute) {
-		time = new EventTime(hour, minute);
-		updateButtonText();
-	}
-	
-	private void updateButtonText() {
-		String minuteString;
-		if (time.getMinute() < 10){
-			minuteString = "0" + time.getMinute();
-		} else {
-			minuteString = "" + time.getMinute();
+		if(startOrEnd == EventAttributes.Start) {
+			currentEvent.setStartTime(hour, minute);
 		}
-		
-		if(DateFormat.is24HourFormat(getActivity())){
-			timePickerButton.setText(buttonText + ": " + time.getHour() + ":" + minuteString);
-		} else {
-			int displayHour = time.getHour();
-			if(time.getHour() == 0){
-				displayHour = 12;
-			}
-			String amOrPm = "AM";
-			
-			if(time.getHour() > 12){
-				displayHour = time.getHour() - 12;
-				amOrPm = "PM";
-			}
-			timePickerButton.setText(buttonText + ": " + displayHour + ":" + minuteString + " " + amOrPm);
+		else {
+			currentEvent.setEndTime(hour, minute);
 		}
+		currentEvent.notifyObservers(startOrEnd);
 	}
 }

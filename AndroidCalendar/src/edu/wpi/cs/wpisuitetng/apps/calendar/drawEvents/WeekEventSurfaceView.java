@@ -81,7 +81,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 				Context c = getContext();
 				Intent i = new Intent(c, edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.ViewEventPage.class);
 				
-				i.putExtra(AndroidCalendarEvent.ID, s.getEvent().getUniqueId());
+				i.putExtra(AndroidCalendarEvent.EVENT, s.getEvent());
 
 				//Starts the next activity
 				c.startActivity(i);

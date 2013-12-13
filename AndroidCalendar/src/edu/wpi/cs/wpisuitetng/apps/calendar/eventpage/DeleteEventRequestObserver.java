@@ -8,14 +8,14 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * @author Sam Lalezari
+ * @author Nathan Longnecker
  *
  */
-public class NewEventPageRequestObserver implements RequestObserver {
+public class DeleteEventRequestObserver implements RequestObserver {
 	
 	private CalendarCommonMenuActivity calendar;
 
-	public NewEventPageRequestObserver(CalendarCommonMenuActivity calendar) {
+	public DeleteEventRequestObserver(CalendarCommonMenuActivity calendar) {
 		this.calendar = calendar;
 	}
 	
@@ -25,7 +25,7 @@ public class NewEventPageRequestObserver implements RequestObserver {
 	@Override
 	public void fail(IRequest arg0, Exception arg1) {
 		if(calendar != null)
-			calendar.sendToastMessage("Unable to save event.");
+			calendar.sendToastMessage("Unable to delete event.");
 	}
 
 	/* (non-Javadoc)
@@ -43,7 +43,7 @@ public class NewEventPageRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		if(calendar != null)
-			calendar.sendToastMessage("Event saved!");
+			calendar.sendToastMessage("Event deleted!");
 	}
 
 }

@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
@@ -37,10 +35,12 @@ public abstract class CalendarCommonMenuActivity extends Activity {
         
         if(this.getIntent().hasExtra(CALLING_ACTIVITY)){
         	previousActivity = this.getIntent().getStringExtra(CALLING_ACTIVITY);
-        	System.out.println("previous activity: " + previousActivity);
         } 
     }
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

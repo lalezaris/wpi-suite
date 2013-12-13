@@ -38,7 +38,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		// TODO: there must be a faster way to do this with db4o
 		// note that this is not project-specific - ids are unique across projects
 		
-		return db.retrieveAll(new AndroidCalendarEvent()).size();
+		return db.retrieveAll(new AndroidCalendarEvent(null)).size();
 	}
 	
 	@Override
@@ -89,7 +89,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 				e.printStackTrace();
 			}
 		} else {
-			modelList = db.retrieveAll(new AndroidCalendarEvent(), s.getProject());
+			modelList = db.retrieveAll(new AndroidCalendarEvent(null), s.getProject());
 		}
 		
 		if(extraFields.size() == extraValues.size()){
@@ -253,7 +253,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 
 	@Override
 	public Model[] getAll(Session arg0) throws WPISuiteException {
-		List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent());//db.retrieveAll(new AndroidCalendarEvent(), arg0.getProject());
+		List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent(null));//db.retrieveAll(new AndroidCalendarEvent(), arg0.getProject());
 		
 		AndroidCalendarEvent[] eventsArray = events.toArray(new AndroidCalendarEvent[0]);
 		
@@ -280,7 +280,6 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		final AndroidCalendarEvent newEvent = new Gson().fromJson(content, AndroidCalendarEvent.class);
 		
 		newEvent.setUniqueId(getUniqueId());
-		newEvent.setEventOwner(s.getUsername());
 		
 		db.save(newEvent, s.getProject());
 		
@@ -289,7 +288,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	}
 
 	private long getUniqueId() {
-		final List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent());
+		final List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent(null));
 		long id = 0;
 		
 		for(AndroidCalendarEvent e: events){
@@ -310,14 +309,10 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	@Override
 	public Model update(Session arg0, String arg1) throws WPISuiteException {
 		
-		
 		AndroidCalendarEvent event = new Gson().fromJson(arg1, AndroidCalendarEvent.class);
 		
 		System.out.println();
 		System.out.println("event: " + event.toJSON());
-		
-		event.updateFields();
-		System.out.println("Updated fields");
 		
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "eventTitle", event.getEventTitle());
 		db.update(AndroidCalendarEvent.class, "uniqueid", event.getUniqueId(), "startDateAndTime", event.getStartDateAndTime());
