@@ -3,22 +3,29 @@
  */
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * @author Sam Lalezari
+ * @author Nathan Longnecker
  *
  */
-public class NewEventPageRequestObserver implements RequestObserver {
+public class DeleteEventRequestObserver implements RequestObserver {
+	
+	private CalendarCommonMenuActivity calendar;
 
+	public DeleteEventRequestObserver(CalendarCommonMenuActivity calendar) {
+		this.calendar = calendar;
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest arg0, Exception arg1) {
-		// TODO Auto-generated method stub
-
+		if(calendar != null)
+			calendar.sendToastMessage("Unable to delete event.");
 	}
 
 	/* (non-Javadoc)
@@ -26,17 +33,17 @@ public class NewEventPageRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest arg0) {
-		// TODO Auto-generated method stub
-
+		if(calendar != null)
+			calendar.sendToastMessage("An error occurred.");
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
-	public void responseSuccess(IRequest arg0) {
-		// TODO Auto-generated method stub	
-		System.out.println("Event was added! " + arg0.getBody());
+	public void responseSuccess(IRequest iReq) {
+		if(calendar != null)
+			calendar.sendToastMessage("Event deleted!");
 	}
 
 }

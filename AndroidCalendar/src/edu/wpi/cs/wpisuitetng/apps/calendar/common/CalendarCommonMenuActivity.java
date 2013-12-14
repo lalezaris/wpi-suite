@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
@@ -25,7 +23,7 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 	
 	public static final String CALLING_ACTIVITY = "edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity.CALLING_ACTIVITY";
 	protected String previousActivity = "";
-	protected Toast toast;
+	private Toast toast;
 	
 	/* (non-Javadoc)
      * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -37,10 +35,12 @@ public abstract class CalendarCommonMenuActivity extends Activity {
         
         if(this.getIntent().hasExtra(CALLING_ACTIVITY)){
         	previousActivity = this.getIntent().getStringExtra(CALLING_ACTIVITY);
-        	System.out.println("previous activity: " + previousActivity);
         } 
     }
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -92,7 +92,7 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity.class);
 		
 		//Tells the startup activity not to login automatically
-		intent.putExtra(edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity.AUTO_LOGIN, "false");
+		intent.putExtra(edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginControllerActivity.AUTO_LOGIN, false);
 		
 		//Starts the next activity
 		startActivity(intent);
@@ -126,5 +126,10 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		startActivity(intent);
 		//Ends this activity so it stops using system resources.
 		finish();
+	}
+	
+	public void sendToastMessage(String message) {
+		toast.setText(message);
+		toast.show();
 	}
 }

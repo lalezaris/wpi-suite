@@ -67,11 +67,7 @@ public class LoginControllerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_controller);
         
-        boolean automaticallyLogin = false;
-        String doAutoLogin = getIntent().getStringExtra(LoginControllerActivity.AUTO_LOGIN);
-        if(doAutoLogin != null) {
-        	automaticallyLogin = doAutoLogin.equals("true");
-        }
+        boolean automaticallyLogin = getIntent().getBooleanExtra(LoginControllerActivity.AUTO_LOGIN, false);
 		
 		usernameField = (EditText) findViewById(R.id.username_text);
 		passwordField = (EditText) findViewById(R.id.password_text);

@@ -1,91 +1,124 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.models;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.google.gson.Gson;
 
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.AlertOptions;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-public class AndroidCalendarEvent extends AbstractModel {
-	
+/**
+ * The AndroidCalendarEvent model
+ * @author Nathan Longnecker
+ *
+ */
+public class AndroidCalendarEvent extends AbstractModel implements Serializable {
+
+	private static final long serialVersionUID = 1969524869295007920L;
+
+	public static final String EVENT = "edu.wpi.cs.wpisuitetng.calendar.models.EVENT";
 	public static final String ID = "edu.wpi.cs.wpisuitetng.calendar.models.ID";
 	
 	private long uniqueId;
 	private String eventTitle;
 	private Calendar startDateAndTime;
 	private Calendar endDateAndTime;
+	private List<AlertOptions> alerts;
 	private String location;
 	private List<String> attendees;
 	private String eventOwner;
 	private String description;
-	private int startMonth;
-	private int startWeekNum;
-	private int startYear;
-	private int startDay;
-	private int endMonth;
-	private int endWeekNum;
-	private int endYear;
-	private int endDay;
 	
-	public AndroidCalendarEvent(String eventTitle, Calendar startDateAndTime,
+	public AndroidCalendarEvent(String eventOwner, String eventTitle, Calendar startDateAndTime,
 			Calendar endDateAndTime, String location, List<String> attendees, String description) {
+		this.eventOwner = eventOwner;
 		this.eventTitle = eventTitle;
 		this.startDateAndTime = startDateAndTime;
 		this.endDateAndTime = endDateAndTime;
 		this.location = location;
 		this.attendees = attendees;
 		this.description = description;
-		
-		updateFields();
-	}
-	
-	public void updateFields() {
-		startMonth = startDateAndTime.get(Calendar.MONTH);
-		endMonth = endDateAndTime.get(Calendar.MONTH);
-		
-		startWeekNum = startDateAndTime.get(Calendar.WEEK_OF_YEAR);
-		endWeekNum = endDateAndTime.get(Calendar.WEEK_OF_YEAR);
-		
-		startYear = startDateAndTime.get(Calendar.YEAR);
-		endYear = endDateAndTime.get(Calendar.YEAR);
-		
-		startDay = startDateAndTime.get(Calendar.DAY_OF_MONTH);
-		endDay = endDateAndTime.get(Calendar.DAY_OF_MONTH);		
+		this.alerts = new ArrayList<AlertOptions>();
 	}
 
-	public AndroidCalendarEvent() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public Boolean identify(Object arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public String toJSON() {
-		String jsonString = "";
-		try {
-			jsonString = (new Gson()).toJson(this, AndroidCalendarEvent.class);
-		}
-		catch (NullPointerException e) {
-			jsonString = "Error Jsoning " + eventTitle;
-		}
-		return jsonString;
+	public AndroidCalendarEvent(String eventOwner) {
+		this.eventOwner = eventOwner;
+		this.eventTitle = "";
+		this.startDateAndTime = new GregorianCalendar();
+		this.endDateAndTime = new GregorianCalendar();
+		this.location = "";
+		this.attendees = new ArrayList<String>();
+		this.description = "";
+		this.alerts = new ArrayList<AlertOptions>();
 	}
 	
+	// Methods to ease updating fields
+	/**
+	 * Sets the end date of the event
+	 * @param year The year
+	 * @param month The number of the month (Use the Calendar enum)
+	 * @param day The day of the month
+	 */
+	public void setStartDate(int year, int month, int day) {
+		startDateAndTime.set(Calendar.YEAR, year);
+		startDateAndTime.set(Calendar.MONTH, month);
+		startDateAndTime.set(Calendar.DAY_OF_MONTH, day);
+		setChanged();
+	}
+	
+	/**
+	 * Sets the start time, using twenty-four hour time
+	 * @param hour The hour in 24 hour time
+	 * @param minute The minute of the hour
+	 */
+	public void setStartTime(int hour, int minute) {
+		startDateAndTime.set(Calendar.HOUR_OF_DAY, hour);
+		startDateAndTime.set(Calendar.MINUTE, minute);
+		setChanged();
+	}
+	
+	/**
+	 * Sets the end date of the event
+	 * @param year The year
+	 * @param month The number of the month (Use the Calendar enum)
+	 * @param day The day of the month
+	 */
+	public void setEndDate(int year, int month, int day) {
+		endDateAndTime.set(Calendar.YEAR, year);
+		endDateAndTime.set(Calendar.MONTH, month);
+		endDateAndTime.set(Calendar.DAY_OF_MONTH, day);
+		setChanged();
+	}
+	
+	/**
+	 * Sets the end time, using twenty-four hour time
+	 * @param hour The hour in 24 hour time
+	 * @param minute The minute of the hour
+	 */
+	public void setEndTime(int hour, int minute) {
+		endDateAndTime.set(Calendar.HOUR_OF_DAY, hour);
+		endDateAndTime.set(Calendar.MINUTE, minute);
+		setChanged();
+	}
+	
+	//Methods for use by db4o
+	public int getStartMonth() {
+		return startDateAndTime.get(Calendar.MONTH);
+	}
+	
+	public int getStartWeekNum() {
+		return startDateAndTime.get(Calendar.WEEK_OF_YEAR);
+	}
+	
+	public int getDay() {
+		return startDateAndTime.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	//Getters and Setters
 	/**
 	 * @return the eventTitle
 	 */
@@ -98,6 +131,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setEventTitle(String eventTitle) {
 		this.eventTitle = eventTitle;
+		setChanged();
 	}
 
 	/**
@@ -112,7 +146,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setStartDateAndTime(Calendar startDateAndTime) {
 		this.startDateAndTime = startDateAndTime;
-		updateFields();
+		setChanged();
 	}
 
 	/**
@@ -127,7 +161,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setEndDateAndTime(Calendar endDateAndTime) {
 		this.endDateAndTime = endDateAndTime;
-		updateFields();
+		setChanged();
 	}
 
 	/**
@@ -142,6 +176,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setLocation(String location) {
 		this.location = location;
+		setChanged();
 	}
 
 	/**
@@ -156,7 +191,9 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setAttendees(List<String> attendees) {
 		this.attendees = attendees;
+		setChanged();
 	}
+	
 	/**
 	 * @return the description
 	 */
@@ -169,6 +206,7 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+		setChanged();
 	}
 
 	/**
@@ -183,75 +221,64 @@ public class AndroidCalendarEvent extends AbstractModel {
 	 */
 	public void setUniqueId(long uniqueId) {
 		this.uniqueId = uniqueId;
+		setChanged();
 	}
 	
-	/**
-	 * @return the startMonth
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	public int getStartMonth() {
-		return startMonth;
-	}
-
-	/**
-	 * @return the startWeekNum
-	 */
-	public int getStartWeekNum() {
-		return startWeekNum;
-	}
-
-	/**
-	 * @return the startYear
-	 */
-	public int getStartYear() {
-		return startYear;
-	}
-
-	/**
-	 * @return the startDay
-	 */
-	public int getStartDay() {
-		return startDay;
-	}
-
-	/**
-	 * @return the endMonth
-	 */
-	public int getEndMonth() {
-		return endMonth;
-	}
-
-	/**
-	 * @return the endWeekNum
-	 */
-	public int getEndWeekNum() {
-		return endWeekNum;
-	}
-
-	/**
-	 * @return the endYear
-	 */
-	public int getEndYear() {
-		return endYear;
-	}
-
-	/**
-	 * @return the endDay
-	 */
-	public int getEndDay() {
-		return endDay;
-	}
-
-	
+	@Override
 	public String toString() {
 		return eventTitle;
 	}
 
+	/**
+	 * @return the eventOwner
+	 */
 	public String getEventOwner() {
 		return eventOwner;
 	}
 
-	public void setEventOwner(String eventOwner) {
-		this.eventOwner = eventOwner;
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
+	@Override
+	public void save() {
+		// TODO Not Implemented.
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
+	@Override
+	public void delete() {
+		// Intentionally not implemented. When we delete an AndroidCalendarEvent, we remove it from the database
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
+	
+	@Override
+	public Boolean identify(Object o) {
+		return uniqueId == ((AndroidCalendarEvent)o).getUniqueId();
+	}
+	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
+	@Override
+	public String toJSON() {
+		return (new Gson()).toJson(this, AndroidCalendarEvent.class);
 	}
 
+	public List<AlertOptions> getAlerts() {
+		return alerts;
+	}
+
+	public void setAlert(ArrayList<AlertOptions> selectedAlerts) {
+		alerts.clear();
+		alerts.addAll(selectedAlerts);
+		setChanged();
+	}
 }

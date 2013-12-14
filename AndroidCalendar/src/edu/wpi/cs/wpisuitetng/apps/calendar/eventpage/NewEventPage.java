@@ -1,11 +1,16 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.AlertOptions;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
@@ -17,33 +22,10 @@ import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import android.os.Bundle;
-import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class NewEventPage extends CalendarCommonMenuActivity {
-	
-	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, attendeesPickerButton, alertPickerButton; 
-	private EventDate startDate, endDate;
-	private EventTime startTime, endTime;
-	private DatePickerFragment startDateFrag, endDateFrag;
-	private TimePickerFragment startTimeFrag, endTimeFrag;
-	private final UserPickerFragment attendees = new UserPickerFragment(MarvinUserData.getUsername());
-	private EditText title, location, description;
-	private List<AlertOptions> selectedAlerts, finalAlerts;
-	
-	
+
+public class NewEventPage extends AbstractEventPage {
+
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -52,17 +34,10 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event_page);
 		
-		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
-		startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
-		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
-		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
-		attendeesPickerButton = (Button) findViewById(R.id.attendees_button);
-		alertPickerButton = (Button) findViewById(R.id.alert_button);
-		title = (EditText) findViewById(R.id.event_title_field);
-		location = (EditText) findViewById(R.id.location_field);
-		description = (EditText) findViewById(R.id.description_field);
+//		finalAlerts = new ArrayList<AlertOptions>();
 		
-		finalAlerts = new ArrayList<AlertOptions>();
+		currentEvent = new AndroidCalendarEvent(MarvinUserData.getUsername());
+		currentEvent.addObserver(this);
 	}
 
 	/* (non-Javadoc)
@@ -85,131 +60,39 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 		if(!super.onOptionsItemSelected(item)) {
 			switch(item.getItemId()) {
 			case R.id.cancel_current_item:
-				startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
+				returnToPreviousActivity();
 				break;
 			default:
 				selectedItem = false;
 				break;
 			}
 		}
-
 		return selectedItem;
 	}
 	
-	/**Shows the date picker dialog
-	 * @param v the current view
-	 */
-	public void showStartDatePickerDialog(View v) {
-	    startDateFrag = new DatePickerFragment(startDatePickerButton, "Start Date");
-	    startDateFrag.show(getFragmentManager(), "datePicker");
-	}
-	
-	/**Shows the time picker dialog
-	 * @param v the current view
-	 */
-	public void showEndTimePickerDialog(View v) {
-	    endTimeFrag = new TimePickerFragment(endTimePickerButton, "End Time");
-	    endTimeFrag.show(getFragmentManager(), "timePicker");
-	}
-	
-	/**Shows the date picker dialog
-	 * @param v the current view
-	 */
-	public void showEndDatePickerDialog(View v) {
-	    endDateFrag = new DatePickerFragment(endDatePickerButton, " End Date");
-	    endDateFrag.show(getFragmentManager(), "datePicker");
-	}
-	
-	/**Shows the time picker dialog
-	 * @param v the current view
-	 */
-	public void showStartTimePickerDialog(View v) {
-	    startTimeFrag = new TimePickerFragment(startTimePickerButton, "Start Time");
-	    startTimeFrag.show(getFragmentManager(), "timePicker");
-	}
-	
-	/**Shows the alert time picker dialog
-	 * @param v the current view
-	 */
-	
-	public void showAlertPickerDialog(View v) {
-//	    DialogFragment newFragment = new TimePickerFragment(alertPickerButton, "Alert");
-//	    newFragment.show(getFragmentManager(), "timePicker");
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		
-		final ArrayList<String> alertOptions = new ArrayList<String>();
-		alertOptions.addAll(AlertOptions.stringValues());
-		
-//		final ArrayList<String> items = null;
-//		for (AlertOptions opt : alertOptions){
-//			items.add(opt.toString());
-//		}
-		selectedAlerts = new ArrayList<AlertOptions>();
-		selectedAlerts.addAll(finalAlerts);
-		
-		alertDialogBuilder.setTitle("Alert Time");
-		alertDialogBuilder.setMultiChoiceItems(alertOptions.toArray(new String[0]), null, new DialogInterface.OnMultiChoiceClickListener() {
-		
-			@Override
-			public void onClick(DialogInterface arg0, int itemIndex, boolean isChecked) {
-				if(isChecked){
-					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(itemIndex)));
-				} else if (selectedAlerts.contains(alertOptions.get(itemIndex))) {
-					selectedAlerts.remove(itemIndex);
-				}
-			}
-		});
-		alertDialogBuilder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				finalAlerts.addAll(selectedAlerts);
-				selectedAlerts.clear();
-			}
-		});
-		alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				selectedAlerts.clear();
-				selectedAlerts.addAll(finalAlerts);
-			}
-		});
-		AlertDialog alert = alertDialogBuilder.create();
-		alert.show();
-	}
-	
-	/**Shows the attendees picker dialog
-	 * @param v the current view
-	 */
-	public void showAttendeesPickerDialog(View v) {
-	    attendees.show(getFragmentManager(), "userPicker");
-	}
-	
 	public void saveEvent(View v) {
-		if(title.getText().toString() == null || title.getText().toString().isEmpty()) {
-			toast.setText("Your event must have a title!");
-			toast.show();
-			return;
+		EditText title = (EditText) findViewById(R.id.event_title_field);
+		currentEvent.setEventTitle(title.getText().toString());
+		EditText location = (EditText) findViewById(R.id.location_field);
+		currentEvent.setLocation(location.getText().toString());
+		EditText description = (EditText) findViewById(R.id.description_field);
+		currentEvent.setDescription(description.getText().toString());
+		
+		if(currentEvent.getEventTitle().isEmpty()) {
+			sendToastMessage("Your event must have a title!");
 		}
-		try {
-			Calendar start = new GregorianCalendar(startDateFrag.getDate().getYear(), startDateFrag.getDate().getMonth(), startDateFrag.getDate().getDay(), startTimeFrag.getTime().getHour(), startTimeFrag.getTime().getMinute());
-			Calendar end = new GregorianCalendar(endDateFrag.getDate().getYear(), endDateFrag.getDate().getMonth(), endDateFrag.getDate().getDay(), endTimeFrag.getTime().getHour(), endTimeFrag.getTime().getMinute());
-			
-			AndroidCalendarEvent newEvent = new AndroidCalendarEvent(title.getText().toString(), start, end, location.getText().toString(), attendees.getSelectedUsers(), description.getText().toString()); 
-			
-			System.out.println("Sending Request for unique id");
-			// Create and send the login request
+		else if(currentEvent.getEndDateAndTime().before(currentEvent.getStartDateAndTime()) ||
+				currentEvent.getEndDateAndTime().equals(currentEvent.getStartDateAndTime())) {
+			sendToastMessage("Event must end after it starts");
+		}
+		else {
+			currentEvent.deleteObservers();
 			final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent", HttpMethod.PUT);
-			request.setBody(newEvent.toJSON());
-			request.addObserver(new NewEventPageRequestObserver()); // TODO: will probably want to update event list model or something
+			request.setBody(currentEvent.toJSON());
+			request.addObserver(new EventPageRequestObserver(this));
 			request.send();
-			
-			startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
-		}
-		catch (NullPointerException e) {
-			toast.setText("Please enter start and end dates and times for this event!");
-			toast.show();
+
+			returnToPreviousActivity();
 		}
 	}
 }

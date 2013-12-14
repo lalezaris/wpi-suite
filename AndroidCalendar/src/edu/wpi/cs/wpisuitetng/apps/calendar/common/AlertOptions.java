@@ -42,4 +42,47 @@ public enum AlertOptions {
 		}
 		return null;
 	}
+
+	public static boolean[] getCheckedItems(
+			ArrayList<AlertOptions> selectedAlerts) {
+		
+		System.out.println("Selected Alerts: " + selectedAlerts);
+		
+		ArrayList<Boolean> checkedList = new ArrayList<Boolean>();
+
+		for(AlertOptions v:values()){
+			boolean hasAdded = false;
+			
+			for(AlertOptions selected : selectedAlerts){
+				if(v.toString().equals(selected.toString())){
+					checkedList.add(true);
+					hasAdded = true;
+					System.out.println("true");
+					break;
+				}
+			}
+			
+			if(!hasAdded){
+			System.out.println("false");
+			checkedList.add(false);
+			}
+		}
+
+		System.out.println("checkedList.size() = " + checkedList.size());
+		boolean[] returnList = new boolean[checkedList.size()];
+		
+		for(int i = 0; i < returnList.length; i++){
+			System.out.println("checkedList.get("+i+") = " + checkedList.get(i).booleanValue());
+			returnList[i] = checkedList.get(i).booleanValue();
+		}
+		
+		String string = "";
+		for(boolean b:returnList){
+			string.concat(Boolean.valueOf(b).toString() + ", ");
+		}
+		
+		System.out.println("return list: { " + string + " }");
+		
+		return returnList;
+	}
 }
