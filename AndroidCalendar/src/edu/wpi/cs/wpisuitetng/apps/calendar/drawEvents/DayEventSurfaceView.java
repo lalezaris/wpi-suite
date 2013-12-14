@@ -55,8 +55,22 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		
 		for(AndroidCalendarEvent e : this.events){
 			DayEventSquare sq = new DayEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
+			
+			for(DayEventSquare s: squares){
+				//check for an overlap
+				if(sq.overlapWithSquare(s)){
+					System.out.println("Overlap found");
+					sq.setPos(DayEventSquare.Position.RIGHT);
+				}
+			}
+			
 			squares.add(sq);
 			
+			
+			
+		}
+		
+		for(DayEventSquare sq : squares){
 			paint.setStyle(Style.FILL);
 			sq.getShape().draw(canvas);//draws shape inside EventSquare objects
 			
