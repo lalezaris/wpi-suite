@@ -36,13 +36,14 @@ public class DayEventSquare {
 		long epochOfDay = day.getTimeInMillis();
 		long endOfDay = testCompareEnd.getTimeInMillis();
 		long millisPerPixel =  (endOfDay - epochOfDay)/v.getHeight();
-		
+		long millis15Min = 900000;
 
 		if(event.getStartDateAndTime().before(day)){
 			this.y1 = 0;
 		}
 		else{
 			this.y1 = (int) ((event.getStartDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
+			this.y1 = (int) (this.y1 - (this.y1 % (millis15Min/millisPerPixel)));
 
 		}
 		//	y1 = 0;
@@ -52,6 +53,8 @@ public class DayEventSquare {
 		}
 		else{
 			this.y2 = (int) ((event.getEndDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
+			this.y2 = (int) (this.y2 - (this.y2 % (millis15Min/millisPerPixel)));
+			
 		}
 
 		shape = new ShapeDrawable(new RectShape());
