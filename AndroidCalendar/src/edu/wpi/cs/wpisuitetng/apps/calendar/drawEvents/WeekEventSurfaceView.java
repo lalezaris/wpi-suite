@@ -57,7 +57,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		for(AndroidCalendarEvent e : this.events){
 			WeekEventSquare sq = new WeekEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
 			squares.add(sq);
-			paint.setColor(Color.BLUE);
+			
 			paint.setStyle(Style.FILL);
 			sq.getShape().draw(canvas);//draws shape inside EventSquare objects
 			

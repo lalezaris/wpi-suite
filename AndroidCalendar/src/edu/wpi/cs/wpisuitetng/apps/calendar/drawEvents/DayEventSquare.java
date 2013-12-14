@@ -55,7 +55,7 @@ public class DayEventSquare {
 		}
 
 		shape = new ShapeDrawable(new RectShape());
-		shape.getPaint().setColor(Color.BLUE);
+		shape.getPaint().setColor(Color.CYAN);
 		shape.setBounds(x1, y1, x2, y2);
 
 	}
