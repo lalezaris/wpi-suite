@@ -1,9 +1,13 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.AlertOptions;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
@@ -14,26 +18,31 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class NewEventPage extends CalendarCommonMenuActivity {
 	
-	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, attendeesPickerButton; //alertPickerButton, 
+	private Button startDatePickerButton, startTimePickerButton, endDatePickerButton, endTimePickerButton, attendeesPickerButton, alertPickerButton; 
 	private EventDate startDate, endDate;
 	private EventTime startTime, endTime;
 	private DatePickerFragment startDateFrag, endDateFrag;
 	private TimePickerFragment startTimeFrag, endTimeFrag;
 	private final UserPickerFragment attendees = new UserPickerFragment(MarvinUserData.getUsername());
 	private EditText title, location, description;
+	private List<AlertOptions> selectedAlerts, finalAlerts;
+	
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -48,11 +57,12 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 		endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
 		attendeesPickerButton = (Button) findViewById(R.id.attendees_button);
-		//alertPickerButton = (Button) findViewById(R.id.alert_button);
+		alertPickerButton = (Button) findViewById(R.id.alert_button);
 		title = (EditText) findViewById(R.id.event_title_field);
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
 		
+		finalAlerts = new ArrayList<AlertOptions>();
 	}
 
 	/* (non-Javadoc)
@@ -121,11 +131,53 @@ public class NewEventPage extends CalendarCommonMenuActivity {
 	/**Shows the alert time picker dialog
 	 * @param v the current view
 	 */
-	/*
+	
 	public void showAlertPickerDialog(View v) {
-	    DialogFragment newFragment = new TimePickerFragment(alertPickerButton, "Alert");
-	    newFragment.show(getFragmentManager(), "timePicker");
-	}*/
+//	    DialogFragment newFragment = new TimePickerFragment(alertPickerButton, "Alert");
+//	    newFragment.show(getFragmentManager(), "timePicker");
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		
+		final ArrayList<String> alertOptions = new ArrayList<String>();
+		alertOptions.addAll(AlertOptions.stringValues());
+		
+//		final ArrayList<String> items = null;
+//		for (AlertOptions opt : alertOptions){
+//			items.add(opt.toString());
+//		}
+		selectedAlerts = new ArrayList<AlertOptions>();
+		selectedAlerts.addAll(finalAlerts);
+		
+		alertDialogBuilder.setTitle("Alert Time");
+		alertDialogBuilder.setMultiChoiceItems(alertOptions.toArray(new String[0]), null, new DialogInterface.OnMultiChoiceClickListener() {
+		
+			@Override
+			public void onClick(DialogInterface arg0, int itemIndex, boolean isChecked) {
+				if(isChecked){
+					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(itemIndex)));
+				} else if (selectedAlerts.contains(alertOptions.get(itemIndex))) {
+					selectedAlerts.remove(itemIndex);
+				}
+			}
+		});
+		alertDialogBuilder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finalAlerts.addAll(selectedAlerts);
+				selectedAlerts.clear();
+			}
+		});
+		alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				selectedAlerts.clear();
+				selectedAlerts.addAll(finalAlerts);
+			}
+		});
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+	}
 	
 	/**Shows the attendees picker dialog
 	 * @param v the current view
