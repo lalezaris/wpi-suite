@@ -52,6 +52,7 @@ public class UserPickerFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_picker, container);
 		getDialog().setTitle("Attendees");
+		selectedUsers.addAll(currentEvent.getAttendees());
 		
 		final Request request = Network.getInstance().makeRequest("core/user/", HttpMethod.GET);
 		request.addObserver(new UserPickerFragmentRequestObserver(this, (CalendarCommonMenuActivity) getActivity()));
