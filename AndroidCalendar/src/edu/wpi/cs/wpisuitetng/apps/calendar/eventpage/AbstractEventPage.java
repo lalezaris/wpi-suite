@@ -5,6 +5,7 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -80,7 +81,6 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		
 		final ArrayList<AlertOptions> selectedAlerts = new ArrayList<AlertOptions>();
 		selectedAlerts.addAll(currentEvent.getAlerts());
-		System.out.println("currentEvent.getAlerts() = " + currentEvent.getAlerts());
 		boolean[] checkedItems = AlertOptions.getCheckedItems(selectedAlerts);
 		
 		String string = "";
@@ -88,7 +88,6 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 			string.concat(Boolean.valueOf(b).toString() + ", ");
 		}
 		
-		System.out.println("{ " + string + " }");
 		
 		alertDialogBuilder.setTitle("Alert Time");
 		alertDialogBuilder.setMultiChoiceItems(alertOptions.toArray(new String[0]), checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
@@ -97,10 +96,8 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 			public void onClick(DialogInterface arg0, int itemIndex, boolean isChecked) {
 				if(isChecked){
 					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(itemIndex)));
-					System.out.println("selectedAlerts.add = " + AlertOptions.getEnum(alertOptions.get(itemIndex)));
 				} else if (selectedAlerts.contains(AlertOptions.getEnum(alertOptions.get(itemIndex)))) {
 					selectedAlerts.remove(AlertOptions.getEnum(alertOptions.get(itemIndex)));
-					System.out.println("selectedAlerts.remove("+itemIndex+")");
 				}
 			}
 		});
@@ -109,13 +106,9 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				System.out.println("selectedAlerts = " + selectedAlerts);
 				currentEvent.setAlert(selectedAlerts);
-				System.out.println("before before getAlerts = " + currentEvent.getAlerts());
 				selectedAlerts.clear();
-				System.out.println("before getAlerts = " + currentEvent.getAlerts());
 				currentEvent.notifyObservers(EventAttributes.Alert);
-				System.out.println("getAlerts = " + currentEvent.getAlerts());
 			}
 		});
 		alertDialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -181,6 +174,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 			break;
 		case Alert:
 			updateEventAlert(currentEvent.getAlerts());
+			break;
 		default:
 			updateEventTitle(currentEvent.getEventTitle());
 			updateEventStart(currentEvent.getStartDateAndTime());
@@ -188,13 +182,26 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 			updateAttendeesList(currentEvent.getEventOwner(), currentEvent.getAttendees());
 			updateEventLocation(currentEvent.getLocation());
 			updateEventDescription(currentEvent.getDescription());
+			updateEventAlert(currentEvent.getAlerts());
 			break;
 		}
 	}
 
 	private void updateEventAlert(List<AlertOptions> alerts) {
-		// TODO Auto-generated method stub
 		
+		Collections.sort(alerts);
+		
+		System.out.println("alerts: " + alerts +"\nalerts.size(): "+ alerts.size());
+		TextView alertText = (TextView) findViewById(R.id.alert_text_view);
+		String string = "Alerts: ";
+		for(AlertOptions a : alerts) {
+			if(a.equals(alerts.get(alerts.size()-1))){
+				string += (a.toString());
+			} else {
+				string += (a.toString() + ", ");
+			}
+		}
+		alertText.setText(string);		
 	}
 
 	private void updateEventTitle(String eventTitle) {

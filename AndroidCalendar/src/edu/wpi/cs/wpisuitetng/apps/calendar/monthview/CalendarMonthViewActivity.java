@@ -6,14 +6,23 @@ import java.util.Calendar;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.alerts.MyReceiver;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
+import edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity;
 import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+import android.app.AlarmManager;
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
@@ -62,6 +71,44 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		allEvents.addAll(Arrays.asList(events));
 
 		filterTodaysEvents();
+		
+		updateNotifications();
+	}
+
+	/**
+	 *  Checks the events, and updates the Android notifications 
+	 */
+	private void updateNotifications() {
+		// TODO Auto-generated method stub
+
+		Notification.Builder mBuilder = new Notification.Builder(this)
+		.setSmallIcon(R.drawable.notification_icon)
+		.setContentTitle("WPI Suite Calendar")
+		.setContentText("Sample content text")
+		.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+		.setVibrate(new long[]{0, 1000, 1000, 1000});
+		
+		Intent resultIntent = new Intent(this, StartupActivity.class);
+		
+		PendingIntent resultPendingIntent =
+				PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		mBuilder.setContentIntent(resultPendingIntent);
+		
+		int mNotificationId = 001;
+		
+		NotificationManager mNotifyMgr = 
+				(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		
+		mNotifyMgr.notify(mNotificationId, mBuilder.build());
+		
+//		Intent myIntent = new Intent(CalendarMonthViewActivity.this, MyReceiver.class);
+//	    PendingIntent pendingIntent = PendingIntent.getBroadcast(CalendarMonthViewActivity.this, 0, myIntent,0);
+//	    
+//	    AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+//	    alarmManager.set(AlarmManager.RTC, alertCalendar.getTimeInMillis(), pendingIntent);
+	   
+		
 	}
 
 	public void onSelectedDayChange(final int year, final int month, final int dayOfMonth) {
