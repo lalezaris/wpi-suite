@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -55,14 +56,33 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		
 		for(AndroidCalendarEvent e : this.events){
 			DayEventSquare sq = new DayEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
+			
+			for(DayEventSquare s: squares){
+				//check for an overlap
+				if(sq.overlapWithSquare(s)){
+					System.out.println("Overlap found");
+					sq.setPos(DayEventSquare.Position.RIGHT);
+				}
+			}
+			
 			squares.add(sq);
 			
+			
+			
+		}
+		
+		for(DayEventSquare sq : squares){
 			paint.setStyle(Style.FILL);
 			sq.getShape().draw(canvas);//draws shape inside EventSquare objects
 			
 			paint.setColor(Color.WHITE); 
 			paint.setTextSize(28); 
-			canvas.drawText(sq.getEvent().getEventTitle(), sq.x1, (float) (sq.y2 - Math.abs((sq.y2 - sq.y1))*.1), paint);
+			paint.setTextAlign(Align.LEFT);
+			int width = sq.x2 - sq.x1;
+			
+			int numChars = paint.breakText(sq.getEvent().getEventTitle(), true, width, null);
+			int start = (sq.getEvent().getEventTitle().length() - numChars)/2;
+			canvas.drawText(sq.getEvent().getEventTitle(), start, start + numChars, sq.x1, sq.y2, paint);
 		}
 		
 		
