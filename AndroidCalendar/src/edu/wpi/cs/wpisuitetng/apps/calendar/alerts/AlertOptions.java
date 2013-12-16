@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuitetng.apps.calendar.common;
+package edu.wpi.cs.wpisuitetng.apps.calendar.alerts;
 
 import java.util.ArrayList;
 import java.util.List;

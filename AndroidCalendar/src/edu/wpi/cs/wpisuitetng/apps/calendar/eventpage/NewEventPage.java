@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
-import edu.wpi.cs.wpisuitetng.apps.calendar.common.AlertOptions;
+import edu.wpi.cs.wpisuitetng.apps.calendar.alerts.AlertOptions;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;

@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
+import android.net.Uri;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -44,18 +45,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 		}
 		
 		Intent resultIntent = new Intent(context, StartupActivity.class);
-
+        
 		PendingIntent resultPendingIntent =
-				PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+				PendingIntent.getActivity(context, (int) e.getUniqueId(), resultIntent, 0);
 
 		mBuilder.setContentIntent(resultPendingIntent);
-
-		int mNotificationId = 001;
 
 		NotificationManager mNotifyMgr = 
 				(NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
-		mNotifyMgr.notify(mNotificationId, mBuilder.build());
+		mNotifyMgr.notify((int) e.getUniqueId(), mBuilder.build());
 
 	}
 
