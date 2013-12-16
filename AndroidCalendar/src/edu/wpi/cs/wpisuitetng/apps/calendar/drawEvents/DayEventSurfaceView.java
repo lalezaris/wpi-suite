@@ -71,9 +71,31 @@ public class DayEventSurfaceView extends SurfaceView
 			if(!overlappingEvents.isEmpty()) {
 				overlappingEvents.add(s);
 			}
-			
+			System.out.println("Overlaps: " + overlappingEvents.size());
+			// Figure out how many columns we have
+			int numColumns = overlappingEvents.size();
+			for(DayEventSquare square : overlappingEvents) {
+				if(square.getNumColumns() > numColumns) {
+					numColumns = square.getNumColumns();
+				}
+			}
+			System.out.println("num columns: " + numColumns);
+			//Figure out which columns are already taken
+			boolean[] colsTaken = new boolean[numColumns];
+			/*
 			for(int i = 0; i < overlappingEvents.size(); i++) {
-				overlappingEvents.get(i).resize(overlappingEvents.size(), i);
+				colsTaken[overlappingEvents.get(i).getMyCol()] = true;
+				System.out.println(i + ": " + colsTaken[i]);
+			}*/
+			//Assign events to columns that are not taken yet
+			for(DayEventSquare square : overlappingEvents) {
+				for(int i = 0; i < numColumns; i++) {
+					if(!colsTaken[i]) {
+						square.resize(numColumns, i);
+						colsTaken[i] = true;
+						break;
+					}
+				}
 			}
 			
 			addedEvents.add(s);
@@ -83,14 +105,14 @@ public class DayEventSurfaceView extends SurfaceView
 			paint.setStyle(Style.FILL);
 			sq.draw(canvas);//draws shape inside EventSquare objects
 			
-			paint.setColor(Color.WHITE); 
-			paint.setTextSize(28); 
+			paint.setColor(Color.BLACK); 
+			paint.setTextSize(28);
 			paint.setTextAlign(Align.LEFT);
 			int width = sq.x2 - sq.x1;
 			
 			int numChars = paint.breakText(sq.getEvent().getEventTitle(), true, width, null);
 			int start = (sq.getEvent().getEventTitle().length() - numChars)/2;
-			canvas.drawText(sq.getEvent().getEventTitle(), start, start + numChars, sq.x1, sq.y2, paint);
+			canvas.drawText(sq.getEvent().getEventTitle(), start, start + numChars, sq.x1 + 5, sq.y2 - 10, paint);
 		}
 		
 		holder.unlockCanvasAndPost(canvas);
