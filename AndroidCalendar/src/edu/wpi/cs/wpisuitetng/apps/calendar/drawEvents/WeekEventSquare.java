@@ -6,23 +6,28 @@ import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import android.graphics.Color;
+import android.graphics.Paint.Style;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class WeekEventSquare {
+public class WeekEventSquare extends ShapeDrawable {
 
-	private ShapeDrawable shape;
 	private AndroidCalendarEvent event;
 	int x1, y1, x2, y2;
+	private int viewWidth, viewHeight;
 
-	public WeekEventSquare(AndroidCalendarEvent ev, View v, Calendar day){
+	public WeekEventSquare(AndroidCalendarEvent ev, View v, Calendar day) {
+		super(new RectShape());
 		this.event = ev;
+		
+		viewWidth = v.getWidth();
+		viewHeight = v.getHeight();
 
-		int leftMargin = (int) (v.getWidth()*.15);
+		int leftMargin = (int) (viewWidth*.15);
 
-		int offset = v.getWidth()/7;
+		int offset = (int) ((viewWidth * 0.8) / 7);
 		
 		switch(this.event.getStartDateAndTime().get(Calendar.DAY_OF_WEEK)){
 		case Calendar.SUNDAY:
@@ -53,7 +58,6 @@ public class WeekEventSquare {
 			this.x1 = leftMargin + offset*6;
 			this.x2 = leftMargin + offset*7;
 			break;
-			
 		}
 
 		//from start time, figure out top of day
@@ -80,17 +84,9 @@ public class WeekEventSquare {
 			this.y2 = (int) ((event.getEndDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
 		}
 
-		shape = new ShapeDrawable(new RectShape());
-		shape.getPaint().setColor(Color.CYAN);
-		shape.setBounds(x1, y1, x2, y2);
-	}
-
-	public ShapeDrawable getShape() {
-		return shape;
-	}
-
-	public void setShape(ShapeDrawable shape) {
-		this.shape = shape;
+		getPaint().setStyle(Style.FILL);
+		getPaint().setColor(0xAA943B3B);
+		setBounds(x1, y1, x2, y2);
 	}
 
 	public AndroidCalendarEvent getEvent() {
@@ -100,10 +96,7 @@ public class WeekEventSquare {
 	public void setEvent(AndroidCalendarEvent event) {
 		this.event = event;
 	}
-
-
-
-
+	
 	public boolean handleTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
 		switch(arg1.getAction()){

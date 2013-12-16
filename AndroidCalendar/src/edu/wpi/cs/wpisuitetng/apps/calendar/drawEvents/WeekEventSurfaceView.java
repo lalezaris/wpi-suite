@@ -57,11 +57,12 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		
 		
 		for(AndroidCalendarEvent e : this.events){
-			WeekEventSquare sq = new WeekEventSquare(e, this, new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0));
+			Calendar eventDay = new GregorianCalendar(e.getStartDateAndTime().get(Calendar.YEAR), e.getStartDateAndTime().get(Calendar.MONTH), e.getStartDateAndTime().get(Calendar.DAY_OF_MONTH));
+			WeekEventSquare sq = new WeekEventSquare(e, this, eventDay);
 			squares.add(sq);
 			
 			paint.setStyle(Style.FILL);
-			sq.getShape().draw(canvas);//draws shape inside EventSquare objects
+			sq.draw(canvas);//draws shape inside EventSquare objects
 			
 			paint.setColor(Color.BLACK); 
 			paint.setTextSize(28); 
@@ -70,7 +71,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 			
 			int numChars = paint.breakText(sq.getEvent().getEventTitle(), true, width, null);
 			int start = (sq.getEvent().getEventTitle().length() - numChars)/2;
-			canvas.drawText(sq.getEvent().getEventTitle(), start, start + numChars, sq.x1, sq.y2, paint);
+			canvas.drawText(sq.getEvent().getEventTitle(), start, start + numChars, sq.x1 + 5, sq.y2 - 10, paint);
 		}
 		
 		sh.unlockCanvasAndPost(canvas);

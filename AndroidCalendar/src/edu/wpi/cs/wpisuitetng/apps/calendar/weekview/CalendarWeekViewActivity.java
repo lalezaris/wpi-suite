@@ -37,7 +37,7 @@ public class CalendarWeekViewActivity extends CalendarCommonMenuActivity {
 	}
 	
 	public void sendRequestForEventsInWeek(int week){
-		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startWeekNum/"+week + "/attendees/" + MarvinUserData.getUsername(), HttpMethod.GET);
+		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startWeekNum/"+ week + "/attendees/" + MarvinUserData.getUsername(), HttpMethod.GET);
 		request.addObserver(new CalendarWeekViewRequestObserver(this));
 		request.send();
 	}
