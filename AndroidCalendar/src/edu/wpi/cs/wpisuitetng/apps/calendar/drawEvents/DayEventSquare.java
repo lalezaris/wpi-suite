@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
