@@ -5,17 +5,18 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.FragmentManager;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.alerts.AlarmService;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import android.app.FragmentManager;
-import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
 
 public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	
@@ -48,10 +49,12 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		CalendarViewDateChangeListener listener = new CalendarViewDateChangeListener(this);
 		
 		calendar.setOnDateChangeListener(listener);
+		
+		
 	}
 
 	public void sendRequestForAllEventsInMonth(int month) {
-		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startmonth/" + month, HttpMethod.GET);
+		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/"/*startmonth/" + month*/, HttpMethod.GET);
 		request.addObserver(new CalendarMonthViewRequestObserver(this));
 		request.send();
 	}
@@ -61,6 +64,52 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		allEvents.addAll(Arrays.asList(events));
 
 		filterTodaysEvents();
+		updateNotifications();
+	}
+
+	/**
+	 *  Checks the events, and updates the Android notifications 
+	 */
+	private void updateNotifications() {
+		
+		List<AndroidCalendarEvent> notifyEvents = new ArrayList<AndroidCalendarEvent>();
+		
+		notifyEvents = getFutureEvents();
+		notifyEvents = getEventsWithAlert(notifyEvents);
+		
+		System.out.println("in updateNotifications()");
+		for(AndroidCalendarEvent e : notifyEvents){
+			System.out.println("in updateNotifications() for loop: e: " + e.getEventTitle());
+			List<AndroidCalendarEvent> l = new ArrayList<AndroidCalendarEvent>();
+					l.add(e);
+			AlarmService as = new AlarmService(this, l);
+			as.startAlarm();
+		}
+	}
+
+	private List<AndroidCalendarEvent> getEventsWithAlert(
+			List<AndroidCalendarEvent> notifyEvents) {
+		
+		List<AndroidCalendarEvent> eventlist = new ArrayList<AndroidCalendarEvent>();
+		
+		for(AndroidCalendarEvent e : notifyEvents){
+			if(!e.getAlerts().isEmpty()){
+				eventlist.add(e);
+			}
+		}
+		
+		return eventlist;
+	}
+
+	private List<AndroidCalendarEvent> getFutureEvents() {
+		Calendar now = Calendar.getInstance();
+		List<AndroidCalendarEvent> eventlist = new ArrayList<AndroidCalendarEvent>();
+		for(AndroidCalendarEvent e : allEvents){
+			if(now.before(e.getStartDateAndTime())){
+				eventlist.add(e);
+			}
+		}
+		return eventlist;
 	}
 
 	public void onSelectedDayChange(final int year, final int month, final int dayOfMonth) {

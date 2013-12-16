@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import android.content.Context;
@@ -90,7 +91,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 				Intent i = new Intent(c, edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.ViewEventPage.class);
 				
 				i.putExtra(AndroidCalendarEvent.EVENT, s.getEvent());
-
+				i.putExtra(CalendarCommonMenuActivity.CALLING_ACTIVITY, "week");
 				//Starts the next activity
 				c.startActivity(i);
 				
