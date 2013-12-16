@@ -1,6 +1,8 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.dayview;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import com.google.gson.Gson;
 
@@ -44,8 +46,7 @@ public class CalendarDayViewRequestObserver implements RequestObserver {
 		
 		controller.runOnUiThread(new Runnable() {
             public void run() {
-            	
-            	controller.setContentView(new DayEventSurfaceView(controller, ev));
+            	controller.setContentView(new DayEventSurfaceView(controller, ev, new GregorianCalendar(Calendar.getInstance().get(GregorianCalendar.YEAR), Calendar.getInstance().get(GregorianCalendar.MONTH), Calendar.getInstance().get(GregorianCalendar.DATE), 0, 0)));
             }
 		});
 		
