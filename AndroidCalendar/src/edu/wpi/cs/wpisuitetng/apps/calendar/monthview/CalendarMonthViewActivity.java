@@ -126,7 +126,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	private void filterTodaysEvents() {
 		ArrayList<AndroidCalendarEvent> dayEvents = new ArrayList<AndroidCalendarEvent>();
 		for(AndroidCalendarEvent event : allEvents) {
-			if(event.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == currentDayOfMonth) {
+			if(event.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == currentDayOfMonth && event.getStartDateAndTime().get(Calendar.MONTH) == currentMonth) {
 				dayEvents.add(event);
 			}
 		}
