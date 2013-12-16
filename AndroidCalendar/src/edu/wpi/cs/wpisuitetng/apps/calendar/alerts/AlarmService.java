@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.alerts;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
@@ -57,7 +58,7 @@ public class AlarmService {
 
 		if(!e.getAlerts().isEmpty()){
 			for(AlertOptions ao : e.getAlerts()){
-				Calendar cal = e.getStartDateAndTime();
+				Calendar cal = (Calendar) e.getStartDateAndTime().clone();
 				switch(ao){
 				case FIFTEEN_BEFORE:
 					cal.add(Calendar.MINUTE, -15);
