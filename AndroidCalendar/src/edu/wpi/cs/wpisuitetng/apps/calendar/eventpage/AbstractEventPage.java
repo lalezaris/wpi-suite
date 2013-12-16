@@ -188,20 +188,21 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	}
 
 	private void updateEventAlert(List<AlertOptions> alerts) {
-		
-		Collections.sort(alerts);
-		
-		System.out.println("alerts: " + alerts +"\nalerts.size(): "+ alerts.size());
-		TextView alertText = (TextView) findViewById(R.id.alert_text_view);
-		String string = "Alerts: ";
-		for(AlertOptions a : alerts) {
-			if(a.equals(alerts.get(alerts.size()-1))){
-				string += (a.toString());
-			} else {
-				string += (a.toString() + ", ");
+		if(alerts != null && !alerts.isEmpty()) {
+			Collections.sort(alerts);
+			
+			System.out.println("alerts: " + alerts +"\nalerts.size(): "+ alerts.size());
+			TextView alertText = (TextView) findViewById(R.id.alert_text_view);
+			String string = "Alerts: ";
+			for(AlertOptions a : alerts) {
+				if(a.equals(alerts.get(alerts.size()-1))){
+					string += (a.toString());
+				} else {
+					string += (a.toString() + ", ");
+				}
 			}
+			alertText.setText(string);
 		}
-		alertText.setText(string);		
 	}
 
 	private void updateEventTitle(String eventTitle) {

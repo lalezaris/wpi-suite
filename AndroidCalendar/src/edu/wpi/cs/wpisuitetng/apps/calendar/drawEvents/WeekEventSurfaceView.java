@@ -45,8 +45,6 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		Canvas canvas = sh.lockCanvas();
 		canvas.drawColor(Color.WHITE);
 		
-		System.out.println(new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.DAY_OF_MONTH),0,0).getInstance().toString());
-		
 		int pixelsPerHr = this.getHeight()/24;
 		
 		//Draw the 24 hours
