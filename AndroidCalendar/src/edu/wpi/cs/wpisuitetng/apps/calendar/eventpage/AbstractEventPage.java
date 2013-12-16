@@ -92,34 +92,34 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		
 		alertDialogBuilder.setTitle("Alert Time");
 		
-//		alertDialogBuilder.setMultiChoiceItems(alertOptions.toArray(new String[0]), checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-//		
-//			@Override
-//			public void onClick(DialogInterface arg0, int itemIndex, boolean isChecked) {
-//				if(isChecked){
-//					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(itemIndex)));
-//				} else if (selectedAlerts.contains(AlertOptions.getEnum(alertOptions.get(itemIndex)))) {
-//					selectedAlerts.remove(AlertOptions.getEnum(alertOptions.get(itemIndex)));
-//				}
-//			}
-//		});
-
-		int checkedItemLocation = -1;
-		for(int i = 0; i < checkedItems.length; i++){
-			if(checkedItems[i]){
-				checkedItemLocation = i;
-			}
-		}
-		alertDialogBuilder.setSingleChoiceItems(alertOptions.toArray(new String[0]), checkedItemLocation, new DialogInterface.OnClickListener() {
-			
+		alertDialogBuilder.setMultiChoiceItems(alertOptions.toArray(new String[0]), checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+		
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-					selectedAlerts.clear();
-					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(which)));
+			public void onClick(DialogInterface arg0, int itemIndex, boolean isChecked) {
+				if(isChecked){
+					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(itemIndex)));
+				} else if (selectedAlerts.contains(AlertOptions.getEnum(alertOptions.get(itemIndex)))) {
+					selectedAlerts.remove(AlertOptions.getEnum(alertOptions.get(itemIndex)));
 				}
-				
-			
+			}
 		});
+//
+//		int checkedItemLocation = -1;
+//		for(int i = 0; i < checkedItems.length; i++){
+//			if(checkedItems[i]){
+//				checkedItemLocation = i;
+//			}
+//		}
+//		alertDialogBuilder.setSingleChoiceItems(alertOptions.toArray(new String[0]), checkedItemLocation, new DialogInterface.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//					selectedAlerts.clear();
+//					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(which)));
+//				}
+//				
+//			
+//		});
 		
 		alertDialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
 			

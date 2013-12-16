@@ -37,12 +37,13 @@ public class AlarmService {
 
 			System.out.println("e: " + e.getEventTitle());
 			Intent intent = new Intent(context, AlarmReceiver.class);
-	        intent.setData(Uri.parse("" + e.getUniqueId()));
 			intent.putExtra("event", e);
-
-			mAlarmSender = PendingIntent.getBroadcast(context, 0, intent, 0);
-
+			
 			for(Calendar c: calList){
+		        intent.setData(Uri.parse(c.getTime().toString() + e.getUniqueId()));
+
+				mAlarmSender = PendingIntent.getBroadcast(context, 0, intent, 0);
+
 				System.out.println("c: " + c.getTime().toString());
 				long time = c.getTimeInMillis();
 				am.set(AlarmManager.RTC_WAKEUP, time, mAlarmSender);
