@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 public class ViewEventPage extends AbstractEventPage {
 	
-	private Button saveEventButton, startDatePickerButton, endDatePickerButton, startTimePickerButton, endTimePickerButton, attendeesButton;
+	private Button saveEventButton, startDatePickerButton, endDatePickerButton, startTimePickerButton, endTimePickerButton, attendeesButton, alertButton;
 	private EditText title, location, description;
 	
 	/* (non-Javadoc)
@@ -39,6 +39,7 @@ public class ViewEventPage extends AbstractEventPage {
 		title = (EditText) findViewById(R.id.event_title_field);
 		location = (EditText) findViewById(R.id.location_field);
 		description = (EditText) findViewById(R.id.description_field);
+		alertButton = (Button) findViewById(R.id.alert_button);
 	    
 		switchToViewMode();
 		update(currentEvent, EventAttributes.All);
@@ -97,6 +98,7 @@ public class ViewEventPage extends AbstractEventPage {
 		location.setEnabled(false);
 		description.setEnabled(false);
 		attendeesButton.setEnabled(false);
+		alertButton.setEnabled(false);
 		saveEventButton.setVisibility(Button.INVISIBLE);
 	}
 	
@@ -110,6 +112,7 @@ public class ViewEventPage extends AbstractEventPage {
 		location.setEnabled(true);
 		description.setEnabled(true);
 		attendeesButton.setEnabled(true);
+		alertButton.setEnabled(true);
 		saveEventButton.setVisibility(Button.VISIBLE);
 	}
 }
