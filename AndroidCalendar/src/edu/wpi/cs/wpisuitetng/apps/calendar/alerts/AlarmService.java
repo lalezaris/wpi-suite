@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetng.apps.calendar.common.AlertOptions;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 public class AlarmService {
 
@@ -23,7 +23,6 @@ public class AlarmService {
 	public AlarmService(Context context, List<AndroidCalendarEvent> notifyEvents) {
 		System.out.println("new AlarmService()");
 		this.context = context;
-		mAlarmSender = PendingIntent.getBroadcast(context, 0, new Intent(this.context, AlarmReceiver.class), 0);
 		events = new ArrayList<AndroidCalendarEvent>(notifyEvents);
 		am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	}
@@ -37,9 +36,10 @@ public class AlarmService {
 
 			System.out.println("e: " + e.getEventTitle());
 			Intent intent = new Intent(context, AlarmReceiver.class);
+	        intent.setData(Uri.parse("" + e.getUniqueId()));
 			intent.putExtra("event", e);
 
-			mAlarmSender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			mAlarmSender = PendingIntent.getBroadcast(context, 0, intent, 0);
 
 			for(Calendar c: calList){
 				System.out.println("c: " + c.getTime().toString());

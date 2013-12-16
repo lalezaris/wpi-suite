@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import edu.wpi.cs.wpisuitetng.apps.calendar.common.AlertOptions;
+import edu.wpi.cs.wpisuitetng.apps.calendar.alerts.AlertOptions;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
 /**
