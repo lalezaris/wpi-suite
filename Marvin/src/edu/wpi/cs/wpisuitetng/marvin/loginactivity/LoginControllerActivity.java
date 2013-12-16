@@ -272,6 +272,8 @@ public class LoginControllerActivity extends FragmentActivity {
 		
 		final String username = usernameField.getText().toString();
 		MarvinUserData.setUsername(username);
+		final String project = projectField.getText().toString();
+		MarvinUserData.setProject(project);
 		
 		runOnUiThread(new Runnable() {
 			public void run() {

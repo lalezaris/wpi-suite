@@ -10,6 +10,7 @@ package edu.wpi.cs.wpisuitetng.marvin.loginactivity;
 public class MarvinUserData {
 
 	private static String username;
+	private static String project;
 
 	/**
 	 * @return the username
@@ -23,5 +24,19 @@ public class MarvinUserData {
 	 */
 	protected static void setUsername(String username) {
 		MarvinUserData.username = username;
+	}
+
+	/**
+	 * @return the project
+	 */
+	public static String getProject() {
+		return project;
+	}
+
+	/**
+	 * @param project the project to set
+	 */
+	protected static void setProject(String project) {
+		MarvinUserData.project = project;
 	}
 }
