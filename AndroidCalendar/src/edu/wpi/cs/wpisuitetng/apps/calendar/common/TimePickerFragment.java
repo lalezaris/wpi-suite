@@ -62,6 +62,7 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 	public void onTimeSet(TimePicker view, int hour, int minute) {
 		if(startOrEnd == EventAttributes.Start) {
 			currentEvent.setStartTime(hour, minute);
+			currentEvent.setEndTime(hour+1, minute);
 		}
 		else {
 			currentEvent.setEndTime(hour, minute);

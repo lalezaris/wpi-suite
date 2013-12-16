@@ -63,6 +63,7 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		if(startOrEnd == EventAttributes.Start) {
 			currentEvent.setStartDate(year, month, day);
+			currentEvent.setEndDate(year, month, day);
 		}
 		else {
 			currentEvent.setEndDate(year, month, day);

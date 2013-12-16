@@ -190,6 +190,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 			break;
 		case Start:
 			updateEventStart(currentEvent.getStartDateAndTime());
+			updateEventEnd(currentEvent.getEndDateAndTime());
 			break;
 		case Alert:
 			updateEventAlert(currentEvent.getAlerts());

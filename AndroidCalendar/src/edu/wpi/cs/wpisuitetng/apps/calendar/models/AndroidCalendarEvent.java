@@ -50,6 +50,7 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 		this.eventTitle = "";
 		this.startDateAndTime = new GregorianCalendar();
 		this.endDateAndTime = new GregorianCalendar();
+		this.endDateAndTime.add(Calendar.HOUR_OF_DAY, 1);
 		this.location = "";
 		this.attendees = new ArrayList<String>();
 		this.description = "";
