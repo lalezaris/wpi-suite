@@ -17,7 +17,8 @@ public class DayEventSquare extends ShapeDrawable {
 	private AndroidCalendarEvent event;
 	int x1, y1, x2, y2;
 	private int viewWidth, viewHeight;
-	int col = 0;
+	int cols = 1;
+	int myCol = 0;
 
 	public DayEventSquare(AndroidCalendarEvent ev, View v, Calendar day){
 		super(new RectShape());
@@ -72,19 +73,24 @@ public class DayEventSquare extends ShapeDrawable {
 	
 	public void resize(int numColumns, int column){
 		//Drawable area is from 15% of screen to 95%
-		System.out.println("resizing. ViewWidth:" + viewWidth + " " + numColumns + " " + column);
+		System.out.println("resizing " + event.getEventTitle() + ". ViewWidth: " + viewWidth + " " + numColumns + " " + column);
 		int columnWidth = (int)((viewWidth * 0.8) / numColumns);
 		this.x1 = (int) (column * columnWidth + viewWidth * 0.15);
 		this.x2 = (int) ((column + 1) * columnWidth + viewWidth * 0.15);
-		this.col = column;
+		cols = numColumns;
+		myCol = column;
 		setBounds(x1, y1, x2, y2);
+	}
+	
+	public int getNumColumns() {
+		return cols;
+	}
+	
+	public int getMyCol() {
+		return myCol;
 	}
 
 	public boolean overlapsWithEvent(DayEventSquare sq){
-		System.out.println("Checking if " + event.getEventTitle() + " overlaps with " + sq.getEvent().getEventTitle());
-		System.out.println(event.getEventTitle() + " x1 " + x1 + " x2 " + x2 + " y1 " + y1 + " y2 " + y2);
-		System.out.println(sq.getEvent().getEventTitle() + " x1 " + sq.x1 + " x2 " + sq.x2 + " y1 " + sq.y1 + " y2 " + sq.y2);
-		
 		boolean returnVal = false;
 		if(this.y1 == sq.y1){
 			returnVal = true;
