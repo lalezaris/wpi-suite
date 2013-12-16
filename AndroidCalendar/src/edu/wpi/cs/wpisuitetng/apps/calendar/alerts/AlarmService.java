@@ -18,18 +18,19 @@ public class AlarmService {
 	private Context context;
 	private PendingIntent mAlarmSender;
 	private List<AndroidCalendarEvent> events;
+	private AlarmManager am;
 
 	public AlarmService(Context context, List<AndroidCalendarEvent> notifyEvents) {
 		System.out.println("new AlarmService()");
 		this.context = context;
 		mAlarmSender = PendingIntent.getBroadcast(context, 0, new Intent(this.context, AlarmReceiver.class), 0);
 		events = new ArrayList<AndroidCalendarEvent>(notifyEvents);
+		am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	}
 
 	public void startAlarm(){
 		System.out.println("in startAlarm()");
 		List<Calendar> calList = new ArrayList<Calendar>();
-		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
 		for(AndroidCalendarEvent e : events){
 			calList.addAll(getAlertTime(e));
@@ -37,7 +38,7 @@ public class AlarmService {
 			System.out.println("e: " + e.getEventTitle());
 			Intent intent = new Intent(context, AlarmReceiver.class);
 			intent.putExtra("event", e);
-			
+
 			mAlarmSender = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 			for(Calendar c: calList){

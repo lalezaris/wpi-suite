@@ -78,8 +78,13 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		notifyEvents = getEventsWithAlert(notifyEvents);
 		
 		System.out.println("in updateNotifications()");
-		AlarmService as = new AlarmService(this, notifyEvents);
-		as.startAlarm();
+		for(AndroidCalendarEvent e : notifyEvents){
+			System.out.println("in updateNotifications() for loop: e: " + e.getEventTitle());
+			List<AndroidCalendarEvent> l = new ArrayList<AndroidCalendarEvent>();
+					l.add(e);
+			AlarmService as = new AlarmService(this, l);
+			as.startAlarm();
+		}
 	}
 
 	private List<AndroidCalendarEvent> getEventsWithAlert(
