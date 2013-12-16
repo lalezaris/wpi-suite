@@ -48,36 +48,4 @@ public class CalendarDayViewActivity extends CalendarCommonMenuActivity {
 		request.send();
 	}
 
-	public void updateAllEventsList(AndroidCalendarEvent[] events) {
-		allEvents.clear();
-		allEvents.addAll(Arrays.asList(events));
-
-		filterTodaysEvents();
-		
-	}
-
-	
-
-	private void filterTodaysEvents() {
-		ArrayList<AndroidCalendarEvent> dayEvents = new ArrayList<AndroidCalendarEvent>();
-		for(AndroidCalendarEvent event : allEvents) {
-			if(event.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == currentDayOfMonth) {
-				dayEvents.add(event);
-			}
-		}
-		
-		
-	}
-	
-	public void updateTodaysEventsDisplay(final List<AndroidCalendarEvent> todaysEvents) {
-		
-		runOnUiThread(new Runnable() {
-            public void run() {
-            	events.clear();
-            	events.addAll(todaysEvents);
-            	//controller.setContentView(new BubbleSurfaceView(controller, ev));
-            }
-		});
-	}
-
 }

@@ -40,9 +40,10 @@ public class CalendarDayViewRequestObserver implements RequestObserver {
 		AndroidCalendarEvent[] events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
         final ArrayList<AndroidCalendarEvent> ev = new ArrayList<AndroidCalendarEvent>();
         for(AndroidCalendarEvent e : events){
-        	ev.add(e);
+        	if(e.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+            	ev.add(e);
+        	}
         }
-		
 		
 		controller.runOnUiThread(new Runnable() {
             public void run() {
