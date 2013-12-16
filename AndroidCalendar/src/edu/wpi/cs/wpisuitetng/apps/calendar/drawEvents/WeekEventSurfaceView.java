@@ -55,6 +55,16 @@ implements SurfaceHolder.Callback, OnTouchListener {
 			canvas.drawText(i + ":00", 0, i*pixelsPerHr, paint);
 		}
 		
+		int leftMargin = (int) (getWidth()*.15);
+		int offset = (int) ((getWidth() * 0.8) / 7);
+		canvas.drawText("Sun.", leftMargin + offset*0, 20, paint);
+		canvas.drawText("Mon.", leftMargin + offset*1, 20, paint);
+		canvas.drawText("Tues.", leftMargin + offset*2, 20, paint);
+		canvas.drawText("Wed.", leftMargin + offset*3, 20, paint);
+		canvas.drawText("Thurs.", leftMargin + offset*4, 20, paint);
+		canvas.drawText("Fri.", leftMargin + offset*5, 20, paint);
+		canvas.drawText("Sat.", leftMargin + offset*6, 20, paint);
+		
 		
 		for(AndroidCalendarEvent e : this.events){
 			Calendar eventDay = new GregorianCalendar(e.getStartDateAndTime().get(Calendar.YEAR), e.getStartDateAndTime().get(Calendar.MONTH), e.getStartDateAndTime().get(Calendar.DAY_OF_MONTH));
