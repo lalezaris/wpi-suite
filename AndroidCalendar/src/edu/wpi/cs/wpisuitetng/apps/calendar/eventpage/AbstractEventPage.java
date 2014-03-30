@@ -1,6 +1,16 @@
-/**
- * 
- */
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
 import java.util.ArrayList;
@@ -30,15 +40,16 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-/**
+/** The skeleton of the detailed event page, so the view event, edit event, and new event can extend it
  * @author Nathan Longnecker
- *
+ * @author Sam Lalezari
+ * @version March 30, 2014
  */
 public abstract class AbstractEventPage extends CalendarCommonMenuActivity implements Observer {
 
 	protected AndroidCalendarEvent currentEvent;
 	
-	/**Shows the time picker dialog
+	/** Shows the time picker dialog
 	 * @param v the current view
 	 */
 	public void showStartTimePickerDialog(View v) {
@@ -46,7 +57,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	    startTimeFrag.show(getFragmentManager(), "timePicker");
 	}
 	
-	/**Shows the date picker dialog
+	/** Shows the date picker dialog
 	 * @param v the current view
 	 */
 	public void showStartDatePickerDialog(View v) {
@@ -54,7 +65,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	    startDateFrag.show(getFragmentManager(), "datePicker");
 	}
 	
-	/**Shows the time picker dialog
+	/** Shows the time picker dialog
 	 * @param v the current view
 	 */
 	public void showEndTimePickerDialog(View v) {
@@ -62,7 +73,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	    endTimeFrag.show(getFragmentManager(), "timePicker");
 	}
 	
-	/**Shows the date picker dialog
+	/** Shows the date picker dialog
 	 * @param v the current view
 	 */
 	public void showEndDatePickerDialog(View v) {
@@ -70,7 +81,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	    endDateFrag.show(getFragmentManager(), "datePicker");
 	}
 
-	/**Shows the alert time picker dialog
+	/** Shows the alert time picker dialog
 	 * @param v the current view
 	 */
 	public void showAlertPickerDialog(View v) {
@@ -93,6 +104,9 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		
 		alertDialogBuilder.setMultiChoiceItems(alertOptions.toArray(new String[0]), checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
 		
+			/* (non-Javadoc)
+			 * @see android.content.DialogInterface.OnMultiChoiceClickListener#onClick(android.content.DialogInterface, int, boolean)
+			 */
 			@Override
 			public void onClick(DialogInterface arg0, int itemIndex, boolean isChecked) {
 				if(isChecked){
@@ -102,23 +116,6 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 				}
 			}
 		});
-//
-//		int checkedItemLocation = -1;
-//		for(int i = 0; i < checkedItems.length; i++){
-//			if(checkedItems[i]){
-//				checkedItemLocation = i;
-//			}
-//		}
-//		alertDialogBuilder.setSingleChoiceItems(alertOptions.toArray(new String[0]), checkedItemLocation, new DialogInterface.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(DialogInterface dialog, int which) {
-//					selectedAlerts.clear();
-//					selectedAlerts.add(AlertOptions.getEnum(alertOptions.get(which)));
-//				}
-//				
-//			
-//		});
 		
 		alertDialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
 			
@@ -140,7 +137,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		alert.show();
 	}
 
-	/**Shows the attendees picker dialog
+	/** Shows the attendees picker dialog
 	 * @param v the current view
 	 */
 	public void showAttendeesPickerDialog(View v) {
@@ -148,6 +145,10 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	    attendees.show(getFragmentManager(), "userPicker");
 	}
 	
+	/**
+	 * Saves the edits by sending the event to the server
+	 * @param v the current view
+	 */
 	public void saveEvent(View v) {
 		EditText title = (EditText) findViewById(R.id.event_title_field);
 		currentEvent.setEventTitle(title.getText().toString());
@@ -175,6 +176,9 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	}
 	
 	//Update and helper methods
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable observable, Object data) {
 		currentEvent = (AndroidCalendarEvent) observable;
@@ -206,6 +210,9 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		}
 	}
 
+	/** Updates the alert in the currentEvent object
+	 * @param alerts The list of alerts to set
+	 */
 	private void updateEventAlert(List<AlertOptions> alerts) {
 		if(alerts != null && !alerts.isEmpty()) {
 			Collections.sort(alerts);
@@ -224,11 +231,18 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		}
 	}
 
+	/**
+	 * Updates the title of the current event
+	 * @param eventTitle The new title
+	 */
 	private void updateEventTitle(String eventTitle) {
 		EditText title = (EditText) findViewById(R.id.event_title_field);
 		title.setText(eventTitle);
 	}
 	
+	/** Updates the start time of the current event
+	 * @param startDateAndTime The start time of the event
+	 */
 	private void updateEventStart(Calendar startDateAndTime) {
 		Button startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
 		updateButtonDateText(startDatePickerButton, "Start Date", startDateAndTime);
@@ -237,6 +251,9 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		updateButtonTimeText(startTimePickerButton, "Start Time", startDateAndTime);
 	}
 	
+	/** Updates the end time of the current event
+	 * @param endDateAndTime The end time of the event
+	 */
 	private void updateEventEnd(Calendar endDateAndTime) {
 		Button endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		updateButtonDateText(endDatePickerButton, "End Date", endDateAndTime);
@@ -245,6 +262,11 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		updateButtonTimeText(endTimePickerButton, "End Time", endDateAndTime);
 	}
 	
+	/** Updates the text on the view based on the new times
+	 * @param button The button to update
+	 * @param buttonText The text of that button
+	 * @param time The date to set on the button
+	 */
 	private void updateButtonDateText(Button button, String buttonText, Calendar time) {
 		String monthString = "";
 		int day = time.get(Calendar.DAY_OF_MONTH);
@@ -280,6 +302,11 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		button.setText(buttonText + ": " + monthString + " " + day + ", " + year);
 	}
 
+	/** Updates the text on the view based on the new times
+	 * @param button The button to update
+	 * @param buttonText The text of that button
+	 * @param time The time to set on the button
+	 */
 	private void updateButtonTimeText(Button button, String buttonText, Calendar time) {
 		int minute = time.get(Calendar.MINUTE);
 		String minuteString;
@@ -303,6 +330,10 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		}
 	}
 
+	/** Updates the list of attendees on the button
+	 * @param eventOwner The current event owner
+	 * @param selectedUsers The list of users going to the event
+	 */
 	private void updateAttendeesList(String eventOwner, List<String> selectedUsers) {
 		TextView attendeesList = (TextView) findViewById(R.id.attendees_text_view);
 		String usersList = "Event Owner: " + eventOwner + "\nOther Attendees: ";
@@ -317,11 +348,17 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		attendeesList.setText(usersList);
 	}
 
+	/** Updates the location of the current event
+	 * @param eventLocation The location of the event
+	 */
 	private void updateEventLocation(String eventLocation) {
 		EditText location = (EditText) findViewById(R.id.location_field);
 		location.setText(eventLocation);
 	}
 
+	/** Updates the description of the current event
+	 * @param eventDescription The new event description
+	 */
 	private void updateEventDescription(String eventDescription) {
 		EditText description = (EditText) findViewById(R.id.description_field);
 		description.setText(eventDescription);

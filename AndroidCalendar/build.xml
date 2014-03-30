@@ -92,7 +92,6 @@
 	
 	<!-- Import the common build file for WPI Suite -->
 	<import file="../build-common.xml" />
-	<import file="../appcompat/build.xml" as="appcompat" />
 	<import file="../Marvin/build.xml" as="marvin" />
 
 	<target name="compile" depends="marvin.compile, debug" description="Compiles source code">

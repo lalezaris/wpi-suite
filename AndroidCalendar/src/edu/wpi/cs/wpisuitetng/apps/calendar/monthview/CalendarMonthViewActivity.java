@@ -1,3 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.monthview;
 
 import java.util.ArrayList;
@@ -18,6 +31,11 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * The calendar month view, also the home page of the app
+ * @author Nathan Longnecker
+ * @version March 30, 2014
+ */
 public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	
 	private ArrayAdapter<AndroidCalendarEvent> adapter;
@@ -28,6 +46,9 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	private int currentMonth;
 	private int currentDayOfMonth;
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,15 +71,21 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		
 		calendar.setOnDateChangeListener(listener);
 		
-		
 	}
 
+	/**
+	 * Requests all events in the current month
+	 * @param month The number of the current month
+	 */
 	public void sendRequestForAllEventsInMonth(int month) {
 		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/"/*startmonth/" + month*/, HttpMethod.GET);
 		request.addObserver(new CalendarMonthViewRequestObserver(this));
 		request.send();
 	}
 
+	/** Updates the list of events
+	 * @param events The list of events to update
+	 */
 	public void updateAllEventsList(AndroidCalendarEvent[] events) {
 		allEvents.clear();
 		allEvents.addAll(Arrays.asList(events));
@@ -67,7 +94,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		updateNotifications();
 	}
 
-	/**
+	/** Updates the list of notifications
 	 *  Checks the events, and updates the Android notifications 
 	 */
 	private void updateNotifications() {
@@ -101,6 +128,10 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		return eventlist;
 	}
 
+	/**
+	 * Gets the events that happen in the future
+	 * @return A list of events in the future
+	 */
 	private List<AndroidCalendarEvent> getFutureEvents() {
 		Calendar now = Calendar.getInstance();
 		List<AndroidCalendarEvent> eventlist = new ArrayList<AndroidCalendarEvent>();
@@ -112,6 +143,12 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		return eventlist;
 	}
 
+	/**
+	 * Changes the current day
+	 * @param year The year changed to
+	 * @param month The month changed to
+	 * @param dayOfMonth The day changed to
+	 */
 	public void onSelectedDayChange(final int year, final int month, final int dayOfMonth) {
 		currentDayOfMonth = dayOfMonth;
 		if(currentMonth == month) {
@@ -123,6 +160,9 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		}
 	}
 
+	/**
+	 * Filters todays events out of the full eventlist
+	 */
 	private void filterTodaysEvents() {
 		ArrayList<AndroidCalendarEvent> dayEvents = new ArrayList<AndroidCalendarEvent>();
 		for(AndroidCalendarEvent event : allEvents) {
@@ -134,8 +174,12 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		updateTodaysEventsDisplay(dayEvents);
 	}
 	
+	/**
+	 * Updates the UI to display today's events
+	 * @param todaysEvents The events to display in the list of todays events
+	 */
 	public void updateTodaysEventsDisplay(final List<AndroidCalendarEvent> todaysEvents) {
-		
+		// Updates to the UI must be run on the UI thread
 		runOnUiThread(new Runnable() {
             public void run() {
             	events.clear();

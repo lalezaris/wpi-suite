@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 /**
  * The AndroidCalendarEvent model
  * @author Nathan Longnecker
- *
+ * @version March 30, 2014
  */
 public class AndroidCalendarEvent extends AbstractModel implements Serializable {
 
@@ -46,6 +46,15 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 	private String eventOwner;
 	private String description;
 	
+	/** Creates a new AndroidCalendarEvent
+	 * @param eventOwner The user who created the event
+	 * @param eventTitle The title of the event
+	 * @param startDateAndTime The start time of the event
+	 * @param endDateAndTime The end time of the event
+	 * @param location The location of the event
+	 * @param attendees A list of attendees to the event
+	 * @param description The event description
+	 */
 	public AndroidCalendarEvent(String eventOwner, String eventTitle, Calendar startDateAndTime,
 			Calendar endDateAndTime, String location, List<String> attendees, String description) {
 		this.eventOwner = eventOwner;
@@ -58,6 +67,10 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 		this.alerts = new ArrayList<AlertOptions>();
 	}
 
+	/**
+	 * Creates an event object with default values
+	 * @param eventOwner The user who created the event
+	 */
 	public AndroidCalendarEvent(String eventOwner) {
 		this.eventOwner = eventOwner;
 		this.eventTitle = "";
@@ -119,15 +132,24 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 		setChanged();
 	}
 	
-	//Methods for use by db4o
+	//Methods for use by db4o. Db4o advanced searches use these getters
+	/** Gets the start month of the event
+	 * @return The number of the start month
+	 */
 	public int getStartMonth() {
 		return startDateAndTime.get(Calendar.MONTH);
 	}
 	
+	/** Gets the start week of the event
+	 * @return The week number
+	 */
 	public int getStartWeekNum() {
 		return startDateAndTime.get(Calendar.WEEK_OF_YEAR);
 	}
 	
+	/** Gets the day of the event
+	 * @return The day number
+	 */
 	public int getDay() {
 		return startDateAndTime.get(Calendar.DAY_OF_MONTH);
 	}
@@ -258,7 +280,7 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 	 */
 	@Override
 	public void save() {
-		// TODO Not Implemented.
+		// Not Implemented.
 	}
 	
 	/* (non-Javadoc)
@@ -266,13 +288,12 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 	 */
 	@Override
 	public void delete() {
-		// Intentionally not implemented. When we delete an AndroidCalendarEvent, we remove it from the database
+		// Not implemented. When we delete an AndroidCalendarEvent, we remove it from the database
 	}
 	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
-	
 	@Override
 	public Boolean identify(Object o) {
 		return uniqueId == ((AndroidCalendarEvent)o).getUniqueId();
@@ -286,10 +307,16 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 		return (new Gson()).toJson(this, AndroidCalendarEvent.class);
 	}
 
+	/** 
+	 * @return The alerts for the event
+	 */
 	public List<AlertOptions> getAlerts() {
 		return alerts;
 	}
 
+	/**
+	 * @param selectedAlerts The alerts to set
+	 */
 	public void setAlert(ArrayList<AlertOptions> selectedAlerts) {
 		alerts.clear();
 		alerts.addAll(selectedAlerts);

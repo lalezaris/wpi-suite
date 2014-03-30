@@ -11,36 +11,35 @@
  * 		Mark Fitzgibbon
  * 		Nathan Longnecker
  ******************************************************************************/
-package edu.wpi.cs.wpisuitetng.apps.calendar.monthview;
+package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
-import com.google.gson.Gson;
-import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
-/** The request observer for the calendar month view activity
+/**
+ * The request observer for the delete event request
  * @author Nathan Longnecker
  * @version March 30, 2014
  */
-public class CalendarMonthViewRequestObserver implements RequestObserver {
-
-	private CalendarMonthViewActivity controller;
+public class DeleteEventRequestObserver implements RequestObserver {
 	
-	/** The constructor.
-	 * @param calendarMonthViewActivity The activity to alert when the request has finished
-	 */
-	public CalendarMonthViewRequestObserver(
-			CalendarMonthViewActivity calendarMonthViewActivity) {
-		controller = calendarMonthViewActivity;
-	}
+	private CalendarCommonMenuActivity activity;
 
+	/**
+	 * Constructor
+	 * @param calendar The current activity to alert when the request has completed
+	 */
+	public DeleteEventRequestObserver(CalendarCommonMenuActivity activity) {
+		this.activity = activity;
+	}
+	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest arg0, Exception arg1) {
-		if(controller != null)
-			controller.sendToastMessage("Error retrieving events");
+		if(activity != null)
+			activity.sendToastMessage("Unable to delete event.");
 	}
 
 	/* (non-Javadoc)
@@ -48,8 +47,8 @@ public class CalendarMonthViewRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest arg0) {
-		if(controller != null)
-			controller.sendToastMessage("Error retrieving events");
+		if(activity != null)
+			activity.sendToastMessage("An error occurred.");
 	}
 
 	/* (non-Javadoc)
@@ -57,8 +56,8 @@ public class CalendarMonthViewRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		AndroidCalendarEvent[] events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
-        controller.updateAllEventsList(events);
+		if(activity != null)
+			activity.sendToastMessage("Event deleted!");
 	}
 
 }

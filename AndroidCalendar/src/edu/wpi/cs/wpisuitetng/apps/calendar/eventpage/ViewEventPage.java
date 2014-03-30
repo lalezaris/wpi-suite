@@ -1,6 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
+import edu.wpi.cs.wpisuitetng.apps.calendar.common.DeleteEventRequestObserver;
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.EventAttributes;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
@@ -13,6 +27,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+/** The activity for the view event page
+ * @author Nathan Longnecker
+ * @version March 30, 2014
+ */
 public class ViewEventPage extends AbstractEventPage {
 	
 	private Button saveEventButton, startDatePickerButton, endDatePickerButton, startTimePickerButton, endTimePickerButton, attendeesButton, alertButton;
@@ -27,7 +45,6 @@ public class ViewEventPage extends AbstractEventPage {
 		setContentView(R.layout.activity_new_event_page);
 		
 		currentEvent = (AndroidCalendarEvent) getIntent().getExtras().getSerializable(AndroidCalendarEvent.EVENT);
-		//currentEvent = CommonCalendarData.currentEvent;//CommonCalendarData.getInstance().getCurrentEvent();
 		currentEvent.addObserver(this);
 		
 		startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
@@ -63,6 +80,7 @@ public class ViewEventPage extends AbstractEventPage {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		//Called when an item from the menu is selected
 		boolean selectedItem = true;
 		if(!super.onOptionsItemSelected(item)) {
 			switch(item.getItemId()) {
@@ -80,6 +98,9 @@ public class ViewEventPage extends AbstractEventPage {
 		return selectedItem;
 	}
 
+	/**
+	 * Deletes the current event
+	 */
 	private void delete() {
 		currentEvent.deleteObservers();
 		final Request request = Network.getInstance().makeRequest("androidcalendar/androidcalendarevent/" + currentEvent.getUniqueId(), HttpMethod.DELETE);
@@ -88,6 +109,9 @@ public class ViewEventPage extends AbstractEventPage {
 		startView(edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class);
 	}
 
+	/**
+	 * Switches the view to view mode, so fields can no longer be edited
+	 */
 	private void switchToViewMode() {
 		startDatePickerButton.setEnabled(false);
 		startTimePickerButton.setEnabled(false);
@@ -102,6 +126,9 @@ public class ViewEventPage extends AbstractEventPage {
 		saveEventButton.setVisibility(Button.INVISIBLE);
 	}
 	
+	/**
+	 * Switches the view to edit mode, so fields can be edited
+	 */
 	private void switchToEditMode() {
 		startDatePickerButton.setEnabled(true);
 		startTimePickerButton.setEnabled(true);

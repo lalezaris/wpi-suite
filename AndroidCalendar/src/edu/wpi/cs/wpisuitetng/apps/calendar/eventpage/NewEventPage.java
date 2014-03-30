@@ -1,3 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
 import android.os.Bundle;
@@ -12,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-
 public class NewEventPage extends AbstractEventPage {
 
 	/* (non-Javadoc)
@@ -22,8 +34,6 @@ public class NewEventPage extends AbstractEventPage {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event_page);
-		
-//		finalAlerts = new ArrayList<AlertOptions>();
 		
 		currentEvent = new AndroidCalendarEvent(MarvinUserData.getUsername());
 		currentEvent.addObserver(this);
@@ -45,6 +55,7 @@ public class NewEventPage extends AbstractEventPage {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		//Called when an item is selected from the options menu
 		boolean selectedItem = true;
 		if(!super.onOptionsItemSelected(item)) {
 			switch(item.getItemId()) {
@@ -59,6 +70,9 @@ public class NewEventPage extends AbstractEventPage {
 		return selectedItem;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.AbstractEventPage#saveEvent(android.view.View)
+	 */
 	public void saveEvent(View v) {
 		EditText title = (EditText) findViewById(R.id.event_title_field);
 		currentEvent.setEventTitle(title.getText().toString());

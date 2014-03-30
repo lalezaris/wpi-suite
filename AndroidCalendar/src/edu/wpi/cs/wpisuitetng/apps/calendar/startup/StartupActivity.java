@@ -1,11 +1,32 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.startup;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * The startup activity. Every Android module implementing Marvin will need to implement a startup activity.
+ * @author Nathan Longnecker
+ * @version March 30, 2014
+ */
 public class StartupActivity extends Activity {
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -16,7 +37,7 @@ public class StartupActivity extends Activity {
 		 */
 		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.marvin.loginactivity.LoginControllerActivity.class);
 		
-		/** Change this line to point to the activity that you want to start when Marvin has finished with login**/
+		/** Change this line to point to the activity that you want to start when Marvin has finished with login **/
 		Class<?> activity = edu.wpi.cs.wpisuitetng.apps.calendar.monthview.CalendarMonthViewActivity.class;
 		
 		/* Marvin will handle logging in to the server and setting up the network connection,
