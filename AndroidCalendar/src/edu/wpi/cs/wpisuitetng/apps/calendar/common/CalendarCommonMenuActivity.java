@@ -1,4 +1,16 @@
-
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.common;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
@@ -15,18 +27,24 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 /**
+ * Contains all the common functionality for each menu,
+ * to maintain a constant menu experience.
+ * 
  * @author Nathan Longnecker
- *
+ * @version March 30, 2014
  */
 @SuppressLint("ShowToast")
 public abstract class CalendarCommonMenuActivity extends Activity {
 	
+	/** The Constant CALLING_ACTIVITY. */
 	public static final String CALLING_ACTIVITY = "edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity.CALLING_ACTIVITY";
+	
 	protected String previousActivity = "";
 	private Toast toast;
 	
-	/* (non-Javadoc)
-     * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+	
+    /* (non-Javadoc)
+     * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +71,7 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		// Starts an activity based on which item is selected.
 		boolean selectedItem = true;
 		if(!super.onOptionsItemSelected(item)) {
 			switch(item.getItemId()) {
@@ -87,6 +106,9 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		return selectedItem;
 	}
 	
+	/**
+	 * Logout.
+	 */
 	private void logout() {
 		//Sets up the intent to start the startup activity
 		final Intent intent = new Intent(this, edu.wpi.cs.wpisuitetng.apps.calendar.startup.StartupActivity.class);
@@ -100,10 +122,13 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		finish();
 	}
 
+	/**
+	 * Start view.
+	 *
+	 * @param view the view
+	 */
 	protected void startView(Class<?> view) {
 		final Intent intent = new Intent(this, view);
-		
-		//TODO Put Extra if there is a date selected
 		
 		//Starts the next activity
 		startActivity(intent);
@@ -111,6 +136,9 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		finish();
 	}
 	
+	/**
+	 * Return to previous activity.
+	 */
 	protected void returnToPreviousActivity() {
 		Class<?> activity = CalendarMonthViewActivity.class;
 		
@@ -128,6 +156,11 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 		finish();
 	}
 	
+	/**
+	 * Send toast message.
+	 *
+	 * @param message the message
+	 */
 	public void sendToastMessage(String message) {
 		toast.setText(message);
 		toast.show();

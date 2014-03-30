@@ -19,7 +19,8 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Observes the project select request to the core, and informs the LoginControllerActivity of the request result
+ * Observes the project select request to the core, and informs the LoginControllerActivity 
+ * of the request result
  * 
  * @author Nathan Longnecker
  * @version Oct 13, 2013
@@ -50,7 +51,9 @@ public class AndroidProjectSelectRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		controller.projectSelectFailed("Project Select Failed!\n" + iReq.getResponse().getStatusCode() + " " + iReq.getResponse().getStatusMessage());
+		controller.projectSelectFailed("Project Select Failed!\n" + 
+										iReq.getResponse().getStatusCode() + " " + 
+										iReq.getResponse().getStatusMessage());
 	}
 
 	/* (non-Javadoc)
@@ -70,7 +73,9 @@ public class AndroidProjectSelectRequestObserver implements RequestObserver {
 			controller.projectSelectSuccessful(response);
 		}
 		else { // login failed
-			controller.projectSelectFailed("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+			controller.projectSelectFailed("Received " + 
+											iReq.getResponse().getStatusCode() + 
+											" error from server: " + iReq.getResponse().getStatusMessage());
 		}
 	}
 

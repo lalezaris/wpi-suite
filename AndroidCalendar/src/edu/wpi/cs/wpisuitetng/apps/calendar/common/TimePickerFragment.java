@@ -24,6 +24,7 @@ import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
 /**
+ * Displays  a time picker for choosing start and end times.
  * @author Sam Lalezari
  * @version Nov 10, 2013
  */
@@ -32,21 +33,30 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 	private AndroidCalendarEvent currentEvent;
 	private EventAttributes startOrEnd;
 
+	/**
+	 * Instantiates a new time picker fragment.
+	 *
+	 * @param currentEvent the current event
+	 * @param startOrEnd the start or end
+	 */
 	public TimePickerFragment(AndroidCalendarEvent currentEvent, EventAttributes startOrEnd) {
 		this.currentEvent = currentEvent;
 		this.startOrEnd = startOrEnd;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.DialogFragment#onCreateDialog(android.os.Bundle)
+	 */
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		int hour;
 		int minute;
 		boolean is24HourFormat = DateFormat.is24HourFormat(getActivity());
-		if(startOrEnd == EventAttributes.Start) {
+		if(startOrEnd == EventAttributes.Start) { // If choosing a start time, default to the current time.
 			hour = currentEvent.getStartDateAndTime().get(Calendar.HOUR_OF_DAY);
 			minute = currentEvent.getStartDateAndTime().get(Calendar.MINUTE);
 		}
-		else {
+		else { // Same if choosing a end time, but default the end time to the current time.
 			hour = currentEvent.getEndDateAndTime().get(Calendar.HOUR_OF_DAY);
 			minute = currentEvent.getEndDateAndTime().get(Calendar.MINUTE);
 		}
@@ -60,13 +70,13 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 	 */
 	@Override
 	public void onTimeSet(TimePicker view, int hour, int minute) {
-		if(startOrEnd == EventAttributes.Start) {
-			currentEvent.setStartTime(hour, minute);
-			currentEvent.setEndTime(hour+1, minute);
+		if(startOrEnd == EventAttributes.Start) { //If setting a start time 
+			currentEvent.setStartTime(hour, minute); // Set start time
+			currentEvent.setEndTime(hour+1, minute); // Set default end time one hour later than the start time
 		}
-		else {
-			currentEvent.setEndTime(hour, minute);
+		else { // Else, if setting the end time
+			currentEvent.setEndTime(hour, minute); // Set end time
 		}
-		currentEvent.notifyObservers(startOrEnd);
+		currentEvent.notifyObservers(startOrEnd); // Notify observers that the time was updated.
 	}
 }

@@ -25,10 +25,10 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.CheckBox;
@@ -37,14 +37,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * The login Activity. Handles logging into the WPI Suite core, then starts the postboard activity
+ * The login Activity. Handles logging into the WPI Suite core, then starts the main activity
  * 
  * @author Mark Fitzgibbon
  * @author Sam Lalezari
  * @author Nathan Longnecker
  * @version Oct 13, 2013
  */
-public class LoginControllerActivity extends FragmentActivity {
+public class LoginControllerActivity extends Activity {
 	private EditText usernameField;
 	private EditText passwordField;
 	private EditText projectField;
@@ -52,22 +52,26 @@ public class LoginControllerActivity extends FragmentActivity {
 	private CheckBox rememberMe;
 	private Intent recievedIntent;
 	
+//AUTO_LOGIN and DEFAULT_ACTIVITY are URIs for data being passed into Marvin from the calling intent
 	public static final String AUTO_LOGIN = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.AUTO_LOGIN";
 	public static final String DEFAULT_ACTIVITY = "edu.wpi.cs.wpisuitetng.marvin.loginactivity.DEFAULT_ACTIVITY";
-	public static final String PersistentLoginFileName = "LoginData";
+	// Name of the file which stores the users login data
+	public static final String PersistentLoginFileName = "LoginData"; 
 	public static final boolean persistCookies = true;
 	private TextView responseText;
 	Toast toast;
 	
+	
     /* (non-Javadoc)
-     * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
+     * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_controller);
         
-        boolean automaticallyLogin = getIntent().getBooleanExtra(LoginControllerActivity.AUTO_LOGIN, false);
+        // Gets the boolean from the calling intent to determine if auto-login is enabled
+        final boolean automaticallyLogin = getIntent().getBooleanExtra(LoginControllerActivity.AUTO_LOGIN, false);
 		
 		usernameField = (EditText) findViewById(R.id.username_text);
 		passwordField = (EditText) findViewById(R.id.password_text);
@@ -77,6 +81,7 @@ public class LoginControllerActivity extends FragmentActivity {
 		rememberMe = (CheckBox) findViewById(R.id.rememberMe_checkBox);
 		recievedIntent = getIntent();
 		
+		// Read the login information from the user data file 
 		BufferedInputStream in = null;
 		try {
 			in = new BufferedInputStream(openFileInput(PersistentLoginFileName));
@@ -92,7 +97,7 @@ public class LoginControllerActivity extends FragmentActivity {
 			while((nextChar = in.read()) != '\n') {
 				password += (char)nextChar;
 			}
-			passwordField.setText(password);
+			passwordField.setText(password); 
 			
 			String project = "";
 			while((nextChar = in.read()) != '\n') {
@@ -106,10 +111,11 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 			serverUrlField.setText(serverUrl);
 			
-			boolean rememberMeIsChecked = ('t' == in.read());
+			final boolean rememberMeIsChecked = (in.read() == 't');
 			rememberMe.setChecked(rememberMeIsChecked);
 			
-			if(rememberMeIsChecked && automaticallyLogin) {
+			// Automatically logs the user in if there is user data saved, and auto-login is enabled
+			if(rememberMeIsChecked && automaticallyLogin) { 
 				login(null);
 			}
 			
@@ -138,15 +144,18 @@ public class LoginControllerActivity extends FragmentActivity {
     	
     	BufferedOutputStream out = null;
     	try {
-    		if(rememberMe.isChecked()) {
+    		if(rememberMe.isChecked()) { // If remember me is selected, save the user data for future logins
+    			// Insecure method of writing username/password as plain text
     			out = new BufferedOutputStream(openFileOutput(PersistentLoginFileName, Context.MODE_PRIVATE));
-    			String outputString = usernameField.getText().toString() + "\n" + passwordField.getText().toString() + "\n" + projectField.getText().toString() + "\n" + serverUrlField.getText().toString() + "\n" + rememberMe.isChecked() + "\n";
+    			final String outputString = usernameField.getText().toString() + "\n" +
+    									passwordField.getText().toString() + "\n" + 
+    									projectField.getText().toString() + "\n" + 
+    									serverUrlField.getText().toString() + "\n" +
+    									rememberMe.isChecked() + "\n";
     			out.write(outputString.getBytes());
     		}
-    		else {
-    			System.out.println("Deleting login data!");
-    			if(!this.deleteFile(PersistentLoginFileName)) {
-    			}
+    		else { // Else, delete the user data if it was saved.
+    			this.deleteFile(PersistentLoginFileName);
     		}
 			
 		} catch (FileNotFoundException e) {
@@ -163,9 +172,10 @@ public class LoginControllerActivity extends FragmentActivity {
 			}
 		}
     	
+    	// Establish a network connection with the given server URL
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration(serverUrlField.getText().toString()));
 		
-		// Form the basic auth string
+		// Form the basic authorization string
 		String basicAuth = "Basic ";
 		final String password = passwordField.getText().toString();
 		final String credentials = usernameField.getText().toString() + ":" + password;
@@ -176,8 +186,10 @@ public class LoginControllerActivity extends FragmentActivity {
 		request.addHeader("Authorization", basicAuth);
 		request.addObserver(new LoginRequestObserver(this));
 		
+		// Provide user feedback 
 		responseText.setText("Sending Login Request...");
 		
+		// Send the login request to the server
 		request.send();
 	}
 
@@ -228,6 +240,11 @@ public class LoginControllerActivity extends FragmentActivity {
 	 * @param errorMessage The error message to display
 	 */
 	public void loginFail(final String errorMessage) {
+		/* 
+		 * The UI can not be updated by separate threads, so we must call runOnUiThread() to
+		 * update the responseText. The loginFail() is not running on the UI thread, because
+		 * the function is called by the LoginRequestObserver.
+		 */
 		runOnUiThread(new Runnable() {
 			public void run() {
 				responseText.setText(errorMessage);
@@ -238,7 +255,6 @@ public class LoginControllerActivity extends FragmentActivity {
 	/**
 	 * Called by the AndroidProjectSelectRequestObserver when project selection is successful
 	 * @param response The response from the server
-	 * @throws Exception 
 	 */
 	public void projectSelectSuccessful(ResponseModel response) {
 		// Save the cookies
@@ -270,24 +286,32 @@ public class LoginControllerActivity extends FragmentActivity {
 			//TODO Project selection failed
 		}
 		
+		/* Sets the username and password fields in the MarvinUserData class so that the 
+		information can be accessed by other projects. */
 		final String username = usernameField.getText().toString();
 		MarvinUserData.setUsername(username);
 		final String project = projectField.getText().toString();
 		MarvinUserData.setProject(project);
 		
+		/* 
+		 * The UI can not be updated by separate threads, so we must call runOnUiThread() to
+		 * update the responseText. This function is not running on the UI thread, because
+		 * it is called by the LoginRequestObserver.
+		 */
 		runOnUiThread(new Runnable() {
 			public void run() {
 				responseText.setText("Login Successful!");
 			}
 		});
 		
+/*		Get the default starting activity from the intent passed to Marvin by the user's application. */
 		if(recievedIntent.hasExtra(DEFAULT_ACTIVITY)) {
-			Bundle bundledExtras = getIntent().getExtras();
+			final Bundle bundledExtras = getIntent().getExtras();
 			if(bundledExtras.isEmpty()) {
 				System.err.println("Bundle was empty!");
 			}
 			else {
-				Class<?> nextActivity = (Class<?>) bundledExtras.get(DEFAULT_ACTIVITY);
+				final Class<?> nextActivity = (Class<?>) bundledExtras.get(DEFAULT_ACTIVITY);
 				final Intent intent = new Intent(this, nextActivity);
 				startActivity(intent);
 			}
@@ -304,6 +328,11 @@ public class LoginControllerActivity extends FragmentActivity {
 	 * @param errorMessage The error message to display
 	 */
 	public void projectSelectFailed(final String errorMessage) {
+		/* 
+		 * The UI can not be updated by separate threads, so we must call runOnUiThread() to
+		 * update the responseText. This function is not running on the UI thread, because
+		 * it is called by the LoginRequestObserver.
+		 */
 		runOnUiThread(new Runnable() {
 			public void run() {
 				responseText.setText(errorMessage);

@@ -23,6 +23,8 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 
 /**
+ * The Class DatePickerFragment.
+ *
  * @author Sam Lalezari
  * @version Nov 10, 2013
  */
@@ -31,11 +33,20 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 	private AndroidCalendarEvent currentEvent;
 	private EventAttributes startOrEnd;
 	
+	/**
+	 * Instantiates a new date picker fragment.
+	 *
+	 * @param currentEvent the current event
+	 * @param startOrEnd is it a start or end date
+	 */
 	public DatePickerFragment(AndroidCalendarEvent currentEvent, EventAttributes startOrEnd) {
 		this.currentEvent = currentEvent;
 		this.startOrEnd = startOrEnd;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.DialogFragment#onCreateDialog(android.os.Bundle)
+	 */
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		int year;
@@ -61,11 +72,11 @@ public class DatePickerFragment extends DialogFragment implements OnDateSetListe
 	 */
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
-		if(startOrEnd == EventAttributes.Start) {
+		if(startOrEnd == EventAttributes.Start) { // If its picking a start date, set the start date
 			currentEvent.setStartDate(year, month, day);
 			currentEvent.setEndDate(year, month, day);
 		}
-		else {
+		else { // Else, set the end date
 			currentEvent.setEndDate(year, month, day);
 		}
 		currentEvent.notifyObservers(startOrEnd);

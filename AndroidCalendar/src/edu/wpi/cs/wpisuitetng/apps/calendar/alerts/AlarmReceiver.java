@@ -1,3 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.alerts;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
@@ -10,32 +23,35 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
-import android.net.Uri;
 
+/**
+ * The Class AlarmReceiver, receives an alarm and adds it to the notification panel
+ * @author Sam Lalezari
+ * @version March 30, 2014
+ */
 public class AlarmReceiver extends BroadcastReceiver {
 
+	/* (non-Javadoc)
+	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		AndroidCalendarEvent e;
-		if(intent.hasExtra("event")){
-			System.out.println("has e");
-			e = (AndroidCalendarEvent) intent.getSerializableExtra("event");
+		if(intent.hasExtra("event")){ // If there is an event passed from the intent
+			e = (AndroidCalendarEvent) intent.getSerializableExtra("event"); // get the event
 		} else {
-			System.out.println("does not has e");
-			e = null;
+			e = null; // don't get the event
 		}
 		Notification.Builder mBuilder;
-		if(e != null){
-			System.out.println("In onReceive, e was NOT null");
-			mBuilder = new Notification.Builder(context)
+		if(e != null){ // if there is event information
+			mBuilder = new Notification.Builder(context) //Build a new notification based on the event
 			.setSmallIcon(R.drawable.notification_icon)
 			.setContentTitle(e.getEventTitle())
 			.setContentText(e.getDescription())
 			.setSubText(e.getStartDateAndTime().getTime().toString())
 			.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 			.setVibrate(new long[]{0, 1000, 1000, 1000});
-		} else {
-			System.out.println("In onReceive, e was null");
+		} else { // Else, if theres no event information
 			mBuilder = new Notification.Builder(context)
 			.setSmallIcon(R.drawable.notification_icon)
 			.setContentTitle("WPI Suite Calendar")
