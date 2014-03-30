@@ -15,7 +15,6 @@ package edu.wpi.cs.wpisuitetng.apps.calendar.alerts;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;

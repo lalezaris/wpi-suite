@@ -7,7 +7,6 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;

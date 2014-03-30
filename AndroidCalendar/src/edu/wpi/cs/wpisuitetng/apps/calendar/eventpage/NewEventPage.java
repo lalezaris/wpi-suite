@@ -1,22 +1,11 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventpage;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import edu.wpi.cs.wpisuitetng.apps.calendar.R;
-import edu.wpi.cs.wpisuitetng.apps.calendar.alerts.AlertOptions;
-import edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity;
-import edu.wpi.cs.wpisuitetng.apps.calendar.common.DatePickerFragment;
-import edu.wpi.cs.wpisuitetng.apps.calendar.common.TimePickerFragment;
-import edu.wpi.cs.wpisuitetng.apps.calendar.common.UserPickerFragment;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.marvin.loginactivity.MarvinUserData;
 import edu.wpi.cs.wpisuitetng.network.Network;

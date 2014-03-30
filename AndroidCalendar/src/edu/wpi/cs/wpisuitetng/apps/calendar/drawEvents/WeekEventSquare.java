@@ -1,11 +1,9 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
-import android.graphics.Color;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
@@ -16,14 +14,14 @@ public class WeekEventSquare extends ShapeDrawable {
 
 	private AndroidCalendarEvent event;
 	int x1, y1, x2, y2;
-	private int viewWidth, viewHeight;
+	private int viewWidth;
 
 	public WeekEventSquare(AndroidCalendarEvent ev, View v, Calendar day) {
 		super(new RectShape());
 		this.event = ev;
 		
 		viewWidth = v.getWidth();
-		viewHeight = v.getHeight();
+		v.getHeight();
 
 		int leftMargin = (int) (viewWidth*.15);
 

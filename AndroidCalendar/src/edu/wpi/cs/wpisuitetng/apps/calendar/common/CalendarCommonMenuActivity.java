@@ -123,7 +123,7 @@ public abstract class CalendarCommonMenuActivity extends Activity {
 	}
 
 	/**
-	 * Start view.
+	 * Start the specified view
 	 *
 	 * @param view the view
 	 */

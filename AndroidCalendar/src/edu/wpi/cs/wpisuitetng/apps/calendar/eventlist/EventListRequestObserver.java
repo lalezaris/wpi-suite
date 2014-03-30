@@ -1,8 +1,6 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.eventlist;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;

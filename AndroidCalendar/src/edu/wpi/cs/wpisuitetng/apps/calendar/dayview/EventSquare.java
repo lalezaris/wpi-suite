@@ -1,7 +1,6 @@
 package edu.wpi.cs.wpisuitetng.apps.calendar.dayview;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
@@ -32,13 +31,13 @@ public class EventSquare {
 
 		//from start time, figure out top of day
 		
-		GregorianCalendar testCompareEnd = new GregorianCalendar(day.YEAR, day.MONTH, day.DATE, 0, 0);
+		GregorianCalendar testCompareEnd = new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DATE, 0, 0);
 		long epochOfDay = day.getTimeInMillis();
 		long endOfDay = testCompareEnd.getTimeInMillis();
 		long millisPerPixel =  (endOfDay - epochOfDay)/v.getHeight();
 		//System.out.println("Day of: " + day.DATE);
 
-		if(event.getStartDateAndTime().before(day)){
+		if(event.getStartDateAndTime().before(day)) {
 			this.y1 = 0;
 		}
 		else{
