@@ -52,11 +52,11 @@ public class UserPickerFragment extends DialogFragment {
 	private final List<String> selectedUsers = new ArrayList<String>();
 	private final List<String> allUsers = new ArrayList<String>();
 	private final List<String> allUnselectedUsers = new ArrayList<String>();
-	private String currentUser;
+	private final String currentUser;
 	private ArrayAdapter<String> allUnselectedUsersAdapter;
 	private ListView selectedUserList;
 	private ArrayAdapter<String> selectedUsersAdapter;
-	private AndroidCalendarEvent currentEvent;
+	private final AndroidCalendarEvent currentEvent;
 
 	/**
 	 * Instantiates a new user picker fragment.
@@ -75,7 +75,7 @@ public class UserPickerFragment extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		//Sets the view for this fragment
-		View view = inflater.inflate(R.layout.fragment_user_picker, container);
+		final View view = inflater.inflate(R.layout.fragment_user_picker, container);
 		getDialog().setTitle("Attendees");
 		selectedUsers.addAll(currentEvent.getAttendees());
 		
@@ -99,7 +99,7 @@ public class UserPickerFragment extends DialogFragment {
 			 */
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View v, int position, long l) {
-				String selected = (String)adapterView.getItemAtPosition(position);
+				final String selected = (String)adapterView.getItemAtPosition(position);
                 userEntry.setText("");
                 addSelectedUser(selected);
 			}
@@ -107,7 +107,7 @@ public class UserPickerFragment extends DialogFragment {
 		userEntry.setAdapter(allUnselectedUsersAdapter);
 		
 		// When the user is done editing the list of attendees, close the dialog
-		Button doneEditingAttendeesButton = (Button) view.findViewById(R.id.save_attendees_button);
+		final Button doneEditingAttendeesButton = (Button) view.findViewById(R.id.save_attendees_button);
 		doneEditingAttendeesButton.setOnClickListener(new OnClickListener() {
 			/* (non-Javadoc)
 			 * @see android.view.View.OnClickListener#onClick(android.view.View)
@@ -128,10 +128,10 @@ public class UserPickerFragment extends DialogFragment {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
 		super.onCreateContextMenu(menu, v, menuInfo);
 		//Inflate the view
-		MenuInflater inflater = getActivity().getMenuInflater();
+		final MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 		
-		OnMenuItemClickListener listener = new OnMenuItemClickListener() {
+		final OnMenuItemClickListener listener = new OnMenuItemClickListener() {
 	        /* (non-Javadoc)
 	         * @see android.view.MenuItem.OnMenuItemClickListener#onMenuItemClick(android.view.MenuItem)
 	         */
@@ -141,9 +141,9 @@ public class UserPickerFragment extends DialogFragment {
 	            return true;
 	        }
 	    };
-
+	    
 	    //Add onClickListeners to each menu item
-	    for (int i = 0, n = menu.size(); i < n; i++) {
+	    for (int i = 0; i < menu.size(); i++) {
 	        menu.getItem(i).setOnMenuItemClickListener(listener);
 	    }
 	}
@@ -154,7 +154,7 @@ public class UserPickerFragment extends DialogFragment {
 	@Override
     public boolean onContextItemSelected(MenuItem item) {
 		//Allow the user to delete items from the list by holding down on that entry
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch(item.getItemId()) {
 		case R.id.delete_entry:
 			delete_entry(info.position);
@@ -170,7 +170,7 @@ public class UserPickerFragment extends DialogFragment {
 	 * @param position the index of the user in the list
 	 */
 	private void delete_entry(int position) {
-		String username = selectedUserList.getItemAtPosition(position).toString();
+		final String username = selectedUserList.getItemAtPosition(position).toString();
 		removeSelectedUser(username);
 	}
 	

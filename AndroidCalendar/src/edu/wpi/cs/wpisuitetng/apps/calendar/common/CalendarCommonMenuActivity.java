@@ -34,7 +34,7 @@ import android.widget.Toast;
  * @version March 30, 2014
  */
 @SuppressLint("ShowToast")
-public abstract class CalendarCommonMenuActivity extends Activity {
+public class CalendarCommonMenuActivity extends Activity {
 	
 	/** The Constant CALLING_ACTIVITY. */
 	public static final String CALLING_ACTIVITY = "edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity.CALLING_ACTIVITY";

@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class EventPageRequestObserver implements RequestObserver {
 	
-	private CalendarCommonMenuActivity activity;
+	private final CalendarCommonMenuActivity activity;
 
 	/**
 	 * Constructor
@@ -39,8 +39,9 @@ public class EventPageRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest arg0, Exception arg1) {
-		if(activity != null)
+		if(activity != null){
 			activity.sendToastMessage("Unable to save event.");
+		}
 	}
 
 	/* (non-Javadoc)
@@ -48,8 +49,9 @@ public class EventPageRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest arg0) {
-		if(activity != null)
+		if(activity != null){
 			activity.sendToastMessage("An error occurred.");
+		}
 	}
 
 	/* (non-Javadoc)
@@ -57,8 +59,9 @@ public class EventPageRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		if(activity != null)
+		if(activity != null){
 			activity.sendToastMessage("Event saved!");
+		}
 	}
 
 }

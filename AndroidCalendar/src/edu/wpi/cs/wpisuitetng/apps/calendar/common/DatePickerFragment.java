@@ -30,8 +30,8 @@ import android.widget.DatePicker;
  */
 public class DatePickerFragment extends DialogFragment implements OnDateSetListener {
 
-	private AndroidCalendarEvent currentEvent;
-	private EventAttributes startOrEnd;
+	private final AndroidCalendarEvent currentEvent;
+	private final EventAttributes startOrEnd;
 	
 	/**
 	 * Instantiates a new date picker fragment.

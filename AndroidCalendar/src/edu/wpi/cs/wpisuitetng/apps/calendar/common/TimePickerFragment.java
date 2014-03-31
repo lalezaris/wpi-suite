@@ -30,8 +30,8 @@ import android.widget.TimePicker;
  */
 public class TimePickerFragment extends DialogFragment implements OnTimeSetListener {
 	
-	private AndroidCalendarEvent currentEvent;
-	private EventAttributes startOrEnd;
+	private final AndroidCalendarEvent currentEvent;
+	private final EventAttributes startOrEnd;
 
 	/**
 	 * Instantiates a new time picker fragment.
@@ -51,7 +51,7 @@ public class TimePickerFragment extends DialogFragment implements OnTimeSetListe
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		int hour;
 		int minute;
-		boolean is24HourFormat = DateFormat.is24HourFormat(getActivity());
+		final boolean is24HourFormat = DateFormat.is24HourFormat(getActivity());
 		if(startOrEnd == EventAttributes.Start) { // If choosing a start time, default to the current time.
 			hour = currentEvent.getStartDateAndTime().get(Calendar.HOUR_OF_DAY);
 			minute = currentEvent.getStartDateAndTime().get(Calendar.MINUTE);

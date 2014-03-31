@@ -56,7 +56,7 @@ public class EventListRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest arg0) {
-		AndroidCalendarEvent[] events = new Gson().fromJson(arg0.getResponse().getBody(), AndroidCalendarEvent[].class);
+		final AndroidCalendarEvent[] events = new Gson().fromJson(arg0.getResponse().getBody(), AndroidCalendarEvent[].class);
 		
 		final AndroidCalendarEvent[] finalEvents = events;
 		controller.runOnUiThread(new Runnable() {

@@ -35,7 +35,7 @@ public class EventListFragment extends ListFragment {
 	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long rowId) {
-		AndroidCalendarEvent event = (AndroidCalendarEvent)l.getItemAtPosition(position);
+		final AndroidCalendarEvent event = (AndroidCalendarEvent)l.getItemAtPosition(position);
 
 		// Get the intent used for starting the next activity.
 		final Intent intent = new Intent(getActivity(), edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.ViewEventPage.class);

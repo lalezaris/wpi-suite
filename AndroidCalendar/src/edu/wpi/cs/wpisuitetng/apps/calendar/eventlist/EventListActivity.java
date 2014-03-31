@@ -46,7 +46,7 @@ public class EventListActivity extends CalendarCommonMenuActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_list);
 		
-		EventListFragment listFragment = (EventListFragment)getFragmentManager().findFragmentById(R.id.list_fragment);
+		final EventListFragment listFragment = (EventListFragment)getFragmentManager().findFragmentById(R.id.list_fragment);
 		
 		//Requests all events that the current user is a member of
 		final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/attendees/" + MarvinUserData.getUsername(), HttpMethod.GET);

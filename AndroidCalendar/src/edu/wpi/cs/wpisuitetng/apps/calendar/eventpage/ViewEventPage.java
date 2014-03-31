@@ -31,7 +31,7 @@ import android.widget.EditText;
  * @author Nathan Longnecker
  * @version March 30, 2014
  */
-public class ViewEventPage extends AbstractEventPage {
+public class ViewEventPage extends EventPage {
 	
 	private Button saveEventButton, startDatePickerButton, endDatePickerButton, startTimePickerButton, endTimePickerButton, attendeesButton, alertButton;
 	private EditText title, location, description;
@@ -69,7 +69,7 @@ public class ViewEventPage extends AbstractEventPage {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		
-		if(this.currentEvent.getEventOwner().equals(MarvinUserData.getUsername())) {
+		if(currentEvent.getEventOwner().equals(MarvinUserData.getUsername())) {
 			getMenuInflater().inflate(R.menu.view_event_page, menu);
 		}
 		return true;
@@ -123,7 +123,7 @@ public class ViewEventPage extends AbstractEventPage {
 		description.setEnabled(false);
 		attendeesButton.setEnabled(false);
 		alertButton.setEnabled(false);
-		saveEventButton.setVisibility(Button.INVISIBLE);
+		saveEventButton.setVisibility(android.view.View.INVISIBLE);
 	}
 	
 	/**
@@ -140,6 +140,6 @@ public class ViewEventPage extends AbstractEventPage {
 		description.setEnabled(true);
 		attendeesButton.setEnabled(true);
 		alertButton.setEnabled(true);
-		saveEventButton.setVisibility(Button.VISIBLE);
+		saveEventButton.setVisibility(android.view.View.VISIBLE);
 	}
 }

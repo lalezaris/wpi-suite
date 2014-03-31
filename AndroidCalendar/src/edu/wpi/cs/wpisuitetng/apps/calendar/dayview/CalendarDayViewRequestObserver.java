@@ -1,8 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.dayview;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -14,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 public class CalendarDayViewRequestObserver implements RequestObserver {
 
-	private CalendarDayViewActivity controller;
+	private final CalendarDayViewActivity controller;
 	
 	public CalendarDayViewRequestObserver(CalendarDayViewActivity controller) {
 		this.controller = controller;
@@ -37,8 +51,8 @@ public class CalendarDayViewRequestObserver implements RequestObserver {
 	public void responseSuccess(IRequest iReq) {
 		// TODO Auto-generated method stub
 
-		AndroidCalendarEvent[] events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
-        final ArrayList<AndroidCalendarEvent> ev = new ArrayList<AndroidCalendarEvent>();
+		final AndroidCalendarEvent[] events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
+        final List<AndroidCalendarEvent> ev = new ArrayList<AndroidCalendarEvent>();
         for(AndroidCalendarEvent e : events){
         	if(e.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
             	ev.add(e);
@@ -47,7 +61,7 @@ public class CalendarDayViewRequestObserver implements RequestObserver {
 		
 		controller.runOnUiThread(new Runnable() {
             public void run() {
-            	controller.setContentView(new DayEventSurfaceView(controller, ev, new GregorianCalendar(Calendar.getInstance().get(GregorianCalendar.YEAR), Calendar.getInstance().get(GregorianCalendar.MONTH), Calendar.getInstance().get(GregorianCalendar.DATE), 0, 0)));
+            	controller.setContentView(new DayEventSurfaceView(controller, ev, new GregorianCalendar(Calendar.getInstance().get(java.util.Calendar.YEAR), Calendar.getInstance().get(java.util.Calendar.MONTH), Calendar.getInstance().get(java.util.Calendar.DATE), 0, 0)));
             }
 		});
 		

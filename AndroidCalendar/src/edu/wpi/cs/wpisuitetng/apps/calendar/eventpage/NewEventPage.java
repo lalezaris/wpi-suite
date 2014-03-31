@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-public class NewEventPage extends AbstractEventPage {
+public class NewEventPage extends EventPage {
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -74,11 +74,11 @@ public class NewEventPage extends AbstractEventPage {
 	 * @see edu.wpi.cs.wpisuitetng.apps.calendar.eventpage.AbstractEventPage#saveEvent(android.view.View)
 	 */
 	public void saveEvent(View v) {
-		EditText title = (EditText) findViewById(R.id.event_title_field);
+		final EditText title = (EditText) findViewById(R.id.event_title_field);
 		currentEvent.setEventTitle(title.getText().toString());
-		EditText location = (EditText) findViewById(R.id.location_field);
+		final EditText location = (EditText) findViewById(R.id.location_field);
 		currentEvent.setLocation(location.getText().toString());
-		EditText description = (EditText) findViewById(R.id.description_field);
+		final EditText description = (EditText) findViewById(R.id.description_field);
 		currentEvent.setDescription(description.getText().toString());
 		
 		if(currentEvent.getEventTitle().isEmpty()) {

@@ -60,14 +60,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 			.setVibrate(new long[]{0, 1000, 1000, 1000});
 		}
 		
-		Intent resultIntent = new Intent(context, StartupActivity.class);
+		final Intent resultIntent = new Intent(context, StartupActivity.class);
         
-		PendingIntent resultPendingIntent =
+		final PendingIntent resultPendingIntent =
 				PendingIntent.getActivity(context, (int) e.getUniqueId(), resultIntent, 0);
 
 		mBuilder.setContentIntent(resultPendingIntent);
 
-		NotificationManager mNotifyMgr = 
+		final NotificationManager mNotifyMgr = 
 				(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 		mNotifyMgr.notify((int) e.getUniqueId(), mBuilder.build());

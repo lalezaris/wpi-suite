@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class CalendarMonthViewRequestObserver implements RequestObserver {
 
-	private CalendarMonthViewActivity controller;
+	private final CalendarMonthViewActivity controller;
 	
 	/** The constructor.
 	 * @param calendarMonthViewActivity The activity to alert when the request has finished
@@ -39,8 +39,9 @@ public class CalendarMonthViewRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest arg0, Exception arg1) {
-		if(controller != null)
+		if(controller != null){
 			controller.sendToastMessage("Error retrieving events");
+		}
 	}
 
 	/* (non-Javadoc)
@@ -48,8 +49,9 @@ public class CalendarMonthViewRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest arg0) {
-		if(controller != null)
+		if(controller != null){
 			controller.sendToastMessage("Error retrieving events");
+		}
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +59,7 @@ public class CalendarMonthViewRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		AndroidCalendarEvent[] events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
+		final AndroidCalendarEvent[] events = new Gson().fromJson(iReq.getResponse().getBody(), AndroidCalendarEvent[].class);
         controller.updateAllEventsList(events);
 	}
 

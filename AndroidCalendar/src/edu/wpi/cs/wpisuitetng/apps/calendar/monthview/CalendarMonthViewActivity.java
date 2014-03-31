@@ -54,7 +54,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_calendar_month_view);
 		
-		FragmentManager fragManager = getFragmentManager();
+		final FragmentManager fragManager = getFragmentManager();
 		
 		listFragment = (EventListFragment) fragManager.findFragmentById(R.id.list_fragment);
 		calendar = (CalendarView)findViewById(R.id.calendar_view);
@@ -67,7 +67,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 		adapter = new ArrayAdapter<AndroidCalendarEvent>(this, android.R.layout.simple_list_item_1, events);
 		listFragment.setListAdapter(adapter);
 		
-		CalendarViewDateChangeListener listener = new CalendarViewDateChangeListener(this);
+		final CalendarViewDateChangeListener listener = new CalendarViewDateChangeListener(this);
 		
 		calendar.setOnDateChangeListener(listener);
 		
@@ -78,7 +78,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	 * @param month The number of the current month
 	 */
 	public void sendRequestForAllEventsInMonth(int month) {
-		Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/"/*startmonth/" + month*/, HttpMethod.GET);
+		final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/"/*startmonth/" + month*/, HttpMethod.GET);
 		request.addObserver(new CalendarMonthViewRequestObserver(this));
 		request.send();
 	}
@@ -117,7 +117,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	private List<AndroidCalendarEvent> getEventsWithAlert(
 			List<AndroidCalendarEvent> notifyEvents) {
 		
-		List<AndroidCalendarEvent> eventlist = new ArrayList<AndroidCalendarEvent>();
+		final List<AndroidCalendarEvent> eventlist = new ArrayList<AndroidCalendarEvent>();
 		
 		for(AndroidCalendarEvent e : notifyEvents){
 			if(!e.getAlerts().isEmpty()){
@@ -133,8 +133,8 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	 * @return A list of events in the future
 	 */
 	private List<AndroidCalendarEvent> getFutureEvents() {
-		Calendar now = Calendar.getInstance();
-		List<AndroidCalendarEvent> eventlist = new ArrayList<AndroidCalendarEvent>();
+		final Calendar now = Calendar.getInstance();
+		final List<AndroidCalendarEvent> eventlist = new ArrayList<AndroidCalendarEvent>();
 		for(AndroidCalendarEvent e : allEvents){
 			if(now.before(e.getStartDateAndTime())){
 				eventlist.add(e);
@@ -164,7 +164,7 @@ public class CalendarMonthViewActivity extends CalendarCommonMenuActivity {
 	 * Filters todays events out of the full eventlist
 	 */
 	private void filterTodaysEvents() {
-		ArrayList<AndroidCalendarEvent> dayEvents = new ArrayList<AndroidCalendarEvent>();
+		final List<AndroidCalendarEvent> dayEvents = new ArrayList<AndroidCalendarEvent>();
 		for(AndroidCalendarEvent event : allEvents) {
 			if(event.getStartDateAndTime().get(Calendar.DAY_OF_MONTH) == currentDayOfMonth && event.getStartDateAndTime().get(Calendar.MONTH) == currentMonth) {
 				dayEvents.add(event);

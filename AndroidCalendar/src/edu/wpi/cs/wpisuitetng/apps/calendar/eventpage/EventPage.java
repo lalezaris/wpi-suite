@@ -45,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @author Sam Lalezari
  * @version March 30, 2014
  */
-public abstract class AbstractEventPage extends CalendarCommonMenuActivity implements Observer {
+public class EventPage extends CalendarCommonMenuActivity implements Observer {
 
 	protected AndroidCalendarEvent currentEvent;
 	
@@ -53,7 +53,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param v the current view
 	 */
 	public void showStartTimePickerDialog(View v) {
-	    TimePickerFragment startTimeFrag = new TimePickerFragment(currentEvent, EventAttributes.Start);
+	    final TimePickerFragment startTimeFrag = new TimePickerFragment(currentEvent, EventAttributes.Start);
 	    startTimeFrag.show(getFragmentManager(), "timePicker");
 	}
 	
@@ -61,7 +61,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param v the current view
 	 */
 	public void showStartDatePickerDialog(View v) {
-	    DatePickerFragment startDateFrag = new DatePickerFragment(currentEvent, EventAttributes.Start);
+	    final DatePickerFragment startDateFrag = new DatePickerFragment(currentEvent, EventAttributes.Start);
 	    startDateFrag.show(getFragmentManager(), "datePicker");
 	}
 	
@@ -69,7 +69,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param v the current view
 	 */
 	public void showEndTimePickerDialog(View v) {
-	    TimePickerFragment endTimeFrag = new TimePickerFragment(currentEvent, EventAttributes.End);
+	    final TimePickerFragment endTimeFrag = new TimePickerFragment(currentEvent, EventAttributes.End);
 	    endTimeFrag.show(getFragmentManager(), "timePicker");
 	}
 	
@@ -77,7 +77,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param v the current view
 	 */
 	public void showEndDatePickerDialog(View v) {
-	    DatePickerFragment endDateFrag = new DatePickerFragment(currentEvent, EventAttributes.End);
+	    final DatePickerFragment endDateFrag = new DatePickerFragment(currentEvent, EventAttributes.End);
 	    endDateFrag.show(getFragmentManager(), "datePicker");
 	}
 
@@ -85,16 +85,16 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param v the current view
 	 */
 	public void showAlertPickerDialog(View v) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		
 		final ArrayList<String> alertOptions = new ArrayList<String>();
 		alertOptions.addAll(AlertOptions.stringValues());
 		
-		final ArrayList<AlertOptions> selectedAlerts = new ArrayList<AlertOptions>();
+		final List<AlertOptions> selectedAlerts = new ArrayList<AlertOptions>();
 		selectedAlerts.addAll(currentEvent.getAlerts());
-		boolean[] checkedItems = AlertOptions.getCheckedItems(selectedAlerts);
+		final boolean[] checkedItems = AlertOptions.getCheckedItems(selectedAlerts);
 		
-		String string = "";
+		final String string = "";
 		for(boolean b:checkedItems){
 			string.concat(Boolean.valueOf(b).toString() + ", ");
 		}
@@ -133,7 +133,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 				// do nothing
 			}
 		});
-		AlertDialog alert = alertDialogBuilder.create();
+		final AlertDialog alert = alertDialogBuilder.create();
 		alert.show();
 	}
 
@@ -141,7 +141,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param v the current view
 	 */
 	public void showAttendeesPickerDialog(View v) {
-		UserPickerFragment attendees = new UserPickerFragment(currentEvent, MarvinUserData.getUsername());
+		final UserPickerFragment attendees = new UserPickerFragment(currentEvent, MarvinUserData.getUsername());
 	    attendees.show(getFragmentManager(), "userPicker");
 	}
 	
@@ -150,11 +150,11 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param v the current view
 	 */
 	public void saveEvent(View v) {
-		EditText title = (EditText) findViewById(R.id.event_title_field);
+		final EditText title = (EditText) findViewById(R.id.event_title_field);
 		currentEvent.setEventTitle(title.getText().toString());
-		EditText location = (EditText) findViewById(R.id.location_field);
+		final EditText location = (EditText) findViewById(R.id.location_field);
 		currentEvent.setLocation(location.getText().toString());
-		EditText description = (EditText) findViewById(R.id.description_field);
+		final EditText description = (EditText) findViewById(R.id.description_field);
 		currentEvent.setDescription(description.getText().toString());
 		
 		if(currentEvent.getEventTitle().isEmpty()) {
@@ -182,7 +182,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	@Override
 	public void update(Observable observable, Object data) {
 		currentEvent = (AndroidCalendarEvent) observable;
-		EventAttributes attributes = (EventAttributes) data;
+		final EventAttributes attributes = (EventAttributes) data;
 		
 		switch(attributes) {
 		case Attendees:
@@ -218,7 +218,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 			Collections.sort(alerts);
 			
 			System.out.println("alerts: " + alerts +"\nalerts.size(): "+ alerts.size());
-			TextView alertText = (TextView) findViewById(R.id.alert_text_view);
+			final TextView alertText = (TextView) findViewById(R.id.alert_text_view);
 			String string = "Alerts: ";
 			for(AlertOptions a : alerts) {
 				if(a.equals(alerts.get(alerts.size()-1))){
@@ -236,7 +236,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param eventTitle The new title
 	 */
 	private void updateEventTitle(String eventTitle) {
-		EditText title = (EditText) findViewById(R.id.event_title_field);
+		final EditText title = (EditText) findViewById(R.id.event_title_field);
 		title.setText(eventTitle);
 	}
 	
@@ -244,10 +244,10 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param startDateAndTime The start time of the event
 	 */
 	private void updateEventStart(Calendar startDateAndTime) {
-		Button startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
+		final Button startDatePickerButton = (Button) findViewById(R.id.start_date_picker_button);
 		updateButtonDateText(startDatePickerButton, "Start Date", startDateAndTime);
 		
-		Button startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
+		final Button startTimePickerButton = (Button) findViewById(R.id.start_time_picker_button);
 		updateButtonTimeText(startTimePickerButton, "Start Time", startDateAndTime);
 	}
 	
@@ -255,10 +255,10 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param endDateAndTime The end time of the event
 	 */
 	private void updateEventEnd(Calendar endDateAndTime) {
-		Button endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
+		final Button endDatePickerButton = (Button) findViewById(R.id.end_date_picker_button);
 		updateButtonDateText(endDatePickerButton, "End Date", endDateAndTime);
 		
-		Button endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
+		final Button endTimePickerButton = (Button) findViewById(R.id.end_time_picker_button);
 		updateButtonTimeText(endTimePickerButton, "End Time", endDateAndTime);
 	}
 	
@@ -269,8 +269,8 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 */
 	private void updateButtonDateText(Button button, String buttonText, Calendar time) {
 		String monthString = "";
-		int day = time.get(Calendar.DAY_OF_MONTH);
-		int year = time.get(Calendar.YEAR);
+		final int day = time.get(Calendar.DAY_OF_MONTH);
+		final int year = time.get(Calendar.YEAR);
 
 		switch(time.get(Calendar.MONTH)){
 		case Calendar.JANUARY: monthString = "January";
@@ -308,7 +308,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param time The time to set on the button
 	 */
 	private void updateButtonTimeText(Button button, String buttonText, Calendar time) {
-		int minute = time.get(Calendar.MINUTE);
+		final int minute = time.get(Calendar.MINUTE);
 		String minuteString;
 		if (minute < 10){
 			minuteString = "0" + minute;
@@ -317,10 +317,10 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 		}
 		
 		if(DateFormat.is24HourFormat(this)){
-			int hour = time.get(Calendar.HOUR_OF_DAY);
+			final int hour = time.get(Calendar.HOUR_OF_DAY);
 			button.setText(buttonText + ": " + hour + ":" + minuteString);
 		} else {
-			int hour = time.get(Calendar.HOUR);
+			final int hour = time.get(Calendar.HOUR);
 			
 			String amOrPm = "PM";
 			if(time.get(Calendar.AM_PM) == Calendar.AM) {
@@ -335,7 +335,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param selectedUsers The list of users going to the event
 	 */
 	private void updateAttendeesList(String eventOwner, List<String> selectedUsers) {
-		TextView attendeesList = (TextView) findViewById(R.id.attendees_text_view);
+		final TextView attendeesList = (TextView) findViewById(R.id.attendees_text_view);
 		String usersList = "Event Owner: " + eventOwner + "\nOther Attendees: ";
 		for(int i = 0; i < selectedUsers.size(); i++) {
 			if(i == 0) {
@@ -352,7 +352,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param eventLocation The location of the event
 	 */
 	private void updateEventLocation(String eventLocation) {
-		EditText location = (EditText) findViewById(R.id.location_field);
+		final EditText location = (EditText) findViewById(R.id.location_field);
 		location.setText(eventLocation);
 	}
 
@@ -360,7 +360,7 @@ public abstract class AbstractEventPage extends CalendarCommonMenuActivity imple
 	 * @param eventDescription The new event description
 	 */
 	private void updateEventDescription(String eventDescription) {
-		EditText description = (EditText) findViewById(R.id.description_field);
+		final EditText description = (EditText) findViewById(R.id.description_field);
 		description.setText(eventDescription);
 	}
 

@@ -40,10 +40,10 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 	private String eventTitle;
 	private Calendar startDateAndTime;
 	private Calendar endDateAndTime;
-	private List<AlertOptions> alerts;
+	private final List<AlertOptions> alerts;
 	private String location;
 	private List<String> attendees;
-	private String eventOwner;
+	private final String eventOwner;
 	private String description;
 	
 	/** Creates a new AndroidCalendarEvent
@@ -64,7 +64,7 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 		this.location = location;
 		this.attendees = attendees;
 		this.description = description;
-		this.alerts = new ArrayList<AlertOptions>();
+		alerts = new ArrayList<AlertOptions>();
 	}
 
 	/**
@@ -73,14 +73,14 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 	 */
 	public AndroidCalendarEvent(String eventOwner) {
 		this.eventOwner = eventOwner;
-		this.eventTitle = "";
-		this.startDateAndTime = new GregorianCalendar();
-		this.endDateAndTime = new GregorianCalendar();
-		this.endDateAndTime.add(Calendar.HOUR_OF_DAY, 1);
-		this.location = "";
-		this.attendees = new ArrayList<String>();
-		this.description = "";
-		this.alerts = new ArrayList<AlertOptions>();
+		eventTitle = "";
+		startDateAndTime = new GregorianCalendar();
+		endDateAndTime = new GregorianCalendar();
+		endDateAndTime.add(Calendar.HOUR_OF_DAY, 1);
+		location = "";
+		attendees = new ArrayList<String>();
+		description = "";
+		alerts = new ArrayList<AlertOptions>();
 	}
 	
 	// Methods to ease updating fields
@@ -317,7 +317,7 @@ public class AndroidCalendarEvent extends AbstractModel implements Serializable 
 	/**
 	 * @param selectedAlerts The alerts to set
 	 */
-	public void setAlert(ArrayList<AlertOptions> selectedAlerts) {
+	public void setAlert(List<AlertOptions> selectedAlerts) {
 		alerts.clear();
 		alerts.addAll(selectedAlerts);
 		setChanged();

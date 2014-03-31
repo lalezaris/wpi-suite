@@ -1,3 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents;
 
 import java.util.ArrayList;
@@ -23,12 +36,12 @@ import android.view.View.OnTouchListener;
 
 public class WeekEventSurfaceView extends SurfaceView  
 implements SurfaceHolder.Callback, OnTouchListener {
-	private SurfaceHolder sh;
+	private final SurfaceHolder sh;
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	List<AndroidCalendarEvent> events;
 	List<WeekEventSquare> squares = new ArrayList<WeekEventSquare>();
 	
-	public WeekEventSurfaceView(Context context, ArrayList<AndroidCalendarEvent> listOfEvents) {
+	public WeekEventSurfaceView(Context context, List<AndroidCalendarEvent> listOfEvents) {
 		super(context);
 		
 		sh = getHolder();
@@ -36,15 +49,15 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		paint.setColor(Color.BLUE);
 		paint.setStyle(Style.FILL);
 		
-		events = new ArrayList<AndroidCalendarEvent>();	
+		events = new ArrayList<AndroidCalendarEvent>();
 		events.addAll(listOfEvents);
 	}
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.setOnTouchListener(this);//listens to itself
-		Canvas canvas = sh.lockCanvas();
+		final Canvas canvas = sh.lockCanvas();
 		canvas.drawColor(Color.WHITE);
 		
-		int pixelsPerHr = this.getHeight()/24;
+		final int pixelsPerHr = this.getHeight()/24;
 		
 		//Draw the 24 hours
 		paint.setColor(Color.GRAY);
@@ -54,8 +67,8 @@ implements SurfaceHolder.Callback, OnTouchListener {
 			canvas.drawText(i + ":00", 0, i*pixelsPerHr, paint);
 		}
 		
-		int leftMargin = (int) (getWidth()*.15);
-		int offset = (int) ((getWidth() * 0.8) / 7);
+		final int leftMargin = (int) (getWidth()*.15);
+		final int offset = (int) ((getWidth() * 0.8) / 7);
 		canvas.drawText("Sun.", leftMargin + offset*0, 20, paint);
 		canvas.drawText("Mon.", leftMargin + offset*1, 20, paint);
 		canvas.drawText("Tues.", leftMargin + offset*2, 20, paint);
@@ -65,7 +78,7 @@ implements SurfaceHolder.Callback, OnTouchListener {
 		canvas.drawText("Sat.", leftMargin + offset*6, 20, paint);
 		
 		
-		for(AndroidCalendarEvent e : this.events){
+		for(AndroidCalendarEvent e : events){
 			Calendar eventDay = new GregorianCalendar(e.getStartDateAndTime().get(Calendar.YEAR), e.getStartDateAndTime().get(Calendar.MONTH), e.getStartDateAndTime().get(Calendar.DAY_OF_MONTH));
 			WeekEventSquare sq = new WeekEventSquare(e, this, eventDay);
 			squares.add(sq);

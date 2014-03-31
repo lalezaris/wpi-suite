@@ -1,3 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.drawEvents;
 
 import java.util.ArrayList;
@@ -24,10 +37,10 @@ public class DayEventSurfaceView extends SurfaceView
 		implements SurfaceHolder.Callback, OnTouchListener {
 	
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-	private List<DayEventSquare> eventSquares = new ArrayList<DayEventSquare>();
+	private final List<DayEventSquare> eventSquares = new ArrayList<DayEventSquare>();
 	
-	private List<AndroidCalendarEvent> events = new ArrayList<AndroidCalendarEvent>();
-	private Calendar currentDay;
+	private final List<AndroidCalendarEvent> events = new ArrayList<AndroidCalendarEvent>();
+	private final Calendar currentDay;
 	
 	public DayEventSurfaceView(Context context, List<AndroidCalendarEvent> listOfEvents, Calendar currentDay) {
 		super(context);
@@ -42,10 +55,10 @@ public class DayEventSurfaceView extends SurfaceView
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		this.setOnTouchListener(this);//listens to itself
-		Canvas canvas = holder.lockCanvas();
+		final Canvas canvas = holder.lockCanvas();
 		canvas.drawColor(Color.WHITE);
 		
-		int pixelsPerHr = this.getHeight()/24;
+		final int pixelsPerHr = this.getHeight()/24;
 		
 		//Draw the 24 hours
 		paint.setColor(Color.GRAY);
@@ -59,7 +72,7 @@ public class DayEventSurfaceView extends SurfaceView
 			eventSquares.add(new DayEventSquare(e, this, currentDay));
 		}
 		
-		List<DayEventSquare> addedEvents = new ArrayList<DayEventSquare>();
+		final List<DayEventSquare> addedEvents = new ArrayList<DayEventSquare>();
 		for(DayEventSquare s: eventSquares) {
 			//check for an overlap
 			List<DayEventSquare> overlappingEvents = new ArrayList<DayEventSquare>();

@@ -27,7 +27,7 @@ public enum AlertOptions {
 	FORTYFIVE_BEFORE("45 Minutes Before"),
 	SIXTY_BEFORE("60 Minutes Before");
 	
-	private String text;
+	private final String text;
 	AlertOptions(String s){
 		text = s;
 	}
@@ -38,7 +38,7 @@ public enum AlertOptions {
 	}
 
 	public static List<String> stringValues() {
-		List<String> strings = new ArrayList<String>();
+		final List<String> strings = new ArrayList<String>();
 		for(AlertOptions value : values()){
 			strings.add(value.toString());
 		}
@@ -57,9 +57,9 @@ public enum AlertOptions {
 	}
 
 	public static boolean[] getCheckedItems(
-			ArrayList<AlertOptions> selectedAlerts) {
+			List<AlertOptions> selectedAlerts) {
 		
-		ArrayList<Boolean> checkedList = new ArrayList<Boolean>();
+		final ArrayList<Boolean> checkedList = new ArrayList<Boolean>();
 
 		for(AlertOptions v:values()){
 			boolean hasAdded = false;
@@ -77,13 +77,13 @@ public enum AlertOptions {
 			}
 		}
 
-		boolean[] returnList = new boolean[checkedList.size()];
+		final boolean[] returnList = new boolean[checkedList.size()];
 		
 		for(int i = 0; i < returnList.length; i++){
 			returnList[i] = checkedList.get(i).booleanValue();
 		}
 		
-		String string = "";
+		final String string = "";
 		for(boolean b:returnList){
 			string.concat(Boolean.valueOf(b).toString() + ", ");
 		}

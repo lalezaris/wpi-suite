@@ -1,3 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2013 -- WPI Suite
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * 		Sam Lalezari
+ * 		Mark Fitzgibbon
+ * 		Nathan Longnecker
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.apps.calendar.dayview;
 
 import java.util.Calendar;
@@ -17,11 +30,11 @@ public class EventSquare {
 	int x1, y1, x2, y2;
 
 	public EventSquare(AndroidCalendarEvent ev, View v, Calendar day){
-		this.event = ev;
+		event = ev;
 		//use time & screen res to set height
 		//width based on screen width
-		this.x1 = 0;
-		this.x2 = v.getWidth();
+		x1 = 0;
+		x2 = v.getWidth();
 
 		//get start time
 		//set top of square
@@ -31,32 +44,32 @@ public class EventSquare {
 
 		//from start time, figure out top of day
 		
-		GregorianCalendar testCompareEnd = new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DATE, 0, 0);
-		long epochOfDay = day.getTimeInMillis();
-		long endOfDay = testCompareEnd.getTimeInMillis();
-		long millisPerPixel =  (endOfDay - epochOfDay)/v.getHeight();
+		final GregorianCalendar testCompareEnd = new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DATE, 0, 0);
+		final long epochOfDay = day.getTimeInMillis();
+		final long endOfDay = testCompareEnd.getTimeInMillis();
+		final long millisPerPixel =  (endOfDay - epochOfDay)/v.getHeight();
 		//System.out.println("Day of: " + day.DATE);
 
 		if(event.getStartDateAndTime().before(day)) {
-			this.y1 = 0;
+			y1 = 0;
 		}
 		else{
-			this.y1 = (int) ((event.getStartDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
+			y1 = (int) ((event.getStartDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
 
 		}
 		//	y1 = 0;
 
 		if(ev.getEndDateAndTime().after(testCompareEnd)){
-			this.y2 = v.getHeight();
+			y2 = v.getHeight();
 		}
 		else{
-			this.y2 = (int) ((event.getEndDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
+			y2 = (int) ((event.getEndDateAndTime().getTimeInMillis() - epochOfDay) / millisPerPixel);
 		}
 
 		shape = new ShapeDrawable(new RectShape());
 		shape.getPaint().setColor(Color.BLUE);
 		shape.setBounds(x1, y1, x2, y2);
-		System.out.println("Height is " + (this.y2 - this.y1));
+		System.out.println("Height is " + (y2 - y1));
 
 	}
 
@@ -83,9 +96,9 @@ public class EventSquare {
 		// TODO Auto-generated method stub
 		switch(arg1.getAction()){
 		case MotionEvent.ACTION_DOWN: {
-			float posX = arg1.getX();
-			float posY = arg1.getY();
-			if(posX >= this.x1 && posX <= this.x2 && posY >= this.y1 && posY <= this.y2){
+			final float posX = arg1.getX();
+			final float posY = arg1.getY();
+			if(posX >= x1 && posX <= x2 && posY >= y1 && posY <= y2){
 				System.out.println("Ping");
 				return true;
 			}

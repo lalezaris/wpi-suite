@@ -28,10 +28,10 @@ import android.net.Uri;
 public class AlarmService {
 
 	public static final String EVENT = "edu.wpi.cs.wpisuitetng.apps.calendar.alerts.EVENT";
-	private Context context;
+	private final Context context;
 	private PendingIntent mAlarmSender;
-	private List<AndroidCalendarEvent> events;
-	private AlarmManager am;
+	private final List<AndroidCalendarEvent> events;
+	private final AlarmManager am;
 
 	public AlarmService(Context context, List<AndroidCalendarEvent> notifyEvents) {
 		System.out.println("new AlarmService()");
@@ -42,7 +42,7 @@ public class AlarmService {
 
 	public void startAlarm(){
 		System.out.println("in startAlarm()");
-		List<Calendar> calList = new ArrayList<Calendar>();
+		final List<Calendar> calList = new ArrayList<Calendar>();
 
 		for(AndroidCalendarEvent e : events){
 			calList.addAll(getAlertTime(e));
@@ -67,7 +67,7 @@ public class AlarmService {
 	}
 
 	private List<Calendar> getAlertTime(AndroidCalendarEvent e) {
-		List<Calendar> calList = new ArrayList<Calendar>();
+		final List<Calendar> calList = new ArrayList<Calendar>();
 
 		if(!e.getAlerts().isEmpty()){
 			for(AlertOptions ao : e.getAlerts()){

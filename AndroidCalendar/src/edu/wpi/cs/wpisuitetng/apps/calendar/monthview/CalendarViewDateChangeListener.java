@@ -23,7 +23,7 @@ import android.widget.CalendarView.OnDateChangeListener;
  */
 public class CalendarViewDateChangeListener implements OnDateChangeListener {
 
-	public CalendarMonthViewActivity controller;
+	private final CalendarMonthViewActivity controller;
 	
 	/** Constructor
 	 * @param calendarMonthViewActivity The controller to alert when a change is detected

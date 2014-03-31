@@ -22,9 +22,9 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.apps.calendar.models.AndroidCalendarEvent;
 import edu.wpi.cs.wpisuitetng.database.Data;
-import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
-import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
+
+
+
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
@@ -61,18 +61,18 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	@Override
-	public String advancedGet(Session s, String[] args) throws WPISuiteException {
+	public String advancedGet(Session s, String[] args) {
 
 		//remove the null last argument
 		if(args[args.length-1] == null) {
 			args = Arrays.copyOfRange(args, 0, args.length-1);
 		}
 
-		ArrayList<String> fieldArrayList = new ArrayList<String>();
-		List<Object> givenValueList = new ArrayList<Object>();
+		final ArrayList<String> fieldArrayList = new ArrayList<String>();
+		final List<Object> givenValueList = new ArrayList<Object>();
 		
-		ArrayList<String> extraFields = new ArrayList<String>();
-		List<Object> extraValues = new ArrayList<Object>();
+		final List<String> extraFields = new ArrayList<String>();
+		final List<Object> extraValues = new ArrayList<Object>();
 		
 		//Iterate through the input to identify search parameters
 		for(int i=2; i < args.length; i += 2){
@@ -98,7 +98,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 				extraValues.add(value);
 			}
 		}
-		String[] fieldNameList = fieldArrayList.toArray(new String[0]);
+		final String[] fieldNameList = fieldArrayList.toArray(new String[0]);
 		
 		List<Model> modelList = new ArrayList<Model>();
 
@@ -150,9 +150,9 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @return Returns a list of events that the user belongs to
 	 */
 	private List<Model> checkIfBelongsTo(String username, List<Model> list) {
-		String name = username;
-		List<Model> modelList = new ArrayList<Model>();
-		List<Model> models = list;
+		final String name = username;
+		final List<Model> modelList = new ArrayList<Model>();
+		final List<Model> models = list;
 		
 		for(Model m : models){
 			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
@@ -181,8 +181,8 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @return A new list containing only events that contain "username" in the attendees list
 	 */
 	private List<Model> checkIfIsAttendee(Object username, List<Model> list) {
-		String name = (String) username;
-		List<Model> modelList = new ArrayList<Model>();
+		final String name = (String) username;
+		final List<Model> modelList = new ArrayList<Model>();
 		
 		for(Model m : list){
 			AndroidCalendarEvent event = (AndroidCalendarEvent) m;
@@ -214,7 +214,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
     {
         if(pivotIndex < rangeIndex)
         {
-            int q = partition(array, pivotIndex, rangeIndex);
+            final int q = partition(array, pivotIndex, rangeIndex);
             androidCalendarEventQuickSort(array, pivotIndex, q);
             androidCalendarEventQuickSort(array, q+1, rangeIndex);
         }
@@ -229,22 +229,25 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
      */
     private int partition(AndroidCalendarEvent[] array, int pivotIndex, int rangeIndex) {
 
-        AndroidCalendarEvent x = array[pivotIndex];
+        final AndroidCalendarEvent x = array[pivotIndex];
         int i = pivotIndex - 1 ;
         int j = rangeIndex + 1 ;
 
         while (true) {
             i++;
-            while ( i < rangeIndex && array[i].getStartDateAndTime().before(x.getStartDateAndTime()))
+            while ( i < rangeIndex && array[i].getStartDateAndTime().before(x.getStartDateAndTime())){
                 i++;
+            }
             j--;
-            while (j > pivotIndex && x.getStartDateAndTime().before(array[j].getStartDateAndTime()))
+            while (j > pivotIndex && x.getStartDateAndTime().before(array[j].getStartDateAndTime())){
                 j--;
-
-            if (i < j)
+            }
+            if (i < j){
                 swap(array, i, j);
-            else
+            }
+            else {
                 return j;
+            }
         }
     }
 
@@ -254,7 +257,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
      * @param j Index of the second value
      */
     private void swap(AndroidCalendarEvent[] array, int i, int j) {
-        AndroidCalendarEvent temp = array[i];
+        final AndroidCalendarEvent temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
@@ -263,8 +266,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String advancedPost(Session arg0, String arg1, String arg2)
-			throws WPISuiteException {
+	public String advancedPost(Session arg0, String arg1, String arg2) {
 		// This method is not used
 		return null;
 	}
@@ -273,8 +275,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	@Override
-	public String advancedPut(Session arg0, String[] arg1, String arg2)
-			throws WPISuiteException {
+	public String advancedPut(Session arg0, String[] arg1, String arg2) {
 		// This method is not used
 		return null;
 	}
@@ -283,7 +284,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
-	public void deleteAll(Session arg0) throws WPISuiteException {
+	public void deleteAll(Session arg0) {
 		// This method is not used
 	}
 
@@ -297,7 +298,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 		 */
 		
 		//System.out.println("Deleting item with id: " + id);
-		Model modelToDelete = getEntity(s, id)[0];
+		final Model modelToDelete = getEntity(s, id)[0];
 		boolean returnVal;
 		if(modelToDelete == null) {
 			returnVal = false;
@@ -314,10 +315,10 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
-	public Model[] getAll(Session arg0) throws WPISuiteException {
-		List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent(null));//db.retrieveAll(new AndroidCalendarEvent(), arg0.getProject());
+	public Model[] getAll(Session arg0) {
+		final List<AndroidCalendarEvent> events = db.retrieveAll(new AndroidCalendarEvent(null));//db.retrieveAll(new AndroidCalendarEvent(), arg0.getProject());
 		
-		AndroidCalendarEvent[] eventsArray = events.toArray(new AndroidCalendarEvent[0]);
+		final AndroidCalendarEvent[] eventsArray = events.toArray(new AndroidCalendarEvent[0]);
 		
 		androidCalendarEventQuickSort(eventsArray, 0, eventsArray.length - 1);
 		
@@ -328,10 +329,10 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public Model[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
+	public Model[] getEntity(Session s, String id) throws WPISuiteException {
 		final long longId = Long.parseLong(id);
 		
-		List<Model> events;
+		final List<Model> events;
 		
 		events = db.retrieve(AndroidCalendarEvent.class, "uniqueId", longId, s.getProject());
 				
@@ -342,8 +343,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public Model makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+	public Model makeEntity(Session s, String content) {
 		final AndroidCalendarEvent newEvent = new Gson().fromJson(content, AndroidCalendarEvent.class);
 		
 		newEvent.setUniqueId(getUniqueId());
@@ -375,7 +375,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
-	public void save(Session arg0, Model arg1) throws WPISuiteException {
+	public void save(Session arg0, Model arg1) {
 		// This method is not used
 	}
 
@@ -385,7 +385,7 @@ public class AndroidCalendarEventEntityManager implements EntityManager<Model> {
 	@Override
 	public Model update(Session arg0, String arg1) throws WPISuiteException {
 		//Updates an event in the database
-		AndroidCalendarEvent event = new Gson().fromJson(arg1, AndroidCalendarEvent.class);
+		final AndroidCalendarEvent event = new Gson().fromJson(arg1, AndroidCalendarEvent.class);
 		
 		//System.out.println();
 		//System.out.println("event: " + event.toJSON());

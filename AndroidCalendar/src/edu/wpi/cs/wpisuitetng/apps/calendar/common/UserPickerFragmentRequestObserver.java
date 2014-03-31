@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class UserPickerFragmentRequestObserver implements RequestObserver {
 	
-	private UserPickerFragment controller;
+	private final UserPickerFragment controller;
 	private CalendarCommonMenuActivity activity;
 
 	/**
@@ -45,8 +45,9 @@ public class UserPickerFragmentRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest arg0, Exception arg1) {
-		if(activity != null)
+		if(activity != null){
 			activity.sendToastMessage("Unable to retrieve users.");
+		}
 	}
 
 	/* (non-Javadoc)
@@ -54,8 +55,9 @@ public class UserPickerFragmentRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest arg0) {
-		if(activity != null)
+		if(activity != null){
 			activity.sendToastMessage("An error occurred.");
+		}
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +65,7 @@ public class UserPickerFragmentRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		User[] returnedUsers = new Gson().fromJson(iReq.getResponse().getBody(), User[].class);
+		final User[] returnedUsers = new Gson().fromJson(iReq.getResponse().getBody(), User[].class);
 		controller.updateAllUsersList(Arrays.asList(returnedUsers));
 	}
 }
