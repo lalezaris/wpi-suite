@@ -21,9 +21,17 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import android.os.Bundle;
 
+/** The CalendarDayViewActivity class begins a view for individual days in the calendar.
+ * @author Mark Fitzgibbon
+ *
+ */
+
 public class CalendarDayViewActivity extends CalendarCommonMenuActivity {
 	private int currentMonth;
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.apps.calendar.common.CalendarCommonMenuActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +43,9 @@ public class CalendarDayViewActivity extends CalendarCommonMenuActivity {
 		
 	}
 	
+	/** Sends a request to the server for the events in a specific month
+	 * @param month
+	 */
 	public void sendRequestForAllEventsInMonth(int month) {
 		final Request request = Network.getInstance().makeRequest("Advanced/androidcalendar/androidcalendarevent/startmonth/" + month + "/attendees/" + MarvinUserData.getUsername(), HttpMethod.GET);
 		request.addObserver(new CalendarDayViewRequestObserver(this));
