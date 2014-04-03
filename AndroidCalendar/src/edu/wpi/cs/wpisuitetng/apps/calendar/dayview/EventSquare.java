@@ -23,12 +23,21 @@ import android.graphics.drawable.shapes.RectShape;
 import android.view.MotionEvent;
 import android.view.View;
 
+/** AN individual event to be used in the CalendarDayViewActivity, creates drawable and interactive squares
+ * @author Mark Fitzgibbon
+ *
+ */
 public class EventSquare {
 
 	private ShapeDrawable shape;
 	private AndroidCalendarEvent event;
 	int x1, y1, x2, y2;
 
+	/** COnstruct squares to be used, and assign size based on start/end time
+	 * @param ev event object
+	 * @param v view to use
+	 * @param day calendar day of event
+	 */
 	public EventSquare(AndroidCalendarEvent ev, View v, Calendar day){
 		event = ev;
 		//use time & screen res to set height
@@ -92,6 +101,11 @@ public class EventSquare {
 
 	
 	
+	/** What to do when a touch event occurs. Check if This specific event is th eone being touched.
+	 * @param arg0
+	 * @param arg1
+	 * @return
+	 */
 	public boolean handleTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
 		switch(arg1.getAction()){
