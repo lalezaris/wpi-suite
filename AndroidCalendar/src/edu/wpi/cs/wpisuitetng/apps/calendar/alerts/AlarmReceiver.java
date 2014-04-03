@@ -51,7 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			.setSubText(e.getStartDateAndTime().getTime().toString())
 			.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 			.setVibrate(new long[]{0, 1000, 1000, 1000});
-		} else { // Else, if theres no event information
+		} else { // Else, if there is no event information
 			mBuilder = new Notification.Builder(context)
 			.setSmallIcon(R.drawable.notification_icon)
 			.setContentTitle("WPI Suite Calendar")

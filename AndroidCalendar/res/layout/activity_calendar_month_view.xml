@@ -14,7 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:showWeekNumber="false" /> 
+        android:showWeekNumber="false"
+        android:selectedWeekBackgroundColor="#965454"
+        android:selectedDateVerticalBar="@drawable/calendary_day_line" /> 
         
     <fragment
         android:name="edu.wpi.cs.wpisuitetng.apps.calendar.common.EventListFragment"

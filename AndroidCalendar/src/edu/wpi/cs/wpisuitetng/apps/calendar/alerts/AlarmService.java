@@ -25,6 +25,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+/**
+ * The Class AlarmService controlls the alarms for events. It sets alarms and sets them on the device. 
+ * 
+ * @author Sam Lalezari
+ * @version March 31, 2014
+ */
 public class AlarmService {
 
 	public static final String EVENT = "edu.wpi.cs.wpisuitetng.apps.calendar.alerts.EVENT";
@@ -33,6 +39,12 @@ public class AlarmService {
 	private final List<AndroidCalendarEvent> events;
 	private final AlarmManager am;
 
+	/**
+	 * Instantiates a new alarm service.
+	 *
+	 * @param context the context
+	 * @param notifyEvents the events to notify
+	 */
 	public AlarmService(Context context, List<AndroidCalendarEvent> notifyEvents) {
 		System.out.println("new AlarmService()");
 		this.context = context;
@@ -40,6 +52,9 @@ public class AlarmService {
 		am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	}
 
+	/**
+	 * Start alarm.
+	 */
 	public void startAlarm(){
 		System.out.println("in startAlarm()");
 		final List<Calendar> calList = new ArrayList<Calendar>();
@@ -66,6 +81,12 @@ public class AlarmService {
 
 	}
 
+	/**
+	 * Gets the alert time based on the option selected. 
+	 *
+	 * @param e the event to set an alert for
+	 * @return the alert time
+	 */
 	private List<Calendar> getAlertTime(AndroidCalendarEvent e) {
 		final List<Calendar> calList = new ArrayList<Calendar>();
 

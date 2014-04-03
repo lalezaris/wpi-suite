@@ -27,7 +27,7 @@ public class DeleteEventRequestObserver implements RequestObserver {
 
 	/**
 	 * Constructor
-	 * @param calendar The current activity to alert when the request has completed
+	 * @param activity The current activity to alert when the request has completed
 	 */
 	public DeleteEventRequestObserver(CalendarCommonMenuActivity activity) {
 		this.activity = activity;
