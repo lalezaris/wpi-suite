@@ -8,7 +8,7 @@
     <string name="password_hint">password</string>
     <string name="server_hint">server url</string>
     <string name="default_response">Waiting…</string>
-    <string name="default_server">http://tiki.cs.wpi.edu:8080/WPISuiteMQP2013/API</string>
+    <string name="default_server">http://tiki.cs.wpi.edu:8080/MQP2013_Android/API</string>
     <string name="title_activity_control_panel">ControlPanelActivity</string>
     <string name="logout">Logout</string>
     <string name="dialog_bad_network">Network connection is unavailable</string>
