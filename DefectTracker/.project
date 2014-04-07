@@ -19,8 +19,8 @@
 					<value>&lt;project&gt;/.externalToolBuilders/DefectTracker Builder.launch</value>
 				</dictionary>
 				<dictionary>
-					<key>incclean</key>
-					<value>true</value>
+					<key>LaunchConfigHandle</key>
+					<value>&lt;project&gt;/.externalToolBuilders/Build Default - DefectTracker.launch</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>

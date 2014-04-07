@@ -16,11 +16,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/Network Builder.launch</value>
-				</dictionary>
-				<dictionary>
-					<key>incclean</key>
-					<value>true</value>
+					<value>&lt;project&gt;/.externalToolBuilders/Build Default - Network.launch</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>
