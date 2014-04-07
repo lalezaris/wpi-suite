@@ -18,8 +18,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DefectTracker"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PostBoard"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RequirementManager"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AndroidCalendar"/>
 	
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/AndroidCalendar.jar" sourcepath="/AndroidCalendar"/>
+	<classpathentry kind="lib" path="/AndroidCalendar/src"/>
 	<classpathentry kind="lib" path="/DefectTracker/src"/>
 	<classpathentry kind="lib" path="/PostBoard/src"/>
 	<classpathentry kind="lib" path="/RequirementManager/src"/>
