@@ -17,6 +17,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import edu.wpi.cs.marvin.R;
@@ -123,6 +125,8 @@ public class LoginControllerActivity extends Activity {
 			//This exception is okay it just means that remember me was unchecked on the last login
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			responseText.setText(e.toString());
 		} finally {
 			if(in != null) {
 				try {
@@ -145,6 +149,7 @@ public class LoginControllerActivity extends Activity {
     	BufferedOutputStream out = null;
     	try {
     		if(rememberMe.isChecked()) { // If remember me is selected, save the user data for future logins
+    			
     			// Insecure method of writing username/password as plain text
     			out = new BufferedOutputStream(openFileOutput(PersistentLoginFileName, Context.MODE_PRIVATE));
     			final String outputString = usernameField.getText().toString() + "\n" +
@@ -162,6 +167,8 @@ public class LoginControllerActivity extends Activity {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			responseText.setText(e.toString());
 		} finally {
 			if(out != null) {
 				try {
@@ -171,26 +178,36 @@ public class LoginControllerActivity extends Activity {
 				}
 			}
 		}
-    	
-    	// Establish a network connection with the given server URL
-		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration(serverUrlField.getText().toString()));
-		
-		// Form the basic authorization string
-		String basicAuth = "Basic ";
-		final String password = passwordField.getText().toString();
-		final String credentials = usernameField.getText().toString() + ":" + password;
-		basicAuth += Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
+    	final String url = serverUrlField.getText().toString();
+    	try {
+    		// try to convert the URL text to a URL object
+    		@SuppressWarnings("unused")
+			URL coreURL = new URL(url);
+			
+	    	// Establish a network connection with the given server URL
+			Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration(url));
+			
+			// Form the basic authorization string
+			String basicAuth = "Basic ";
+			final String password = passwordField.getText().toString();
+			final String credentials = usernameField.getText().toString() + ":" + password;
+			basicAuth += Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
 
-		// Create and send the login request
-		final Request request = Network.getInstance().makeRequest("login", HttpMethod.POST);
-		request.addHeader("Authorization", basicAuth);
-		request.addObserver(new LoginRequestObserver(this));
-		
-		// Provide user feedback 
-		responseText.setText("Sending Login Request...");
-		
-		// Send the login request to the server
-		request.send();
+			// Create and send the login request
+			final Request request = Network.getInstance().makeRequest("login", HttpMethod.POST);
+			request.addHeader("Authorization", basicAuth);
+			request.addObserver(new LoginRequestObserver(this));
+			
+			// Provide user feedback 
+			responseText.setText("Sending Login Request...");
+			
+			// Send the login request to the server
+			request.send();
+		} catch (MalformedURLException e1) { // failed, bad URL
+			responseText.setText("The server address \"" + url + "\" is not a valid URL!");
+		} catch (Exception e) {
+			responseText.setText(e.toString());
+		}
 	}
 
 	/**
@@ -231,7 +248,7 @@ public class LoginControllerActivity extends Activity {
 			projectSelectRequest.send();
 		}
 		else {
-			//TODO Could not login No Cookies
+			responseText.setText("Could not login; No Cookies");
 		}
 	}
 
