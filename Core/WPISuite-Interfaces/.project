@@ -16,7 +16,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/WPISuite Interfaces Builder.launch</value>
+					<value>&lt;project&gt;/.externalToolBuilders/Default Build - WPISuite-Interfaces.launch</value>
 				</dictionary>
 				<dictionary>
 					<key>incclean</key>

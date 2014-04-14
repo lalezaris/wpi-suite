@@ -16,7 +16,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/DefectTracker Builder.launch</value>
+					<value>&lt;project&gt;/.externalToolBuilders/Build Default - DefectTracker.launch</value>
 				</dictionary>
 				<dictionary>
 					<key>incclean</key>
