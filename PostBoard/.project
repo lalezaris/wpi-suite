@@ -16,7 +16,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.externalToolBuilders/PostBoard Builder.launch</value>
+					<value>&lt;project&gt;/.externalToolBuilders/Build Default - PostBoard.launch</value>
 				</dictionary>
 				<dictionary>
 					<key>incclean</key>
