@@ -64,17 +64,4 @@
 		<mkdir dir="${test-results}"/>
 		<antcall target="test"/>
 	</target>
-	
-	
-	<!-- These targets are provided to make compiling the build easier in Eclipse.
-		These targets are not intended to be called from the command line. -->
-	<target name="eclipse-jar" depends="" description="Builds a jar using compiled files created by Eclipse.">
-	    <jar destfile="${core-jar-dest}">
-			<fileset dir="bin"/>
-		</jar>
-	</target>
-	
-	<target name="eclipse-clean" depends="" description="Deletes the jar created with eclipse-jar">
-		<delete file="${core-jar-dest}" verbose="${verbose}" />
-	</target>
 </project>
