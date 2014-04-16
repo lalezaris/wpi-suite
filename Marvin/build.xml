@@ -101,16 +101,6 @@
 	</target>
 
 	<target name="clean" description="Deletes files created during the build">
-		<delete dir="${basedir}/libs"/>
-	</target>
-	
-	<target name="eclipse-jar" depends="" description="Compiles source code">
-		<mkdir dir="${basedir}/libs"/>
-		<copy file="${basedir}/../Network/Network.jar" todir="${basedir}/../Marvin/libs"/>
-		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar" todir="${basedir}/../Marvin/libs"/>
-		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar" todir="${basedir}/../Marvin/libs"/>
-	</target>
-	
-	<target name="eclipse-clean" description="Deletes files created during the build">
+		<!-- <delete dir="${basedir}/libs"/> -->
 	</target>
 </project>

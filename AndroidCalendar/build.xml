@@ -125,21 +125,6 @@
 		<delete file="${dist}/marvin/${ant.project.name}-release-unsigned.apk" verbose="${verbose}" />
 	</target>
 	
-	<target name="eclipse-jar" depends="" description="Builds a jar using compiled files created by Eclipse.">
-	    <propertybyreplace name="project.app.package.path" input="${project.app.package}" replace="." with="/" />
-
-		<jar destfile="${core-lib}/${ant.project.name}.jar">
-			<fileset dir="${out.classes.absolute.dir}"
-					includes="**/*.class"
-					excludes="${project.app.package.path}/R.class ${project.app.package.path}/R$*.class ${project.app.package.path}/BuildConfig.class"/>
-			<fileset dir="${source.absolute.dir}" excludes="**/*.java ${android.package.excludes}" />
-		</jar>
-	</target>
-	
-	<target name="eclipse-clean" depends="" description="Deletes files created during the build">
-		<delete file="${core-lib}/${ant.project.name}.jar" verbose="${verbose}" />
-	</target>
-	
 	<!-- test is defined in tools/ant/build.xml -->
 
 </project>
