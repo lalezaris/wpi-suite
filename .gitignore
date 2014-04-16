@@ -44,16 +44,3 @@ Janeway/janeway.conf
 .idea
 .idea/*
 
-RequirementManager/build
-RequirementManager/bin
-
-Marvin/bin
-Marvin/gen/**
-Marvin/libs/*
-Marvin/local.properties
-
-AndroidCalendar/bin
-AndroidCalendar/gen/
-AndroidCalendar/local.properties
-AndroidCalendar/proguard-project.txt
-Network/Network.jar

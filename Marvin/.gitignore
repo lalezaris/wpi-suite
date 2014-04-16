@@ -1,4 +1,5 @@
 
-Marvin/bin
-
-Marvin/gen/
+/bin
+/gen/*
+/libs/*
+/local.properties

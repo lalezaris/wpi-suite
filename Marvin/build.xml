@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Marvin" default="debug">
+<project name="Marvin" default="compile">
 
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
@@ -86,10 +86,13 @@
          In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
+	
+	<target name="-pre-clean" depends="" description="Deletes files created during the build">
+		<delete dir="${basedir}/libs"/>
+	</target>
+
     <!-- version-tag: 1 -->
-    <import file="${sdk.dir}/tools/ant/build.xml" as="android" />
-    
-    <!-- Import the common build file for WPI Suite -->
+    <import file="${sdk.dir}/tools/ant/build.xml" />
 
 	<target name="compile" depends="" description="Compiles source code">
 		<mkdir dir="${basedir}/libs"/>
@@ -97,10 +100,7 @@
 		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar" todir="${basedir}/../Marvin/libs"/>
 		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar" todir="${basedir}/../Marvin/libs"/>
 	
-		<antcall target="android.debug"/>
+		<antcall target="debug"/>
 	</target>
 
-	<target name="clean" description="Deletes files created during the build">
-		<!-- <delete dir="${basedir}/libs"/> -->
-	</target>
 </project>

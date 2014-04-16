@@ -86,8 +86,14 @@
          In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
+	
+	<target name="-pre-clean" depends="" description="Deletes files created during the build">
+		<delete file="${core-lib}/${ant.project.name}.jar" verbose="${verbose}" />
+		<delete file="${dist}/marvin/${ant.project.name}-release-unsigned.apk" verbose="${verbose}" />
+	</target>
+	
     <!-- version-tag: 1 -->
-    <import file="${sdk.dir}/tools/ant/build.xml" as="android"/>
+    <import file="${sdk.dir}/tools/ant/build.xml"/>
 	
 	
 	<!-- Import the common build file for WPI Suite -->
@@ -119,12 +125,7 @@
 	<target name="dist" depends="release" description="Creates distributable">
 		<copy file="${out.absolute.dir}/${ant.project.name}-release-unsigned.apk" todir="${dist}/marvin/" overwrite="true" />
 	</target>
-	
-	<target name="clean" depends="android.clean" description="Deletes files created during the build">
-		<delete file="${core-lib}/${ant.project.name}.jar" verbose="${verbose}" />
-		<delete file="${dist}/marvin/${ant.project.name}-release-unsigned.apk" verbose="${verbose}" />
-	</target>
-	
+
 	<!-- test is defined in tools/ant/build.xml -->
 
 </project>
