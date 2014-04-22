@@ -101,6 +101,12 @@
 		<copy file="${basedir}/../Core/WPISuite/WebContent/WEB-INF/lib/gson-2.2.2.jar" todir="${basedir}/../Marvin/libs"/>
 	
 		<antcall target="debug"/>
+		<jar destfile="bin/${ant.project.name}.jar">
+			<fileset dir="${out.classes.absolute.dir}"
+					includes="**/*.class"
+					excludes="${project.app.package.path}/R.class ${project.app.package.path}/R$*.class ${project.app.package.path}/BuildConfig.class"/>
+			<fileset dir="${source.absolute.dir}" excludes="**/*.java ${android.package.excludes}" />
+		</jar>
 	</target>
 
 </project>
