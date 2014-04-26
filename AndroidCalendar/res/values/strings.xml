@@ -28,5 +28,6 @@
     <string name="current_attendees">Current Attendees</string>
     <string name="done_button">Done</string>
     <string name="delete_entry">Delete</string>
+    <string name="logout">Logout</string>
 
 </resources>
