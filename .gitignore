@@ -44,27 +44,3 @@ Janeway/janeway.conf
 .idea
 .idea/*
 
-RequirementManager/build
-RequirementManager/bin
-
-Marvin/bin
-Marvin/gen/**
-
-appcompat/gen/android
-appcompat/bin
-
-AndroidCalendar/bin
-AndroidCalendar/gen/
-
-WPISuite_TNG_local
-Marvin/local.properties
-AndroidCalendar/libs/android-support-v4.jar
-AndroidCalendar/local.properties
-AndroidCalendar/proguard-project.txt
-appcompat/local.properties
-appcompat/proguard-project.txt
-Network/Network.jar
-Marvin/libs/Network.jar
-Marvin/libs/WPISuite-Interfaces.jar
-Marvin/libs/gson-2.2.2.jar
-Janeway/${core-jar-dest}
