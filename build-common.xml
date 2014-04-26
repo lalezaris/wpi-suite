@@ -6,6 +6,7 @@
 	<property name="junit-jar" location="${dependencies.basedir}/junit-4.8.2.jar"/>
 	<property name="janeway-lib" location="${dependencies.basedir}/Janeway/lib"/>
 	<property name="java-version" value="1.7"/>
+	<property name="core-jar-dest" location="${core-lib}/${ant.project.name}.jar"/>
 
 	<!-- build.xml files that import this one should override the following targets -->
 
@@ -66,8 +67,7 @@
 	</target>
 	
 	
-	<!-- These targets are provided to make compiling the build easier in Eclipse.
-		These targets are not intended to be called from the command line. -->
+	<!-- These targets are provided to make compiling the build for Android	easier in Eclipse. These targets are not intended to be called from the command line. -->
 	<target name="eclipse-jar" depends="" description="Builds a jar using compiled files created by Eclipse.">
 	    <jar destfile="${core-jar-dest}">
 			<fileset dir="bin"/>

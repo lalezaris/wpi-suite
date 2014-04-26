@@ -21,8 +21,6 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	
-	<property name="core-jar-dest" location="${core-lib}/${ant.project.name}.jar"/>
-	
 	<!-- define the external jar class path reference -->
 	<path id="ext-lib">
 		<fileset dir="${core-lib}">
