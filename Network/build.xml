@@ -59,13 +59,13 @@
 		</junit>
 	</target>
 	
-	<target name="eclipse-jar" depends="" description="Builds a jar using compiled files created by Eclipse.">
+	<target name="eclipse-jar" depends="" description="Builds a jar using compiled files created by Eclipse. Used by the Android builder">
 	    <jar destfile="${ant.project.name}.jar">
 			<fileset dir="bin"/>
 		</jar>
 	</target>
 	
-	<target name="eclipse-clean" depends="" description="Deletes files created during the build">
+	<target name="eclipse-clean" depends="" description="Deletes files created during eclipse-jar">
 		<delete file="${ant.project.name}.jar"/>
 	</target>
 
